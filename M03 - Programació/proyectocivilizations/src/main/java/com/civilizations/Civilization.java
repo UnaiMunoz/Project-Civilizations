@@ -15,5 +15,4 @@ public class Civilization {
     int carpentry;
     int battles;
     /*ArrayList<MilitaryUnit> army = new ArrayList[9];*/
-  
 }
