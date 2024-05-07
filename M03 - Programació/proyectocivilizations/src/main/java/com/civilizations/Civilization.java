@@ -13,7 +13,7 @@ public class Civilization {
     int smithy;
     int carpentry;
     int battles;
-    /*ArrayList<MilitaryUnit> army = new ArrayList[9];*/
+    /*ArrayList<MilitaryUnit>[] army = new ArrayList[9];*/
  
     /*
     void new Church,
