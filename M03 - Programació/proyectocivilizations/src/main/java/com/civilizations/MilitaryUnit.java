@@ -24,6 +24,6 @@ public interface MilitaryUnit {
     //Nos restablecerá nuestro blindaje a su valor original.
     abstract void setExperience(int n);
     //Establecerá la experiencia a un nuevo valor.
-    abstract void getExperience();
+    abstract int getExperience();
     //Nos devolverá la experiencia actual de la unidad
 }

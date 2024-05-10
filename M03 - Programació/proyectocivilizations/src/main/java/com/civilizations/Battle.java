@@ -17,4 +17,4 @@ public class Battle {
     int initialArmies;
     int actualNumberUnitsCivilization;
     int actualNumberUnitsEnemy;
-    ;}
+    };
