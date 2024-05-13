@@ -1,9 +1,7 @@
 package com.civilizations;
 
 public class Main {
-
-    // createEnemyArmy();
-    // Viewthreat();
-    
-
+    public static void main(String[] args) {
+        System.out.println("Hello world!");
+    }
 }
