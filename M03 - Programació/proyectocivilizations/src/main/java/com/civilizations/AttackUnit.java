@@ -1,11 +1,11 @@
 package com.civilizations;
 
 public class AttackUnit implements MilitaryUnit, Variables {
-    private int armor;
-    private int initialArmor;
-    private int baseDamage;
-    private int experience;
-    private boolean sanctified;
+    int armor;
+    int initialArmor;
+    int baseDamage;
+    int experience;
+    boolean sanctified;
 
     public AttackUnit(int armor, int initialArmor, int baseDamage, int experience, boolean sanctified) {
         this.armor = armor;

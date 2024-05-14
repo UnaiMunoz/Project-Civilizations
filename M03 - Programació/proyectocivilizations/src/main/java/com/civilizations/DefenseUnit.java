@@ -1,11 +1,11 @@
 package com.civilizations;
 
 public class DefenseUnit implements MilitaryUnit, Variables {
-    private int armor;
-    private int initialArmor;
-    private int baseDamage;
-    private int experience;
-    private boolean sanctified;
+    int armor;
+    int initialArmor;
+    int baseDamage;
+    int experience;
+    boolean sanctified;
 
     public DefenseUnit(int armor, int initialArmor, int baseDamage, int experience, boolean sanctified) {
         this.armor = armor;

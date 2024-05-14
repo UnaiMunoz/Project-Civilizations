@@ -1,10 +1,10 @@
 package com.civilizations;
 
 public class SpecialUnit implements MilitaryUnit, Variables {
-    private int armor;
-    private int initialArmor;
-    private int baseDamage;
-    private int experience;
+    int armor;
+    int initialArmor;
+    int baseDamage;
+    int experience;
 
     public SpecialUnit (int armor, int initialArmor, int baseDamage, int experience) {
         this.armor = armor;

@@ -22,4 +22,51 @@ public class Swordsman extends AttackUnit{
         super(ARMOR_SWORDSMAN, BASE_DAMAGE_SWORDSMAN);
         this.initialArmor = ARMOR_SWORDSMAN;
     }
+    public int attack(){
+        return super.baseDamage;
+    }
+
+    public void takeDamage(int receivedDamage){
+        super.armor -= receivedDamage;
+    }
+
+    public int getActualArmor(){
+        return super.armor;
+    }
+
+    public int getFoodCost(){
+        return FOOD_COST_SWORDSMAN;
+    }
+
+    public int getWoodCost(){
+        return WOOD_COST_SWORDSMAN;
+    }
+
+    public int getIronCost(){
+        return IRON_COST_SWORDSMAN;
+    }
+
+    public int getManaCost(){
+        return MANA_COST_SWORDSMAN;
+    }
+
+    public int getChanceGeneratingWaste(){
+        return CHANCE_GENERATNG_WASTE_SWORDSMAN;
+    }
+
+    public int getChanceAttackAgain(){
+        return CHANCE_ATTACK_AGAIN_SWORDSMAN;
+    }
+
+    public void resetArmor(){
+        super.armor = super.initialArmor;
+    }
+
+    public void setExperience(int n){
+        super.experience = n;
+    }
+
+    public int getExperience(){
+        return super.experience;
+    }
 }
