@@ -538,27 +538,25 @@ public class Civilization implements Variables {
             System.out.println("You've trained " + trainedPriests + " priests.");
         }
     }
-}
-    /*
-    Estos métodos servirán para añadir nuevas unidades militares a nuestro ejército army
-    mencionado anteriormente.
-    Estos métodos reciben un entero n que indica el número de unidades que queremos añadir, si
-    no tenemos suficientes recursos para añadir las unidades que queremos, lanzará una
-    excepción del tipo ResourceException indicando el mensaje informativo. Pero se añadirán
-    todas las unidades posibles que permitan nuestros recursos.
-    Es decir, si queremos añadir 10 swordsman, y sólo tenemos recursos para añadir 5, se
-    lanzará una excepción del tipo ResourceException, pero se añadirán los 5 swordsman que
-    podemos generar y se nos mostrará también un mensaje informativo indicando el número de
-    swordsman que se han añadido.
-    En el caso de crear magos, si no tenemos al menos una torre mágica, lanzaremos una
-    excepción del tipo BuildingException.
-    En el casod de crear sacerdotes, si no tenemos al menos una iglesia, lanzaremos una
-    excepción del tipo BuildingException.
-     */
     /*
     Void printStats(). Este método nos servirá para mostrar una visión del estado de nuestro
-    planeta por consola, una posible salida cuando llamamos a este método podría ser
+    planeta por consola, una posible salida cuando llamamos a este método podría ser...
      */
+    public void printStats(){
+        System.out.println(" ***************************CIVILIZATION STATS***************************");
+        System.out.println(" --------------------------------------------------TECHNOLOGY----------------------------------------");
+        System.out.println("Attack"+ technologyAttack + "Defense" + technologyDefense);
+        System.out.println("---------------------------------------------------BUILDINGS----------------------------------------");
+        System.out.println("----------------------------------------------------DEFENSES----------------------------------------");
+        System.out.println("------------------------------------------------ATTACK UNITS----------------------------------------");
+        System.out.println("----------------------------------------------ESPECIAL UNITS----------------------------------------");
+        System.out.println("---------------------------------------------------RESOURCES----------------------------------------");
+        System.out.println("----------------------------------------GENERATION RESOURCES----------------------------------------");          
+    };
 
 
 
+
+}
+
+ 
