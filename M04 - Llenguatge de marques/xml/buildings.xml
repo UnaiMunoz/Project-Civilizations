@@ -34,7 +34,7 @@
 			<iron_cost>10000</iron_cost>
 			<wood_cost>12000</wood_cost>
 		</costs>
-		<sprite>church.png</sprite>
+		<sprite>Images/church.png</sprite>
 	</building>
 	<building>
 		<name>MAGICTOWER</name>
@@ -45,4 +45,4 @@
 		</costs>
 		<sprite>Images/magictower.png</sprite>
 	</building>
-</tecnologies>
+</buildings>

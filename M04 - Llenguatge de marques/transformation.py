@@ -1,30 +1,43 @@
-import lxml.etree as ET
+import os
+from lxml import etree
 
-def transform_xml_to_html(xml_file, xsl_file, output_html_file):
-    # Parse the XML and XSL files
-    xml = ET.parse(xml_file)
-    xsl = ET.parse(xsl_file)
-    
-    # Create a transform object
-    transform = ET.XSLT(xsl)
-    
-    # Apply the transform to the XML
-    result = transform(xml)
-    
-    # Write the result to an HTML file
-    with open(output_html_file, 'wb') as f:
-        f.write(ET.tostring(result, pretty_print=True, method='html'))
+# Directory containing XML and XSL files
+xml_dir = 'M04 - Llenguatge de marques\\xml'
 
-if __name__ == '__main__':
-    # Define the files
-    files = [
-        ("attack_units.xml", "attack_units.xsl", "attack_units.html"),
-        ("buildings.xml", "buildings.xsl", "buildings.html"),
-        ("defence_units.xml", "defence_units.xsl", "defence_units.html"),
-        ("special_units.xml", "special_units.xsl", "special_units.html")
-    ]
-    
-    # Transform each XML file to HTML
-    for xml_file, xsl_file, output_html_file in files:
-        transform_xml_to_html(xml_file, xsl_file, output_html_file)
-        print(f'Transformed {xml_file} using {xsl_file} to {output_html_file}')
+# Iterate through all files in the XML directory
+for filename in os.listdir(xml_dir):
+    if filename.endswith('.xml'):
+        xml_file_path = os.path.join(xml_dir, filename)
+        xsl_file_path = os.path.join(xml_dir, f"{os.path.splitext(filename)[0]}.xsl")
+        
+        # Check if the corresponding XSL file exists
+        if os.path.exists(xsl_file_path):
+            # Load the XSLT file
+            xslt = etree.parse(xsl_file_path)
+            transform = etree.XSLT(xslt)
+            
+            # Load the XML file
+            try:
+                xml = etree.parse(xml_file_path)
+            except etree.XMLSyntaxError as e:
+                print(f"Error parsing {xml_file_path}: {e}")
+                continue
+            
+            # Perform the transformation
+            try:
+                result = transform(xml)
+            except etree.XSLTApplyError as e:
+                print(f"Error transforming {xml_file_path} with {xsl_file_path}: {e}")
+                continue
+            
+            # Save the result to an HTML file
+            output_filename = f"{os.path.splitext(filename)[0]}.html"
+            output_file_path = os.path.join(xml_dir, output_filename)
+            
+            with open(output_file_path, 'wb') as f:
+                f.write(etree.tostring(result, pretty_print=True, method="html"))
+
+            print(f"Transformed {xml_file_path} to {output_file_path}")
+        else:
+            print(f"No corresponding XSL file found for {xml_file_path}")
+
