@@ -66,4 +66,3 @@ public class ArrowTower extends DefenseUnit {
         return super.experience;
     };
 }
-

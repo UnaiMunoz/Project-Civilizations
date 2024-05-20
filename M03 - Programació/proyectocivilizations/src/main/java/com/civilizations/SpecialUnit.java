@@ -128,4 +128,3 @@ public class SpecialUnit implements MilitaryUnit, Variables {
     }
 
 }
-

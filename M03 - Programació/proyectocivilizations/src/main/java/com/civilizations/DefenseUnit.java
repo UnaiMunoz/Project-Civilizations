@@ -145,4 +145,3 @@ public class DefenseUnit implements MilitaryUnit, Variables {
         this.sanctified = sanctified;
     }
 }
-

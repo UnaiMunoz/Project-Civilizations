@@ -169,4 +169,3 @@ public class AttackUnit implements MilitaryUnit, Variables {
 
 
 }
-
