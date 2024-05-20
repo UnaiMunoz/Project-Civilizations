@@ -20,7 +20,7 @@
 			<iron_cost>0</iron_cost>
 			<mana_cost>0</mana_cost>
 		</costs>
-		<sprite></sprite>
+		<sprite>Images/arrowtower.png</sprite>
 	</unit>
 	<unit>
 		<name>CATAPULT</name>
@@ -42,7 +42,7 @@
 			<iron_cost>500</iron_cost>
 			<mana_cost>0</mana_cost>
 		</costs>
-		<sprite></sprite>
+		<sprite>Images/catapult.png</sprite>
 	</unit>
 	<unit>
 		<name>ROCKETLAUNCHERTOWER</name>
@@ -64,6 +64,6 @@
 			<iron_cost>5000</iron_cost>
 			<mana_cost>0</mana_cost>
 		</costs>
-		<sprite></sprite>
+		<sprite>Images/Rocketlaunchertower.png</sprite>
 	</unit>
 </defence_units>

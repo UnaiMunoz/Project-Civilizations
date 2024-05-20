@@ -20,7 +20,7 @@
 			<iron_cost>500</iron_cost>
 			<mana_cost>5000</mana_cost>
 		</costs>
-		<sprite></sprite>
+		<sprite>Images/magician.png</sprite>
 	</unit>
 	<unit>
 		<name>PRIEST</name>
@@ -41,6 +41,6 @@
 			<iron_cost>0</iron_cost>
 			<mana_cost>15000</mana_cost>
 		</costs>
-		<sprite></sprite>
+		<sprite>Images/priest.png</sprite>
 	</unit>
 </special_units>

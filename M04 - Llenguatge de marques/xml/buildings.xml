@@ -7,7 +7,7 @@
 			<iron_cost>10000</iron_cost>
 			<wood_cost>12000</wood_cost>
 		</costs>
-		<sprite></sprite>
+		<sprite>Images/farm.png</sprite>
 	</building>
 	<building>
 		<name>CARPENTRY</name>
@@ -16,7 +16,7 @@
 			<iron_cost>10000</iron_cost>
 			<wood_cost>12000</wood_cost>
 		</costs>
-		<sprite></sprite>
+		<sprite>Images/carpentry.png</sprite>
 	</building>
 	<building>
 		<name>SMITHY</name>
@@ -25,7 +25,7 @@
 			<iron_cost>10000</iron_cost>
 			<wood_cost>12000</wood_cost>
 		</costs>
-		<sprite></sprite>
+		<sprite>Images/smithy.png</sprite>
 	</building>
 	<building>
 		<name>CHURCH</name>
@@ -34,7 +34,7 @@
 			<iron_cost>10000</iron_cost>
 			<wood_cost>12000</wood_cost>
 		</costs>
-		<sprite></sprite>
+		<sprite>church.png</sprite>
 	</building>
 	<building>
 		<name>MAGICTOWER</name>
@@ -43,6 +43,6 @@
 			<iron_cost>10000</iron_cost>
 			<wood_cost>12000</wood_cost>
 		</costs>
-		<sprite></sprite>
+		<sprite>Images/magictower.png</sprite>
 	</building>
 </tecnologies>
