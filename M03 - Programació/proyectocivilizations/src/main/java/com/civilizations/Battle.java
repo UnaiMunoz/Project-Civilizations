@@ -2,6 +2,9 @@ package com.civilizations;
 
 import java.util.ArrayList;
 
+
+
+
 public class Battle {
     ArrayList<MilitaryUnit> civilizationArmy = new ArrayList<>();
     ArrayList<MilitaryUnit> enemyArmy = new ArrayList<>();
@@ -17,4 +20,5 @@ public class Battle {
     int initialArmies;
     int actualNumberUnitsCivilization;
     int actualNumberUnitsEnemy;
+
     };
