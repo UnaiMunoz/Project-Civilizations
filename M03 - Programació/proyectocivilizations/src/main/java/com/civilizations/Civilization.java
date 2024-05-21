@@ -275,9 +275,6 @@ public class Civilization implements Variables {
             System.out.println("You've trained " + trainedSwordsmen + " swordsmen.");
         }
     }
-
-    
-    
     
     public void newSpearman(int n) throws ResourceException {
         int foodCost = FOOD_COST_SPEARMAN * n;
@@ -385,6 +382,7 @@ public class Civilization implements Variables {
             System.out.println("You've trained " + trainedCannons + " cannons.");
         }
     }
+    
     public void newArrowTower(int n) throws ResourceException {
         int foodCost = FOOD_COST_ARROWTOWER * n;
         int woodCost = WOOD_COST_ARROWTOWER * n;

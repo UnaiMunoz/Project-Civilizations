@@ -79,6 +79,13 @@ public class Main {
         System.out.println("6. Return");
     }
 
+    public void technologyUpgradeMenu() {
+        System.out.println("Technologies Upgrade ");
+        System.out.println("1. Attack Unit");
+        System.out.println("2. Defense Unit");
+        System.out.println("3. Return");
+    }
+
     public void crearUnidades() {
         Scanner scanner = new Scanner(System.in);
         limpiarPantalla();
@@ -203,7 +210,6 @@ public class Main {
             System.out.println();  // Línea en blanco para mejorar la legibilidad
         }
     }
-    
 
     public void crearEdificios() {
         Scanner scanner = new Scanner(System.in);
@@ -272,9 +278,39 @@ public class Main {
     }
 
     public void mejorarTecnologias() {
+        Scanner scanner = new Scanner(System.in);
         limpiarPantalla();
-        System.out.println("Mejorando Tecnologías...");
-        // Implementar lógica para mejorar tecnologías
+        while (true) {
+            technologyUpgradeMenu();
+            System.out.print("\nSelect an option: ");
+            int opcion = scanner.nextInt();
+            switch (opcion) {
+                case 1:
+                    try {
+                        limpiarPantalla();
+                        civilization.upgradeTechnologyAttack();
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("You can't upgrade your technology attack: " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    try {
+                        limpiarPantalla();
+                        civilization.upgradeTechnologyDefense();
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("You can't upgrade your technology defense: " + e.getMessage());
+                    }
+                    break;
+                case 3:
+                    limpiarPantalla();
+                    return;
+                default:
+                    limpiarPantalla();
+                    System.out.println("Invalid option");
+            }
+        }
     }
 
     public void reportesDeBatalla() {
@@ -288,8 +324,6 @@ public class Main {
         System.out.println("Viendo el Ejército Enemigo...");
         // Implementar lógica para ver el ejército enemigo
     }
-
-
     public static void main(String[] args) {
         Main mainInstance = new Main();
         Scanner scanner = new Scanner(System.in);
@@ -329,4 +363,5 @@ public class Main {
             System.out.println();  // Línea en blanco para mejorar la legibilidad
         }
     }
+
 }

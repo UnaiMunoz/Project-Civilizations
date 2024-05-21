@@ -18,10 +18,12 @@ public class ArrowTower extends DefenseUnit {
         }
         initialArmor = ARMOR_ARROWTOWER;
     }
+
     public ArrowTower() {
         super(ARMOR_ARROWTOWER, BASE_DAMAGE_ARROWTOWER);
         this.initialArmor = ARMOR_ARROWTOWER;
     }
+    
     public void takeDamage(int receivedDamage){
         super.armor -= receivedDamage;
     }
