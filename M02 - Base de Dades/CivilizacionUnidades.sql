@@ -1,54 +1,59 @@
-DROP DATABASE IF EXISTS civilizations;
-CREATE DATABASE IF NOT EXISTS civilizations;
-USE civilizations;
 
-CREATE TABLE IF NOT EXISTS Civilization_stats (
-    civilization_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255),
-    wood_amount INTEGER,
-    iron_amount INTEGER,
-    food_amount INTEGER,
-    mana_amount INTEGER,
-    magicTower_counter INTEGER,
-    church_counter INTEGER,
-    farm_counter INTEGER,
-    smithy_counter INTEGER,
-    carpentry_counter INTEGER,
-    technology_defense_level INTEGER,
-    technology_attack_level INTEGER,
-    battles_counter INTEGER
+CREATE TABLE Civilization_stats (
+    civilization_id NUMBER(10) NOT NULL PRIMARY KEY,
+    name VARCHAR2(20),
+    wood_amount NUMBER(10),
+    iron_amount NUMBER(10),
+    food_amount NUMBER(10),
+    mana_amount NUMBER(10),
+        
+    magicTower_counter NUMBER(10),  
+    church_counter NUMBER(10),
+    farm_counter NUMBER(10),
+    smithy_counter NUMBER(10),
+    carpentry_counter NUMBER(10),
+        
+    technology_defense_level NUMBER(10),
+    technology_attack_level NUMBER(10),
+    battles_counter NUMBER(10)
 );
 
-CREATE TABLE IF NOT EXISTS attack_unit_stats (
-    civilization_id INTEGER NOT NULL,
-    unit_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    type ENUM('swordman', 'spearman', 'crossbow', 'cannon'),
-    armor INTEGER,
-    base_damage INTEGER,
-    experience INTEGER,
+CREATE SEQUENCE civilization_seq START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE attack_unit_stats (
+    civilization_id NUMBER(10) NOT NULL,
+    unit_id NUMBER(10) NOT NULL,
+    type_unit VARCHAR2(10),
+    armor NUMBER(10),
+    base_damage NUMBER(10),
+    experience NUMBER(10),
     sanctified BOOL DEFAULT FALSE,
-    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id)
+    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id),
+    CONSTRAINT pk_attack PRIMARY KEY (civilization_id, unit_id),
+    CONSTRAINT attack CHECK (type_unit IN ('swordman', 'spearman', 'crossbow', 'cannon'))
 );
 
-
-CREATE TABLE IF NOT EXISTS defense_units_stats (
-    civilization_id INTEGER NOT NULL,
-    unit_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    type ENUM('ArrowTower', 'Catapult', 'RocketLauncherTower'),
-    armor INTEGER,
-    base_damage INTEGER,
-    experience INTEGER,
+CREATE TABLE defense_units_stats (
+    civilization_id NUMBER(10) NOT NULL,
+    unit_id NUMBER(10) NOT NULL,
+    type_unit VARCHAR2(10),
+    armor NUMBER(10),
+    base_damage NUMBER(10),
+    experience NUMBER(10),
     sanctified BOOL DEFAULT FALSE,
-    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id)
+    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id),
+    CONSTRAINT pk_defense PRIMARY KEY (civilization_id, unit_id),
+    CONSTRAINT defense CHECK (type_unit IN ('ArrowTower', 'Catapult', 'RocketLauncherTower'))
 );
 
-
-CREATE TABLE IF NOT EXISTS special_units_stats (
-    civilization_id INTEGER NOT NULL,
-    unit_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    type ENUM('Magician', 'Priest'),
-    armor INTEGER,
-    base_damage INTEGER,
-    experience INTEGER,
-    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id)
+CREATE TABLE special_units_stats (
+    civilization_id NUMBER(10) NOT NULL,
+    unit_id NUMBER(10) NOT NULL,
+    type_unit VARCHAR2(10),
+    armor NUMBER(10),
+    base_damage NUMBER(10),
+    experience NUMBER(10),
+    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id),
+    CONSTRAINT pk_special PRIMARY KEY (civilization_id, unit_id),
+    CONSTRAINT special CHECK (type_unit IN ('Magician', 'Priest'))
 );

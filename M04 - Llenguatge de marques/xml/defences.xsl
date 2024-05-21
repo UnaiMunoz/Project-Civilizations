@@ -4,12 +4,12 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title>Attack Units</title>
-                <link rel="stylesheet" href="css/attack_units.css"/>
+                <title>Defense Units</title>
+                <link rel="stylesheet" href="css/defences.css"/>
             </head>
             <body>
-                <h1>Attack Units</h1>
-                <xsl:for-each select="attack_units/unit">
+                <h1>Defense Units</h1>
+                <xsl:for-each select="defence_units/unit">
                     <div>
                         <h2><xsl:value-of select="name"/></h2>
                         <img src="{sprite}"></img>
