@@ -1,7 +1,6 @@
 package com.civilizations;
 
 public class Cannon extends AttackUnit{
-    private int initialArmor;
     public Cannon(int armor, int baseDamage, Civilization civilization) {
         super(armor, baseDamage);
         if (civilization.getTechnologyDefense() <= 1) {
