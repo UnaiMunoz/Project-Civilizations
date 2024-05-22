@@ -1,6 +1,7 @@
 package com.civilizations;
 
 public class Magician extends SpecialUnit{
+    
     public Magician() {
         super(0, BASE_DAMAGE_MAGICIAN);
     }

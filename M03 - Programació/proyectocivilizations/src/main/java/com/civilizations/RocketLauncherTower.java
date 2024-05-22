@@ -1,7 +1,9 @@
 package com.civilizations;
 
 public class RocketLauncherTower extends DefenseUnit{
+    
     private int initialArmor;
+    
     public RocketLauncherTower(int armor, int baseDamage, Civilization civilization) {
         super(armor, baseDamage);
         if (civilization.getTechnologyDefense() <= 1) {
@@ -18,10 +20,12 @@ public class RocketLauncherTower extends DefenseUnit{
         }
         initialArmor = ARMOR_ROCKETLAUNCHERTOWER;
     }
+    
     public RocketLauncherTower() {
         super(ARMOR_ROCKETLAUNCHERTOWER, BASE_DAMAGE_ROCKETLAUNCHERTOWER);
         this.initialArmor = ARMOR_ROCKETLAUNCHERTOWER;
     }
+    
     public int attack(){
         return super.baseDamage;
     }

@@ -21,8 +21,6 @@ public class AttackUnit implements MilitaryUnit, Variables {
         this.baseDamage = baseDamage;
     }
 
-
-
     public int attack() {
         // Return the attack power of the unit.
         return baseDamage;
@@ -57,8 +55,6 @@ public class AttackUnit implements MilitaryUnit, Variables {
     
     return 0;}
        
-
-
     public int getWoodCost() {
         // Return the wood cost of creating a new unit.
         switch (this.getClass().getSimpleName()) {
@@ -159,6 +155,7 @@ public class AttackUnit implements MilitaryUnit, Variables {
         // Set the sanctified status of the unit.
         this.sanctified = sanctified;
     }
+    
     public void SanctifiedBuff(){
         if (sanctified){
             baseDamage += baseDamage * (PLUS_ATTACK_UNIT_SANCTIFIED /100);

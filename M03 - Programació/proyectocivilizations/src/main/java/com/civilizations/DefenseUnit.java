@@ -14,6 +14,7 @@ public class DefenseUnit implements MilitaryUnit, Variables {
         this.experience = experience;
         this.sanctified = sanctified;
     }
+    
     public DefenseUnit(int armor,int baseDamage){
         this.armor = armor;
         this.baseDamage = baseDamage;
@@ -50,8 +51,6 @@ public class DefenseUnit implements MilitaryUnit, Variables {
                 }
     return 0;}
        
-
-
     public int getWoodCost() {
         // Return the wood cost of creating a new unit.
         switch (this.getClass().getSimpleName()) {

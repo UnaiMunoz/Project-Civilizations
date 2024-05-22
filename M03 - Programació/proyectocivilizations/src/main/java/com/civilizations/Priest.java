@@ -11,6 +11,7 @@ public class Priest extends SpecialUnit{
             armor = 0;
             baseDamage = 0;
     }
+    
     public void takeDamage(int receivedDamage){
         super.armor -= receivedDamage;
     }

@@ -1,7 +1,9 @@
 package com.civilizations;
 
 public class Crossbow extends AttackUnit{
+    
     private int initialArmor;
+
     public Crossbow(int armor, int baseDamage, Civilization civilization) {
         super(armor, baseDamage);
         if (civilization.getTechnologyDefense() <= 1) {
@@ -18,10 +20,12 @@ public class Crossbow extends AttackUnit{
         }
         initialArmor = ARMOR_CROSSBOW;
     }
+    
     public Crossbow() {
         super(ARMOR_CROSSBOW, BASE_DAMAGE_CROSSBOW);
         this.initialArmor = ARMOR_CROSSBOW;
     }
+    
     public void takeDamage(int receivedDamage){
         super.armor -= receivedDamage;
     }

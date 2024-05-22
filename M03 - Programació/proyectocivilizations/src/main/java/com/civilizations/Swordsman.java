@@ -1,7 +1,9 @@
 package com.civilizations;
 
 public class Swordsman extends AttackUnit{
+    
     private int initialArmor;
+    
     public Swordsman(int armor, int baseDamage, Civilization civilization) {
         super(armor, baseDamage);
         if (civilization.getTechnologyDefense() <= 1) {
@@ -18,10 +20,12 @@ public class Swordsman extends AttackUnit{
         }
         initialArmor = ARMOR_SWORDSMAN;
     }
+    
     public Swordsman() {
         super(ARMOR_SWORDSMAN, BASE_DAMAGE_SWORDSMAN);
         this.initialArmor = ARMOR_SWORDSMAN;
     }
+    
     public int attack(){
         return super.baseDamage;
     }

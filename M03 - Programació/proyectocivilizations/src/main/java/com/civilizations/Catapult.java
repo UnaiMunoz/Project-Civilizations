@@ -1,7 +1,9 @@
 package com.civilizations;
 
 public class Catapult extends DefenseUnit {
+    
     private int initialArmor;
+
     public Catapult(int armor, int baseDamage, Civilization civilization) {
         super(armor, baseDamage);
         if (civilization.getTechnologyDefense() <= 1) {
@@ -18,10 +20,12 @@ public class Catapult extends DefenseUnit {
         }
         initialArmor = ARMOR_CATAPULT;
     }
+    
     public Catapult() {
         super(ARMOR_CATAPULT, BASE_DAMAGE_CATAPULT);
         this.initialArmor = ARMOR_CATAPULT;
     }
+    
     public int attack(){
         return super.baseDamage;
     }
