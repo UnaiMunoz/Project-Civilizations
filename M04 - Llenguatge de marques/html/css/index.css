@@ -1,0 +1,43 @@
+body {
+    background-image: url('../../xml/Images/village.png'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    margin: 0; 
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    color: #000; 
+}
+
+.text_intro {
+    width: 76%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #000;
+    background-color: rgba(240, 240, 240, 0.8);
+    color: #000; 
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 80%;
+    margin: 20px auto;
+}
+
+.box {
+    width: 45%;
+    margin: 10px 0;
+    padding: 20px;
+    border: 1px solid #000;
+    background-color: rgba(224, 224, 224, 0.8); 
+    color: #000; 
+}
+
+.box h2 {
+    text-align: center;
+}
