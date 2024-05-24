@@ -1,3 +1,4 @@
 body {
     background-image: url('../Images/village.png');
+    background-attachment: fixed;
 }
