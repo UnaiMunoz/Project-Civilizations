@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Khula:wght@300;400;600;700;800&family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap');
+
 body {
     background-image: url('../../html/Images/village.png'); 
     background-size: cover; /* Cambiado a cover */
@@ -22,20 +24,21 @@ h1 {
     background-color: rgba(240, 240, 240, 0.8);
     color: #000; 
     border-radius: 10px; /* Bordes redondeados */
-
 }
 
 .container {
+
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     width: 80%;
     margin: 10px auto;
     margin-top: 50px; /* ajusta este valor según la cantidad de desplazamiento que desees */
-
 }
 
-.box {
+
+.unit {
+    text-align: left;
     width: 45%;
     margin: 10px 0;
     padding: 10px;
@@ -45,19 +48,29 @@ h1 {
     border-radius: 10px; /* Bordes redondeados */
 }
 
-.box a {
+div a {
     text-decoration: none; /* Elimina el subrayado */
     color: inherit; /* Hereda el color del texto del div */
     cursor: pointer; /* Cambia el cursor al puntero al pasar por encima */
 }
 
-.box h2 {
+div h2 {
     text-align: center;
     font-family: 'Ubuntu Sans';
 }
 
-p {
+div p {
+    font-family: 'Khala', sans-serif;    
+}
 
-        font-family: 'Khala', sans-serif;    
+img {
+    
+    height: 300px;
 
+}
+
+.foto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
