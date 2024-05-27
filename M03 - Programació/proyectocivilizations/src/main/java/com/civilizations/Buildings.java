@@ -8,13 +8,13 @@ public class Buildings extends JFrame {
         setTitle("Buildings");
 
         // Crear los botones superiores con imágenes y establecer tamaño
-        JButton button1 = new JButton(resizeImageIcon(new ImageIcon("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/carpentry.png"), 250, 200));
-        JButton button2 = new JButton(resizeImageIcon(new ImageIcon("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/farm.png"), 250, 200));
-        JButton button3 = new JButton(resizeImageIcon(new ImageIcon("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/smithy.png"), 250, 200));
+        JButton button1 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/carpentry.png", 250, 200);
+        JButton button2 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/farm.png", 250, 200);
+        JButton button3 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/smithy.png", 250, 200);
 
         // Crear los botones inferiores con imágenes y establecer tamaño
-        JButton button4 = new JButton(resizeImageIcon(new ImageIcon("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/church.png"), 250, 200));
-        JButton button5 = new JButton(resizeImageIcon(new ImageIcon("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/magictower.png"), 250, 200));
+        JButton button4 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/church.png", 250, 200);
+        JButton button5 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/magictower.png", 250, 200);
 
         // Crear un contenedor para los botones superiores
         JPanel topButtonPanel = new JPanel();
@@ -40,10 +40,12 @@ public class Buildings extends JFrame {
         setVisible(true);
     }
 
-    // Método para redimensionar ImageIcon
-    private ImageIcon resizeImageIcon(ImageIcon icon, int width, int height) {
-        Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        return new ImageIcon(img);
+    // Método para crear botón con imagen y tamaño preferido
+    private JButton createButton(String imagePath, int width, int height) {
+        JButton button = new JButton();
+        button.setIcon(new ImageIcon(imagePath));
+        button.setPreferredSize(new Dimension(width, height));
+        return button;
     }
 
     public static void main(String[] args) {
