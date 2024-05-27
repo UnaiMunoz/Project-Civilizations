@@ -30,6 +30,7 @@
 		<waste_chance>0</waste_chance>
 		<attack_again_chance>0</attack_again_chance>
 		<plus_stats>
+			<resurect_chance>0</resurect_chance>
 			<armour_technology>0</armour_technology>
 			<attack_technology>0</attack_technology>
 			<armour_experience>4</armour_experience>
