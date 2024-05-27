@@ -3,11 +3,12 @@
 	<unit>
 		<name>MAGICIAN</name>
 		<base_damage>3000</base_damage>
+		<armour>0</armour>
 		<waste_chance>0</waste_chance>
 		<attack_again_chance>75</attack_again_chance>
 		<plus_stats>
 			<resurect_chance>2</resurect_chance>
-			<armour_technology></armour_technology>
+			<armour_technology>0</armour_technology>
 			<attack_technology>6</attack_technology>
 			<armour_experience>4</armour_experience>
 			<attack_experience>4</attack_experience>
@@ -25,11 +26,13 @@
 	<unit>
 		<name>PRIEST</name>
 		<base_damage>0</base_damage>
+		<armour>0</armour>
 		<waste_chance>0</waste_chance>
 		<attack_again_chance>0</attack_again_chance>
 		<plus_stats>
-			<armour_technology></armour_technology>
-			<attack_technology></attack_technology>
+			<resurect_chance>0</resurect_chance>
+			<armour_technology>0</armour_technology>
+			<attack_technology>0</attack_technology>
 			<armour_experience>4</armour_experience>
 			<attack_experience>4</attack_experience>
 			<armour_sanctified>7</armour_sanctified>

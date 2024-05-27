@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output method="html" indent="yes"/>
-
     <xsl:template match="/">
         <html>
             <head>
-                <title>Special Units</title>
+                <title>Defense Units</title>
                 <link rel="stylesheet" href="css/all.css"/>
             </head>
             <body>
-                <h1>Special Units</h1>
+                <h1>Defense Units</h1>
                 <div class = 'container'>
-                    <xsl:for-each select="special_units/unit">
+                    <xsl:for-each select="defence_units/unit">
                         <div class = 'unit'>
                             <h2><xsl:value-of select="name"/></h2>
                             <div class = 'foto'>
@@ -23,7 +22,6 @@
                             <p>Attack Again Chance: <xsl:value-of select="attack_again_chance"/>%</p>
                             <h3>Plus Stats</h3>
                             <ul>
-                                <li>Resurect Chance: <xsl:value-of select="plus_stats/resurect_chance"/></li>
                                 <li>Armor Technology: <xsl:value-of select="plus_stats/armour_technology"/></li>
                                 <li>Attack Technology: <xsl:value-of select="plus_stats/attack_technology"/></li>
                                 <li>Armor Experience: <xsl:value-of select="plus_stats/armour_experience"/></li>
