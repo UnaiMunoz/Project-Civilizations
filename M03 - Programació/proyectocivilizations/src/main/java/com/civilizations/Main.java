@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 public class Main {
 
     Civilization civilization = new Civilization(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -18,7 +19,7 @@ public class Main {
 
     private TimerTask taskResources = new TimerTask() {
         public void run() {
-            System.out.println("Bienvenido");
+            System.out.println("Se han añadido mas recursos");
         }
     };
 
@@ -44,13 +45,28 @@ public class Main {
     }
 
     public void mainMenu() {
-        System.out.println("Main Menu");
-        System.out.println("1. Create units");
+        System.out.println("Main Menu ");
+        System.out.println("1. Train units");
         System.out.println("2. Build structures");
         System.out.println("3. Upgrade technologies");
         System.out.println("4. Battle reports");
         System.out.println("5. Enemy army");
         System.out.println("6. Exit");
+    }
+
+    public void unitsMenu() {
+        System.out.println("Units ");
+        System.out.println("1. Swordsman");
+        System.out.println("2. Spearman");
+        System.out.println("3. Crossbow");
+        System.out.println("4. Cannon");
+        System.out.println("5. Arrow Tower");
+        System.out.println("6. Catapult");
+        System.out.println("7. Rocket Launcher");
+        System.out.println("8. Magician");
+        System.out.println("9. Priest");
+        System.out.println("10. Exit");
+
     }
 
     public void buildingsMenu() {
@@ -63,10 +79,136 @@ public class Main {
         System.out.println("6. Return");
     }
 
+    public void technologyUpgradeMenu() {
+        System.out.println("Technologies Upgrade ");
+        System.out.println("1. Attack Unit");
+        System.out.println("2. Defense Unit");
+        System.out.println("3. Return");
+    }
+
     public void crearUnidades() {
+        Scanner scanner = new Scanner(System.in);
         limpiarPantalla();
-        System.out.println("Creando Unidades...");
-        // Implementar lógica para crear unidades
+        while (true) {
+            unitsMenu();
+            System.out.print("\nSelect an option: ");
+            int opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    try {
+                        System.out.println("How many swordsmen do you want to train: ");
+                        int opcionSwordsman = scanner.nextInt();
+                        limpiarPantalla();
+                        civilization.newSwordsman(opcionSwordsman);
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("Failed to train swordsman : " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    try {
+                        System.out.println("How many spearmen do you want to train: ");
+                        int opcionSpearman = scanner.nextInt();
+                        limpiarPantalla();
+                        civilization.newSpearman(opcionSpearman);
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("Failed to train spearman: " + e.getMessage());
+                    }
+                    break;
+                case 3:
+                    try {
+                        System.out.println("How many crossbow do you want to train: ");
+                        int opcionCrossbow = scanner.nextInt();
+                        limpiarPantalla();
+                        civilization.newCrossbow(opcionCrossbow);
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("Failed to train crossbow: " + e.getMessage());
+                    }
+                    break;
+                case 4:
+                    try {
+                        System.out.println("How many cannon do you want to train: ");
+                        int opcionCannon = scanner.nextInt();
+                        limpiarPantalla();
+                        civilization.newCannon(opcionCannon);
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("Failed to train cannon: " + e.getMessage());
+                    }
+                    break;
+                case 5:
+                    try {
+                        System.out.println("How many arrow tower do you want to train: ");
+                        int opcionArrowTower = scanner.nextInt();
+                        limpiarPantalla();
+                        civilization.newArrowTower(opcionArrowTower);
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("Failed to train arrow tower: " + e.getMessage());
+                    }
+                    break;
+                case 6:
+                    try {
+                        System.out.println("How many catapult do you want to train: ");
+                        int opcionCatapult = scanner.nextInt();
+                        limpiarPantalla();
+                        civilization.newCatapult(opcionCatapult);
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("Failed to train catapult: " + e.getMessage());
+                    }
+                    break;
+                case 7:
+                    try {
+                        System.out.println("How many rocket launcher do you want to train: ");
+                        int opcionRocketLauncher = scanner.nextInt();
+                        limpiarPantalla();
+                        civilization.newRocketLauncher(opcionRocketLauncher);
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("Failed to train rocket launcher: " + e.getMessage());
+                    }
+                    break;
+                case 8:
+                    try {
+                        System.out.println("How many magician do you want to train: ");
+                        int opcionMagician = scanner.nextInt();
+                        limpiarPantalla();
+                        civilization.newMagician(opcionMagician);
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("Failed to train magician: " + e.getMessage());
+                    } catch (BuildingException e) {
+                    limpiarPantalla();
+                    System.out.println("Failed to train magician: " + e.getMessage());
+                }
+                    break;
+                case 9:
+                    try {
+                        System.out.println("How many priest do you want to train: ");
+                        int opcionPriest = scanner.nextInt();
+                        limpiarPantalla();
+                        civilization.newPriest(opcionPriest);
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("Failed to train priest: " + e.getMessage());
+                    } catch (BuildingException e) {
+                        limpiarPantalla();
+                        System.out.println("Failed to train priest: " + e.getMessage());
+                    }
+                    break;
+                case 10:
+                    limpiarPantalla();
+                    return;
+                default:
+                    limpiarPantalla();
+                    System.out.println("Invalid option");
+            }
+            System.out.println();  // Línea en blanco para mejorar la legibilidad
+        }
     }
 
     public void crearEdificios() {
@@ -75,9 +217,6 @@ public class Main {
         while (true) {
             buildingsMenu();
             System.out.print("\nSelect an option: ");
-            civilization.setWood(100000);
-            civilization.setFood(100000);
-            civilization.setIron(100000);
             int opcion = scanner.nextInt();
             
             switch (opcion) {
@@ -139,9 +278,39 @@ public class Main {
     }
 
     public void mejorarTecnologias() {
+        Scanner scanner = new Scanner(System.in);
         limpiarPantalla();
-        System.out.println("Mejorando Tecnologías...");
-        // Implementar lógica para mejorar tecnologías
+        while (true) {
+            technologyUpgradeMenu();
+            System.out.print("\nSelect an option: ");
+            int opcion = scanner.nextInt();
+            switch (opcion) {
+                case 1:
+                    try {
+                        limpiarPantalla();
+                        civilization.upgradeTechnologyAttack();
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("You can't upgrade your technology attack: " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    try {
+                        limpiarPantalla();
+                        civilization.upgradeTechnologyDefense();
+                    } catch (ResourceException e) {
+                        limpiarPantalla();
+                        System.out.println("You can't upgrade your technology defense: " + e.getMessage());
+                    }
+                    break;
+                case 3:
+                    limpiarPantalla();
+                    return;
+                default:
+                    limpiarPantalla();
+                    System.out.println("Invalid option");
+            }
+        }
     }
 
     public void reportesDeBatalla() {
@@ -155,8 +324,6 @@ public class Main {
         System.out.println("Viendo el Ejército Enemigo...");
         // Implementar lógica para ver el ejército enemigo
     }
-
-
     public static void main(String[] args) {
         Main mainInstance = new Main();
         Scanner scanner = new Scanner(System.in);
@@ -196,4 +363,5 @@ public class Main {
             System.out.println();  // Línea en blanco para mejorar la legibilidad
         }
     }
+
 }
