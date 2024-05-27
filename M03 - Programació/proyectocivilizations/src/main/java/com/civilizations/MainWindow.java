@@ -23,7 +23,7 @@ public class MainWindow extends JFrame {
                 super.paintComponent(g);
                 try {
                     // Cargar la imagen de fondo
-                    Image backgroundImage = ImageIO.read(new File("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\civilizations.jpg"));
+                    Image backgroundImage = ImageIO.read(new File("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/civilizations.jpg"));
                     // Dibujar la imagen de fondo
                     g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
                 } catch (IOException e) {
