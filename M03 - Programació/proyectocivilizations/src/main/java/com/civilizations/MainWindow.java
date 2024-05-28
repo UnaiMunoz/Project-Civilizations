@@ -23,7 +23,7 @@ public class MainWindow extends JFrame {
                 super.paintComponent(g);
                 try {
                     // Cargar la imagen de fondo
-                    Image backgroundImage = ImageIO.read(new File("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/civilizations.jpg"));
+                    Image backgroundImage = ImageIO.read(new File("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\civilizations.jpg"));
                     // Dibujar la imagen de fondo
                     g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
                 } catch (IOException e) {
@@ -59,6 +59,18 @@ public class MainWindow extends JFrame {
         boton3.setForeground(Color.BLACK);
         boton3.setFont(new Font("Garamond", Font.BOLD, 16));
 
+        // Agregar ActionListener al botón "New Game"
+        boton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Cerrar la ventana actual
+                SwingUtilities.invokeLater(() -> {
+                    NewGameWindow newGameWindow = new NewGameWindow();
+                    newGameWindow.setVisible(true);
+                });
+            }
+        });
+
         // Agregar ActionListener al botón "Exit"
         boton3.addActionListener(new ActionListener() {
             @Override
@@ -81,7 +93,3 @@ public class MainWindow extends JFrame {
         ventana.setVisible(true);
     }
 }
-
-
-
-

@@ -1,4 +1,4 @@
-package com.civilizations;  
+package com.civilizations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,7 @@ public class GameWindow extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon imageIcon = new ImageIcon("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/game.jpg"); // Ruta al archivo de video o gif
+                ImageIcon imageIcon = new ImageIcon("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\game2.jpg"); // Ruta al archivo de video o gif
                 Image image = imageIcon.getImage();
                 int width = getWidth();
                 int height = getHeight();
@@ -71,7 +71,7 @@ public class GameWindow extends JFrame {
         infoPanel.add(ejercitoButton);
 
         // Temporizador
-        timerLabel = new JLabel("Tiempo: 0");
+        timerLabel = new JLabel("Tiempo: 00:00");
         infoPanel.add(Box.createVerticalGlue());
         infoPanel.add(timerLabel);
 
@@ -82,7 +82,10 @@ public class GameWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 seconds++;
-                timerLabel.setText("Tiempo: " + seconds);
+                int minutes = seconds / 60;
+                int remainingSeconds = seconds % 60;
+                String timeFormatted = String.format("%02d:%02d", minutes, remainingSeconds);
+                timerLabel.setText("Tiempo: " + timeFormatted);
             }
         });
         timer.start();
