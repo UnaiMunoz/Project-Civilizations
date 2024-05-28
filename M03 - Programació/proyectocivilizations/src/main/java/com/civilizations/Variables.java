@@ -83,6 +83,8 @@ public interface Variables {
         public final int FOOD_COST_CHURCH = 5000;
         public final int WOOD_COST_CHURCH = 10000;
         public final int IRON_COST_CHURCH = 12000;
+        ////////AÑADIDO
+        public final int MANA_COST_CHURCH = 1000;
         public final int FOOD_COST_MAGICTOWER = 5000;
         public final int WOOD_COST_MAGICTOWER = 10000;
         public final int IRON_COST_MAGICTOWER = 12000;
