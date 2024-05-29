@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <defence_units>
 	<unit>
-		<name>ARROWTOWER</name>
+		<name>ARROW TOWER</name>
 		<base_damage>80</base_damage>
 		<armour>200</armour>
 		<waste_chance>55</waste_chance>
 		<attack_again_chance>5</attack_again_chance>
 		<plus_stats>
-			<armour_technology>0</armour_technology>
-			<attack_technology>0</attack_technology>
-			<armour_experience>0</armour_experience>
-			<attack_experience>0</attack_experience>
-			<armour_sanctified>0</armour_sanctified>
-			<attack_sanctified>0</attack_sanctified>
+			<armour_technology>5</armour_technology>
+			<attack_technology>5</attack_technology>
+			<armour_experience>4</armour_experience>
+			<attack_experience>4</attack_experience>
+			<armour_sanctified>7</armour_sanctified>
+			<attack_sanctified>7</attack_sanctified>
 		</plus_stats>
 		<costs>
 			<food_cost>0</food_cost>
@@ -45,7 +45,7 @@
 		<sprite>Images/catapult.png</sprite>
 	</unit>
 	<unit>
-		<name>ROCKETLAUNCHERTOWER</name>
+		<name>ROCKETLAUNCHER TOWER</name>
 		<base_damage>2000</base_damage>
 		<armour>7000</armour>
 		<waste_chance>75</waste_chance>

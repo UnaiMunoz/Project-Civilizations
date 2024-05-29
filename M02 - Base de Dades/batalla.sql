@@ -6,8 +6,9 @@ CREATE TABLE Civilization_attack_stats (
     initial NUMBER(10),
     drops NUMBER(10),
     PRIMARY KEY (civilization_id, num_battle, type),
-    FOREIGN KEY (civilization_id) REFERENCES civilization_stats(civilization_id)
+    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id)
 );
+
 
 CREATE TABLE Civilization_defense_stats (
     civilization_id NUMBER(10) NOT NULL,
@@ -16,8 +17,9 @@ CREATE TABLE Civilization_defense_stats (
     initial NUMBER(10),
     drops NUMBER(10),
     PRIMARY KEY (civilization_id, num_battle, type),
-    FOREIGN KEY (civilization_id) REFERENCES civilization_stats(civilization_id)
+    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id)
 );
+
 
 CREATE TABLE Civilization_special_stats (
     civilization_id NUMBER(10) NOT NULL,
@@ -26,7 +28,7 @@ CREATE TABLE Civilization_special_stats (
     initial NUMBER(10),
     drops NUMBER(10),
     PRIMARY KEY (civilization_id, num_battle, type),
-    FOREIGN KEY (civilization_id) REFERENCES civilization_stats(civilization_id)
+    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id)
 );
 
 CREATE TABLE Battle_stats (
@@ -56,3 +58,4 @@ CREATE TABLE Enemy_attack_stats (
     PRIMARY KEY (civilization_id, num_battle, type),
     FOREIGN KEY (civilization_id, num_battle) REFERENCES Battle_stats(civilization_id, num_battle)
 );
+

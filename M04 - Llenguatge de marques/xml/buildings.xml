@@ -37,7 +37,7 @@
 		<sprite>Images/church.png</sprite>
 	</building>
 	<building>
-		<name>MAGICTOWER</name>
+		<name>MAGIC TOWER</name>
 		<costs>
 			<food_cost>5000</food_cost>
 			<iron_cost>10000</iron_cost>
