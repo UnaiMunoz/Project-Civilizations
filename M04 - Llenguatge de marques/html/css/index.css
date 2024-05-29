@@ -1,9 +1,17 @@
 body {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    margin: 0;
+}
+
+.fondo {
     background-image: url('../../html/Images/village.png'); 
     background-size: cover; /* Cambiado a cover */
     background-repeat: no-repeat; 
-    margin: 0; 
     font-family: Arial, sans-serif;
+    height: 100vh;
 }
 
 h1 {
