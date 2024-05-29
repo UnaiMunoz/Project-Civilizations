@@ -2,7 +2,7 @@
 
 body {
     background-image: url('../../html/Images/village.png'); 
-    background-size: cover; /* Cambiado a cover */
+    background-size: cover; 
     background-repeat: no-repeat; 
     margin: 0; 
     font-family: Arial, sans-serif;
@@ -12,7 +12,7 @@ h1 {
     font-family: 'Ubuntu Sans', sans-serif;
     text-align: center;
     color: #000; 
-    font-size: 50px; /* Ajusta el tamaño según lo necesites */
+    font-size: 50px; /* Ajusta el tamaño 
     margin: 50px;
 }
 
@@ -33,7 +33,7 @@ h1 {
     justify-content: space-around;
     width: 80%;
     margin: 10px auto;
-    margin-top: 50px; /* ajusta este valor según la cantidad de desplazamiento que desees */
+    margin-top: 50px; 
 }
 
 
