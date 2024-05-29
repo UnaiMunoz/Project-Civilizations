@@ -50,13 +50,25 @@ public class NewGameWindow extends JFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Cerrar la ventana actual
-                SwingUtilities.invokeLater(() -> {
-                    GameWindow gameWindow = new GameWindow();
-                    gameWindow.setVisible(true);
-                });
+                String username = usernameField.getText(); // Obtener el texto del campo de texto
+                
+                if (!username.isEmpty()) { // Verificar si el campo de texto no está vacío
+                    CivilizationDAO civilizationDAO = new CivilizationDAO(); // Crear una instancia de CivilizationDAO
+                    civilizationDAO.addUser(username); // Llamar al método addUser con el nombre de usuario obtenido
+                    
+                    dispose(); // Cerrar la ventana actual
+                    SwingUtilities.invokeLater(() -> {
+                        GameWindow gameWindow = new GameWindow();
+                        gameWindow.setVisible(true);
+                    });
+                } else {
+                    // Mostrar un mensaje de error si el campo de texto está vacío
+                    JOptionPane.showMessageDialog(NewGameWindow.this, "Please enter a username", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
+
+        
         
         // Añadir el panel a la ventana
         add(panel);

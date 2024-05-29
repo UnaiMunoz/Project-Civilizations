@@ -1,9 +1,7 @@
 package com.civilizations;
 
 public class ArrowTower extends DefenseUnit {
-
     private int initialArmor;
-    
     public ArrowTower(int armor, int baseDamage, Civilization civilization) {
         super(armor, baseDamage);
         if (civilization.getTechnologyDefense() <= 1) {
@@ -20,12 +18,10 @@ public class ArrowTower extends DefenseUnit {
         }
         initialArmor = ARMOR_ARROWTOWER;
     }
-
     public ArrowTower() {
         super(ARMOR_ARROWTOWER, BASE_DAMAGE_ARROWTOWER);
         this.initialArmor = ARMOR_ARROWTOWER;
     }
-
     public void takeDamage(int receivedDamage){
         super.armor -= receivedDamage;
     }

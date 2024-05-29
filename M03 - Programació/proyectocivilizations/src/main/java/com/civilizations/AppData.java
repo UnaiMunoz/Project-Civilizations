@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AppData {
+class AppData {
     private static AppData instance;
     private Connection conn;
 
     private AppData() {
-        // Conecta al crear la primera instancia
+        // Connecta al crear la primera instància
         connect();
     }
 
@@ -24,21 +24,19 @@ public class AppData {
     }
 
     private void connect() {
-        // URL de conexión para Oracle
-        String url = "jdbc:oracle:thin:@//localhost:1521/xe"; // Cambia esto según tu configuración de Oracle
-        String user = "tu_usuario";
-        String password = "tu_contraseña";
+        String url = "jdbc:oracle:thin:@localhost:1521/xe";
+        String user = "system";
+        String password = "unai"; 
         try {
-            // Cargar el controlador JDBC de Oracle
+            // Load Oracle JDBC Driver
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            // Establecer la conexión
             conn = DriverManager.getConnection(url, user, password);
-            conn.setAutoCommit(false); // Desactiva el autocommit para control manual de transacciones
+            conn.setAutoCommit(false); // Disable autocommit to allow manual transaction control
+            System.out.println("Database connection established.");
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error connecting to database: " + e.getMessage());
         }
     }
-
     public void close() {
         try {
             if (conn != null) conn.close();
@@ -47,49 +45,55 @@ public class AppData {
         }
     }
 
-    // Métodos para ejecutar actualizaciones, inserciones y consultas...
-
     public void update(String sql) {
         try (Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
-            conn.commit(); // Confirma los cambios
+            conn.commit(); // Confirma els canvis
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             try {
-                conn.rollback(); // Revierte los cambios en caso de error
+                conn.rollback(); // Reverteix els canvis en cas d'error
             } catch (SQLException ex) {
-                System.out.println("Error al hacer rollback.");
+                System.out.println("Error en fer rollback.");
                 ex.printStackTrace();
             }
         }
     }
 
+    
+    
+
     public int insertAndGetId(String sql) {
         int generatedId = -1;
         try (Statement stmt = conn.createStatement()) {
+            // Execute the update
             stmt.executeUpdate(sql);
-            conn.commit();  // Asegura hacer commit de la transacción si el autocommit está desactivado
+            conn.commit();  // Make sure to commit the transaction if auto-commit is disabled
     
-            try (ResultSet rs = stmt.executeQuery("SELECT last_insert_id()")) {
+            // Query the last inserted row ID
+            try (ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()")) {
                 if (rs.next()) {
-                    generatedId = rs.getInt(1); // Recupera el último ID insertado
+                    generatedId = rs.getInt(1); // Retrieve the last inserted ID
                 }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             try {
-                conn.rollback(); // Revierte la transacción en caso de error
+                conn.rollback(); // Rollback the transaction in case of error
             } catch (SQLException ex) {
-                System.out.println("Error al hacer rollback.");
+                System.out.println("Error during rollback.");
                 ex.printStackTrace();
             }
         }
         return generatedId;
     }
     
+    // Aquesta funció transforma el ResultSet en un Map<String, Object>
+    // per fer l'accés a la informació més genèric
     public List<Map<String, Object>> query(String sql) {
         List<Map<String, Object>> resultList = new ArrayList<>();
 
+        // try-with-resources tancarà el ResultSet quan acabi el bloc
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             ResultSetMetaData metaData = rs.getMetaData();
@@ -107,4 +111,20 @@ public class AppData {
         }
         return resultList;
     }
-}
+    public void updateWithBlob(String query, byte[] blobData) {
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setBytes(1, blobData);
+            pstmt.executeUpdate();
+            conn.commit(); // Commit the changes
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            try {
+                conn.rollback(); // Rollback changes in case of error
+            } catch (SQLException ex) {
+                System.out.println("Error in rollback.");
+                ex.printStackTrace();
+            }
+        }
+    }
+    }
+    
