@@ -11,7 +11,7 @@ public class AppData {
     private Connection conn;
 
     private AppData() {
-        // Conecta al crear la primera instancia
+        // Connect when creating the first instance
         connect();
     }
 
@@ -24,18 +24,14 @@ public class AppData {
     }
 
     private void connect() {
-        // URL de conexión para Oracle
-        String url = "jdbc:oracle:thin:@//localhost:1521/xe"; // Cambia esto según tu configuración de Oracle
+        String url = "jdbc:oracle:thin:@localhost:1521/xe";
         String user = "system";
-        String password = "david";
+        String password = "david"; // Replace "david" with your actual password
         try {
-            // Cargar el controlador JDBC de Oracle
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            // Establecer la conexión
             conn = DriverManager.getConnection(url, user, password);
-            conn.setAutoCommit(false); // Desactiva el autocommit para control manual de transacciones
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
+            conn.setAutoCommit(false); // Disable autocommit to allow manual transaction control
+        } catch (SQLException e) {
+            System.out.println("Error connecting to database: " + e.getMessage());
         }
     }
 
@@ -43,23 +39,20 @@ public class AppData {
         try {
             if (conn != null) conn.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error closing database connection: " + e.getMessage());
         }
     }
-
-    // Métodos para ejecutar actualizaciones, inserciones y consultas...
 
     public void update(String sql) {
         try (Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
-            conn.commit(); // Confirma los cambios
+            conn.commit(); // Commit the changes
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error executing update: " + e.getMessage());
             try {
-                conn.rollback(); // Revierte los cambios en caso de error
+                conn.rollback(); // Rollback the transaction in case of error
             } catch (SQLException ex) {
-                System.out.println("Error al hacer rollback.");
-                ex.printStackTrace();
+                System.out.println("Error during rollback: " + ex.getMessage());
             }
         }
     }
@@ -68,25 +61,25 @@ public class AppData {
         int generatedId = -1;
         try (Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
-            conn.commit();  // Asegura hacer commit de la transacción si el autocommit está desactivado
-    
-            try (ResultSet rs = stmt.executeQuery("SELECT last_insert_id()")) {
+            conn.commit(); // Commit the transaction if autocommit is disabled
+
+            // Query the last inserted row ID
+            try (ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()")) {
                 if (rs.next()) {
-                    generatedId = rs.getInt(1); // Recupera el último ID insertado
+                    generatedId = rs.getInt(1); // Retrieve the last inserted ID
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error executing insertAndGetId: " + e.getMessage());
             try {
-                conn.rollback(); // Revierte la transacción en caso de error
+                conn.rollback(); // Rollback the transaction in case of error
             } catch (SQLException ex) {
-                System.out.println("Error al hacer rollback.");
-                ex.printStackTrace();
+                System.out.println("Error during rollback: " + ex.getMessage());
             }
         }
         return generatedId;
     }
-    
+
     public List<Map<String, Object>> query(String sql) {
         List<Map<String, Object>> resultList = new ArrayList<>();
 
@@ -103,7 +96,7 @@ public class AppData {
                 resultList.add(row);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error executing query: " + e.getMessage());
         }
         return resultList;
     }

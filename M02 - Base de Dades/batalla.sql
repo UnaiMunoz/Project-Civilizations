@@ -1,61 +1,71 @@
 
-CREATE TABLE Civilization_attack_stats (
+CREATE TABLE civilization_attack_stats (
+    civilization_id NUMBER(5) NOT NULL,
+    num_battle NUMBER(5) NOT NULL,
+    type_stats VARCHAR2(50) NOT NULL,
+    initial_stats NUMBER(5),
+    drops NUMBER(5),
+    CONSTRAINT pk_civilization_attack_stats PRIMARY KEY (civilization_id, num_battle, type_stats),
+    CONSTRAINT fk_civ_attack_stats_civ FOREIGN KEY (civilization_id) REFERENCES civilization_stats (civilization_id)
+);
+
+
+CREATE TABLE civilization_defense_stats (
+    civilization_id NUMBER(5) NOT NULL,
+    num_battle NUMBER(5) NOT NULL,
+    type_stats VARCHAR2(50) NOT NULL,
+    initial_stats NUMBER(5),
+    drops NUMBER(5),
+    CONSTRAINT pk_civilization_defense_stats PRIMARY KEY (civilization_id, num_battle, type_stats),
+    CONSTRAINT fk_civ_defense_stats_civ FOREIGN KEY (civilization_id) REFERENCES civilization_stats (civilization_id)
+);
+
+
+
+CREATE TABLE civilization_special_stats (
+    civilization_id NUMBER(5) NOT NULL,
+    num_battle NUMBER(5) NOT NULL,
+    type_stats VARCHAR2(50) NOT NULL,
+    initial_stats NUMBER(5),
+    drops NUMBER(5),
+    CONSTRAINT pk_civilization_special_stats PRIMARY KEY (civilization_id, num_battle, type_stats),
+    CONSTRAINT fk_civ_special_stats_civ FOREIGN KEY (civilization_id) REFERENCES civilization_stats (civilization_id)
+);
+
+
+
+CREATE TABLE enemy_attack_stats (
     civilization_id NUMBER(10) NOT NULL,
     num_battle NUMBER(10) NOT NULL,
     type VARCHAR2(50) NOT NULL,
     initial NUMBER(10),
     drops NUMBER(10),
-    PRIMARY KEY (civilization_id, num_battle, type),
-    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id)
+    CONSTRAINT pk_enemy_attack_stats PRIMARY KEY (civilization_id, num_battle, type),
+    CONSTRAINT fk_enemy_attack_stats_battle FOREIGN KEY (civilization_id, num_battle) REFERENCES battle_stats (civilization_id, num_battle)
 );
 
 
-CREATE TABLE Civilization_defense_stats (
-    civilization_id NUMBER(10) NOT NULL,
-    num_battle NUMBER(10) NOT NULL,
-    type VARCHAR2(50) NOT NULL,
-    initial NUMBER(10),
-    drops NUMBER(10),
-    PRIMARY KEY (civilization_id, num_battle, type),
-    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id)
-);
 
 
-CREATE TABLE Civilization_special_stats (
-    civilization_id NUMBER(10) NOT NULL,
-    num_battle NUMBER(10) NOT NULL,
-    type VARCHAR2(50) NOT NULL,
-    initial NUMBER(10),
-    drops NUMBER(10),
-    PRIMARY KEY (civilization_id, num_battle, type),
-    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id)
-);
-
-CREATE TABLE Battle_stats (
+CREATE TABLE battle_stats (
     civilization_id NUMBER(10) NOT NULL,
     num_battle NUMBER(10) NOT NULL,
     wood_acquired NUMBER(10),
     iron_acquired NUMBER(10),
-    PRIMARY KEY (civilization_id, num_battle),
-    FOREIGN KEY (civilization_id) REFERENCES civilization_stats(civilization_id)
+    CONSTRAINT pk_battle_stats PRIMARY KEY (civilization_id, num_battle),
+    CONSTRAINT fk_battle_stats_civilization FOREIGN KEY (civilization_id) REFERENCES civilization_stats (civilization_id)
 );
 
-CREATE TABLE Battle_log (
+
+
+CREATE TABLE battle_log (
     civilization_id NUMBER(10) NOT NULL,
     num_battle NUMBER(10) NOT NULL,
     num_line NUMBER(10) NOT NULL,
-    log_entry CLOB,
-    PRIMARY KEY (civilization_id, num_battle, num_line),
-    FOREIGN KEY (civilization_id, num_battle) REFERENCES Battle_stats(civilization_id, num_battle)
+    log_entry VARCHAR2(50),
+    CONSTRAINT pk_battle_log PRIMARY KEY (civilization_id, num_battle, num_line),
+    CONSTRAINT fk_battle_log_battle FOREIGN KEY (civilization_id, num_battle) REFERENCES battle_stats (civilization_id, num_battle)
 );
 
-CREATE TABLE Enemy_attack_stats (
-    civilization_id NUMBER(10) NOT NULL,
-    num_battle NUMBER(10) NOT NULL,
-    type VARCHAR2(50) NOT NULL,
-    initial NUMBER(10),
-    drops NUMBER(10),
-    PRIMARY KEY (civilization_id, num_battle, type),
-    FOREIGN KEY (civilization_id, num_battle) REFERENCES Battle_stats(civilization_id, num_battle)
-);
+
 
