@@ -37,10 +37,10 @@ CREATE TABLE civilization_special_stats (
 CREATE TABLE enemy_attack_stats (
     civilization_id NUMBER(10) NOT NULL,
     num_battle NUMBER(10) NOT NULL,
-    type VARCHAR2(50) NOT NULL,
-    initial NUMBER(10),
+    type_stats VARCHAR2(50) NOT NULL,
+    initial_stats NUMBER(10),
     drops NUMBER(10),
-    CONSTRAINT pk_enemy_attack_stats PRIMARY KEY (civilization_id, num_battle, type),
+    CONSTRAINT pk_enemy_attack_stats PRIMARY KEY (civilization_id, num_battle, type_stats),
     CONSTRAINT fk_enemy_attack_stats_battle FOREIGN KEY (civilization_id, num_battle) REFERENCES battle_stats (civilization_id, num_battle)
 );
 
