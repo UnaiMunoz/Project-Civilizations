@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(46, 134, 43);
+}
+
+ul li {
+    display: inline-block;
+    position: relative;
+}
+
+ul li a {
+    display: block;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+}
+
+ul li a img {
+    margin-right: 10px;
+}
+
+ul li a span {
+    margin-left: 10px;
+    font-size: 31px;
+}
+
+ul li:hover {
+    background-color: #295f35;
+}
+
+ul li ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    background-color: #333;
+}
+
+ul li:hover ul {
+    display: block;
+}
+
+ul li ul li {
+    display: block;
+}
+
+ul li ul li a {
+    padding: 12px 20px;
+}
+
+ul li ul li:hover {
+    background-color: #555;
+}
+.sticky-menu {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
