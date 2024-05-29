@@ -10,21 +10,21 @@ import javax.imageio.ImageIO;
 
 public class MainWindow extends JFrame {
     public MainWindow() {
-        // Configure the window
+        // Configurar la ventana
         setTitle("Civilizations");
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Create a custom JPanel to draw the background image
+        // Crear un JPanel personalizado para dibujar la imagen de fondo
         JPanel panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 try {
-                    // Load the background image
+                    // Cargar la imagen de fondo
                     Image backgroundImage = ImageIO.read(new File("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\civilizations.jpg"));
-                    // Draw the background image
+                    // Dibujar la imagen de fondo
                     g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -33,78 +33,63 @@ public class MainWindow extends JFrame {
         };
         panel.setLayout(null);
 
-        // Create a JLabel for the title
-        JLabel title = new JLabel("Civilizations", SwingConstants.CENTER);
-        title.setForeground(Color.BLACK); // Text color
-        title.setFont(new Font("Garamond", Font.BOLD, 36)); // Text font
-        title.setBounds(200, 50, 400, 50); // Position and size of the title
-        panel.add(title);
+        // Crear un JLabel para el título
+        JLabel titulo = new JLabel("Civilizations", SwingConstants.CENTER);
+        titulo.setForeground(Color.BLACK); // Color del texto
+        titulo.setFont(new Font("Garamond", Font.BOLD, 36)); // Fuente del texto
+        titulo.setBounds(200, 50, 400, 50); // Posición y tamaño del título
+        panel.add(titulo);
 
-        // Create custom buttons and add them to the panel
-        JButton newGameButton = new JButton("New Game");
-        JButton loadGameButton = new JButton("Load Game");
-        JButton exitButton = new JButton("Exit");
+        // Crear botones personalizados y añadirlos al panel
+        JButton boton1 = new JButton("New Game");
+        JButton boton2 = new JButton("Load Game");
+        JButton boton3 = new JButton("Exit");
 
-        newGameButton.setBounds(50, 150, 130, 50);
-        loadGameButton.setBounds(50, 220, 130, 50);
-        exitButton.setBounds(50, 290, 130, 50);
+        boton1.setBounds(50, 150, 130, 50);
+        boton2.setBounds(50, 220, 130, 50);
+        boton3.setBounds(50, 290, 130, 50);
 
-        // Set styles for the buttons
-        Font buttonFont = new Font("Garamond", Font.BOLD, 16);
-        Color buttonTextColor = Color.BLACK;
+        // Establecer estilo para los botones
+        boton1.setForeground(Color.BLACK);
+        boton1.setFont(new Font("Garamond", Font.BOLD, 16));
 
-        newGameButton.setForeground(buttonTextColor);
-        newGameButton.setFont(buttonFont);
+        boton2.setForeground(Color.BLACK);
+        boton2.setFont(new Font("Garamond", Font.BOLD, 16));
 
-        loadGameButton.setForeground(buttonTextColor);
-        loadGameButton.setFont(buttonFont);
+        boton3.setForeground(Color.BLACK);
+        boton3.setFont(new Font("Garamond", Font.BOLD, 16));
 
-        exitButton.setForeground(buttonTextColor);
-        exitButton.setFont(buttonFont);
-
-        // Add ActionListener to the "New Game" button
-        newGameButton.addActionListener(new ActionListener() {
+        // Agregar ActionListener al botón "New Game"
+        boton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the current window
+                dispose(); // Cerrar la ventana actual
                 SwingUtilities.invokeLater(() -> {
                     NewGameWindow newGameWindow = new NewGameWindow();
                     newGameWindow.setVisible(true);
                 });
             }
         });
-        
-        // Add ActionListener to the "Load Game" button
-        loadGameButton.addActionListener(new ActionListener() {
+
+        // Agregar ActionListener al botón "Exit"
+        boton3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the current window
-                SwingUtilities.invokeLater(() -> {
-                    LoadGameWindow loadGameWindow = new LoadGameWindow();
-                    loadGameWindow.setVisible(true);
-                });
+                dispose();
             }
         });
 
-        // Add ActionListener to the "Exit" button
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the application
-            }
-        });
+        panel.add(boton1);
+        panel.add(boton2);
+        panel.add(boton3);
 
-        panel.add(newGameButton);
-        panel.add(loadGameButton);
-        panel.add(exitButton);
-
-        // Add the panel to the JFrame
+        // Añadir el panel al JFrame
         add(panel);
     }
 
     public static void main(String[] args) {
-        // Create and display the window
-        MainWindow mainWindow = new MainWindow();
-        mainWindow.setVisible(true);
+        // Crear y mostrar la ventana
+        MainWindow ventana = new MainWindow();
+        ventana.setVisible(true);
     }
 }
