@@ -38,7 +38,7 @@ public class CivilizationDAO {
     }
 
     public void updateWood(int id) {
-        String sql = "UPDATE civilization_stats SET wood_amount = 100 WHERE civilization_id = 1";
+        String sql = "UPDATE civilization_stats SET wood_amount = 100 WHERE civilization_id = "+ id +"";
         AppData db = AppData.getInstance();
         db.update(sql);
         System.out.println(sql);
