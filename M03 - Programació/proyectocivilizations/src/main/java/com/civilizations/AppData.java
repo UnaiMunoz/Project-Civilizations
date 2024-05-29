@@ -26,7 +26,7 @@ class AppData {
     private void connect() {
         String url = "jdbc:oracle:thin:@localhost:1521/xe";
         String user = "system";
-        String password = "david"; 
+        String password = "unai"; 
         try {
             // Load Oracle JDBC Driver
             Class.forName("oracle.jdbc.driver.OracleDriver");
