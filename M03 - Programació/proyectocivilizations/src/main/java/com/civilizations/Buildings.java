@@ -2,6 +2,8 @@ package com.civilizations;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Buildings extends JFrame {
     public Buildings() {
@@ -20,7 +22,12 @@ public class Buildings extends JFrame {
         JButton button4 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/church.png", "Church", 180, 140);
         JButton button5 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/magictower.png", "Magic Tower", 180, 140);
 
-        // Crear un contenedor para los botones superiores
+        button1.setFocusable(false);
+        button2.setFocusable(false);
+        button3.setFocusable(false);
+        button4.setFocusable(false);
+        button5.setFocusable(false);
+
         // Crear un contenedor para los botones superiores
         JPanel topButtonPanel = new JPanel();
         topButtonPanel.setLayout(new BoxLayout(topButtonPanel, BoxLayout.X_AXIS)); // Establecer el layout horizontal
@@ -37,7 +44,6 @@ public class Buildings extends JFrame {
         bottomButtonPanel.add(Box.createHorizontalStrut(40)); // Espacio entre los botones inferior
         bottomButtonPanel.add(button5);
         bottomButtonPanel.setOpaque(false);  // Hacer el panel transparente para mostrar la imagen de fondo
-
 
         // Crear un contenedor principal con BoxLayout
         JPanel mainPanel = new JPanel() {
@@ -64,6 +70,7 @@ public class Buildings extends JFrame {
         getContentPane().add(mainPanel);
 
         setSize(900, 500);
+        setLocationRelativeTo(null);  // Centrar la ventana en la pantalla
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
@@ -79,6 +86,17 @@ public class Buildings extends JFrame {
         button.setHorizontalTextPosition(SwingConstants.CENTER);
         button.setVerticalTextPosition(SwingConstants.BOTTOM);
         button.setPreferredSize(new Dimension(width, height + 30));  // Añadir espacio para el texto
+
+        button.setFocusable(false);
+
+        // Añadir ActionListener para mostrar ventana emergente
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(Buildings.this, "Se ha creado " + text, "Creación de Edificio", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
         return button;
     }
 
