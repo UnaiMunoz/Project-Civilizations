@@ -137,46 +137,63 @@ public class Civilization implements Variables {
 
     // Other Methods
     public void newChurch() throws ResourceException {
-        if (food < FOOD_COST_CHURCH && wood < WOOD_COST_CHURCH && iron < IRON_COST_CHURCH) {
+        if (food < FOOD_COST_CHURCH || wood < WOOD_COST_CHURCH || iron < IRON_COST_CHURCH || mana < MANA_COST_CHURCH)  {
             throw new ResourceException("No tens materials suficients");
         } else {
             church++;
+            food -= FOOD_COST_CHURCH;
+            wood -= WOOD_COST_CHURCH;
+            iron -= IRON_COST_CHURCH;
+            mana -= MANA_COST_CHURCH;
+
             System.out.println("Has construit una esglesia, tens " + church + " esglesies");
         }
     }
 
     public void newMagicTower() throws ResourceException {
-        if (food < FOOD_COST_MAGICTOWER && wood < WOOD_COST_MAGICTOWER && iron < IRON_COST_MAGICTOWER) {
+        if (food < FOOD_COST_MAGICTOWER || wood < WOOD_COST_MAGICTOWER || iron < IRON_COST_MAGICTOWER) {
             throw new ResourceException("No tens materials suficients");
         } else {
             magicTower++;
+            food -= FOOD_COST_MAGICTOWER;
+            wood -= WOOD_COST_MAGICTOWER;
+            iron -= IRON_COST_MAGICTOWER;
             System.out.println("Has construit una torre màgica, tens " + magicTower + " Torres magiques");
         }
     }
 
     public void newFarm() throws ResourceException {
-        if (food < FOOD_COST_FARM && wood < WOOD_COST_FARM && iron < IRON_COST_FARM) {
+        if (food < FOOD_COST_FARM || wood < WOOD_COST_FARM || iron < IRON_COST_FARM) {
             throw new ResourceException("No tens materials suficients");
         } else {
             farm++;
+            food -= FOOD_COST_MAGICTOWER;
+            wood -= WOOD_COST_MAGICTOWER;
+            iron -= IRON_COST_MAGICTOWER;
             System.out.println("Has construit una granja, tens " + farm + " granges");
         }
     }
 
     public void newCarpentry() throws ResourceException {
-        if (food < FOOD_COST_CARPENTRY && wood < WOOD_COST_CARPENTRY && iron < IRON_COST_CARPENTRY) {
+        if (food < FOOD_COST_CARPENTRY || wood < WOOD_COST_CARPENTRY || iron < IRON_COST_CARPENTRY) {
             throw new ResourceException("No tens materials suficients");
         } else {
             carpentry++;
-            System.out.println("Has construit una fusteria, tens " + carpentry + " fusterias");
+            food -= FOOD_COST_CARPENTRY;
+            wood -= WOOD_COST_CARPENTRY;
+            iron -= IRON_COST_CARPENTRY;
+            System.out.println("Has construit una fusteria, tens " + carpentry + " fusteriezs");
         }
     }
 
     public void newSmithy() throws ResourceException {
-        if (food < FOOD_COST_SMITHY && wood < WOOD_COST_SMITHY && iron < IRON_COST_SMITHY) {
+        if (food < FOOD_COST_SMITHY || wood < WOOD_COST_SMITHY || iron < IRON_COST_SMITHY) {
             throw new ResourceException("No tens materials suficients");
         } else {
             smithy++;
+            food -= FOOD_COST_SMITHY;
+            wood -= WOOD_COST_SMITHY;
+            iron -= IRON_COST_SMITHY;
             System.out.println("Has construit una ferraria, tens " + smithy + " ferraries");
         }
     }
@@ -275,6 +292,9 @@ public class Civilization implements Variables {
             System.out.println("You've trained " + trainedSwordsmen + " swordsmen.");
         }
     }
+
+    
+    
     
     public void newSpearman(int n) throws ResourceException {
         int foodCost = FOOD_COST_SPEARMAN * n;
@@ -382,7 +402,6 @@ public class Civilization implements Variables {
             System.out.println("You've trained " + trainedCannons + " cannons.");
         }
     }
-    
     public void newArrowTower(int n) throws ResourceException {
         int foodCost = FOOD_COST_ARROWTOWER * n;
         int woodCost = WOOD_COST_ARROWTOWER * n;

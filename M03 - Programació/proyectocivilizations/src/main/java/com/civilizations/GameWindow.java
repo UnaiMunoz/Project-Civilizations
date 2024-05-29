@@ -9,6 +9,7 @@ public class GameWindow extends JFrame {
     private JLabel timerLabel;
     private JTextField maderaTextField, comidaTextField, hierroTextField, manaTextField;
     private int seconds = 0;
+    private Civilization civilization;
 
     public GameWindow() {
         setTitle("Civilizations");
@@ -16,6 +17,16 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+
+        civilization = new Civilization(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+        new Thread(() -> {
+            Main mainInstance = new Main();
+            mainInstance.startTimerResources(0, 30000); // Generate resources every 30 seconds
+
+            // Start attack timer with a delay of 5 minutes and a period of 3 minutes
+            mainInstance.startTimerAttack(300000, 180000);
+        }).start();
 
         // Panel de la imagen o video
         JPanel mediaPanel = new JPanel() {
@@ -148,7 +159,6 @@ public class GameWindow extends JFrame {
 
         setVisible(true);
     }
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(GameWindow::new);
     }

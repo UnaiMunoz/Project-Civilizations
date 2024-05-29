@@ -8,13 +8,13 @@ public interface Variables {
         // percentage increase of resources available to create enemy fleet
         public final int ENEMY_FLEET_INCREASE = 6;
         // resources increment every minute
-        public final int CIVILIZATION_IRON_GENERATED = 1500;
-        public final int CIVILIZATION_WOOD_GENERATED = 5000;
-        public final int CIVILIZATION_FOOD_GENERATED = 8000;
+        public final int CIVILIZATION_IRON_GENERATED = 10000;
+        public final int CIVILIZATION_WOOD_GENERATED = 10000;
+        public final int CIVILIZATION_FOOD_GENERATED = 10000;
         public final int CIVILIZATION_IRON_GENERATED_PER_SMITHY = (int) (0.5*CIVILIZATION_IRON_GENERATED);
         public final int CIVILIZATION_WOOD_GENERATED_PER_CARPENTRY = (int) (0.5*CIVILIZATION_WOOD_GENERATED);
         public final int CIVILIZATION_FOOD_GENERATED_PER_FARM = (int) (0.5*CIVILIZATION_FOOD_GENERATED);
-        public final int CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER = 10;
+        public final int CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER = 10000;
         // TECHNOLOGY COST
         public final int UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST = 2000;
         public final int UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST = 2000;
@@ -83,6 +83,8 @@ public interface Variables {
         public final int FOOD_COST_CHURCH = 5000;
         public final int WOOD_COST_CHURCH = 10000;
         public final int IRON_COST_CHURCH = 12000;
+        ////////AÑADIDO
+        public final int MANA_COST_CHURCH = 1000;
         public final int FOOD_COST_MAGICTOWER = 5000;
         public final int WOOD_COST_MAGICTOWER = 10000;
         public final int IRON_COST_MAGICTOWER = 12000;
