@@ -4,11 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.TimerTask;
 
 public class GameWindow extends JFrame {
     private JLabel timerLabel;
     private JTextField maderaTextField, comidaTextField, hierroTextField, manaTextField;
     private int seconds = 0;
+    private CivilizationDAO civilizationDAO; // Agregar instancia de CivilizationDAO
+
 
     public GameWindow() {
         setTitle("Civilizations");
@@ -16,6 +19,9 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+
+        civilizationDAO = new CivilizationDAO(); // Inicializar CivilizationDAO
+
 
         // Panel de la imagen o video
         JPanel mediaPanel = new JPanel() {
@@ -44,6 +50,9 @@ public class GameWindow extends JFrame {
         JLabel manaLabel = new JLabel("Mana:");
 
         maderaTextField = new JTextField(10);
+        int wood_amount = civilizationDAO.getWood(1);
+        maderaTextField.setText(String.valueOf(wood_amount));
+
         maderaTextField.setEditable(false);
         comidaTextField = new JTextField(10);
         comidaTextField.setEditable(false);
