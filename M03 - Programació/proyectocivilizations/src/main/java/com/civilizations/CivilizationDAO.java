@@ -1,22 +1,11 @@
 package com.civilizations;
 
 public class CivilizationDAO {
-
-    public void addUser(String name) {
-        // Obtain the AppData instance
+    public static void addUser(String name) {
+        String sql = "INSERT INTO civilization_stats (civilization_id, name, wood_amount, iron_amount, food_amount, mana_amount, magictower_counter, church_counter, farm_counter, smithy_counter, carpentry_counter, technology_defense_level, technology_attack_level, battles_counter) " +
+                     "VALUES (civilization_seq.nextval, '" + name + "', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
         AppData db = AppData.getInstance();
-
-        // Check if the AppData instance is not null
-        if (db != null) {
-            // Construct the SQL statement
-            String sql = "INSERT INTO CIVILIZATION_STATS (NAME, WOOD_AMOUNT, IRON_AMOUNT, FOOD_AMOUNT, MANA_AMOUNT, MAGICTOWER_COUNTER, CHURCH_COUNTER, FARM_COUNTER, SMITHY_COUNTER, CARPENTRY_COUNTER, TECHNOLOGY_DEFENSE_LEVEL, TECHNOLOGY_ATTACK_LEVEL, BATTLES_COUNTER) " +
-                    "VALUES ('" + name + "', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
-
-            // Call the update method of the AppData instance to execute the SQL statement
-            db.update(sql);
-        } else {
-            // Print an error message if the AppData instance is null
-            System.out.println("Failed to obtain AppData instance.");
-        }
+        db.update(sql);
     }
 }
+    

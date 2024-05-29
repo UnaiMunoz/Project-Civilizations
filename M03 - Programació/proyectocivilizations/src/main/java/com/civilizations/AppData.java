@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AppData {
+class AppData {
     private static AppData instance;
     private Connection conn;
 
     private AppData() {
-        // Connect when creating the first instance
+        // Connecta al crear la primera instància
         connect();
     }
 
@@ -26,43 +26,50 @@ public class AppData {
     private void connect() {
         String url = "jdbc:oracle:thin:@localhost:1521/xe";
         String user = "system";
-        String password = "david"; // Replace "david" with your actual password
+        String password = "david"; 
         try {
+            // Load Oracle JDBC Driver
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(url, user, password);
             conn.setAutoCommit(false); // Disable autocommit to allow manual transaction control
-        } catch (SQLException e) {
+            System.out.println("Database connection established.");
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Error connecting to database: " + e.getMessage());
         }
     }
-
     public void close() {
         try {
             if (conn != null) conn.close();
         } catch (SQLException e) {
-            System.out.println("Error closing database connection: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     public void update(String sql) {
         try (Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
-            conn.commit(); // Commit the changes
+            conn.commit(); // Confirma els canvis
         } catch (SQLException e) {
-            System.out.println("Error executing update: " + e.getMessage());
+            System.out.println(e.getMessage());
             try {
-                conn.rollback(); // Rollback the transaction in case of error
+                conn.rollback(); // Reverteix els canvis en cas d'error
             } catch (SQLException ex) {
-                System.out.println("Error during rollback: " + ex.getMessage());
+                System.out.println("Error en fer rollback.");
+                ex.printStackTrace();
             }
         }
     }
 
+    
+    
+
     public int insertAndGetId(String sql) {
         int generatedId = -1;
         try (Statement stmt = conn.createStatement()) {
+            // Execute the update
             stmt.executeUpdate(sql);
-            conn.commit(); // Commit the transaction if autocommit is disabled
-
+            conn.commit();  // Make sure to commit the transaction if auto-commit is disabled
+    
             // Query the last inserted row ID
             try (ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()")) {
                 if (rs.next()) {
@@ -70,19 +77,23 @@ public class AppData {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error executing insertAndGetId: " + e.getMessage());
+            System.out.println(e.getMessage());
             try {
                 conn.rollback(); // Rollback the transaction in case of error
             } catch (SQLException ex) {
-                System.out.println("Error during rollback: " + ex.getMessage());
+                System.out.println("Error during rollback.");
+                ex.printStackTrace();
             }
         }
         return generatedId;
     }
-
+    
+    // Aquesta funció transforma el ResultSet en un Map<String, Object>
+    // per fer l'accés a la informació més genèric
     public List<Map<String, Object>> query(String sql) {
         List<Map<String, Object>> resultList = new ArrayList<>();
 
+        // try-with-resources tancarà el ResultSet quan acabi el bloc
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             ResultSetMetaData metaData = rs.getMetaData();
@@ -96,8 +107,25 @@ public class AppData {
                 resultList.add(row);
             }
         } catch (SQLException e) {
-            System.out.println("Error executing query: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
         return resultList;
     }
-}
+    public void updateWithBlob(String query, byte[] blobData) {
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setBytes(1, blobData);
+            pstmt.executeUpdate();
+            conn.commit(); // Commit the changes
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            try {
+                conn.rollback(); // Rollback changes in case of error
+            } catch (SQLException ex) {
+                System.out.println("Error in rollback.");
+                ex.printStackTrace();
+            }
+        }
+    }
+    }
+    
+
