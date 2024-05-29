@@ -2,21 +2,51 @@ package com.civilizations;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Map;
 
 public class GameWindow extends JFrame {
+
     private JLabel timerLabel;
     private JTextField maderaTextField, comidaTextField, hierroTextField, manaTextField;
     private int seconds = 0;
 
+    // Constructor para nueva partida
     public GameWindow() {
+        this(null); // Llama al otro constructor con null
+    }
+
+    // Constructor para cargar partida
+    public GameWindow(List<Map<String, Object>> gameData) {
         setTitle("Civilizations");
         setSize(900, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
+        int madera = 0, comida = 0, hierro = 0, mana = 0;
+        if (gameData != null && !gameData.isEmpty()) {
+            if (gameData != null && !gameData.isEmpty()) {
+                Map<String, Object> gameState = gameData.get(0);
+                
+                // Check if the gameState contains the required keys before accessing them
+                if (gameState.containsKey("wood_amount")) {
+                    madera = (Integer) gameState.get("wood_amount");
+                }
+                if (gameState.containsKey("food_amount")) {
+                    comida = (Integer) gameState.get("food_amount");
+                }
+                if (gameState.containsKey("iron_amount")) {
+                    hierro = (Integer) gameState.get("iron_amount");
+                }
+                if (gameState.containsKey("mana_amount")) {
+                    mana = (Integer) gameState.get("mana_amount");
+                }
+            }
+            
+            // Rest of your code remains unchanged
+        }
+        
         // Panel de la imagen o video
         JPanel mediaPanel = new JPanel() {
             @Override
@@ -45,18 +75,26 @@ public class GameWindow extends JFrame {
 
         maderaTextField = new JTextField(10);
         maderaTextField.setEditable(false);
+        maderaTextField.setText(String.valueOf(madera));
+
         comidaTextField = new JTextField(10);
         comidaTextField.setEditable(false);
+        comidaTextField.setText(String.valueOf(comida));
+
         hierroTextField = new JTextField(10);
         hierroTextField.setEditable(false);
+        hierroTextField.setText(String.valueOf(hierro));
+
         manaTextField = new JTextField(10);
         manaTextField.setEditable(false);
+        manaTextField.setText(String.valueOf(mana));
 
         JButton construccionesButton = new JButton("Buildings");
         JButton ejercitoButton = new JButton("Armies");
         JButton nextAttackButton = new JButton("Next Attack");
         JButton battleReportButton = new JButton("Battle Report");
         JButton statsButton = new JButton("Civilization Stats");
+        JButton salirButton = new JButton("Exit");
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -84,59 +122,45 @@ public class GameWindow extends JFrame {
         gbc.gridwidth = 2;
         infoPanel.add(Box.createVerticalStrut(20), gbc);
 
-        // ActionListener para el botón "Buildings"
-        construccionesButton.addActionListener(e -> {
-            Buildings buildingsWindow = new Buildings();
-        });
+        construccionesButton.addActionListener(e -> new Buildings());
         gbc.gridy = 5;
         gbc.gridwidth = 2;
         infoPanel.add(construccionesButton, gbc);
 
-        // ActionListener para el botón "Armies"
-        ejercitoButton.addActionListener(e -> {
-            Armies armiesWindow = new Armies();
-        });
+        ejercitoButton.addActionListener(e -> new Armies());
         gbc.gridy = 6;
         gbc.gridwidth = 2;
         infoPanel.add(ejercitoButton, gbc);
 
-        // ActionListener para el botón "Next Attack"
-        nextAttackButton.addActionListener(e -> {
-            // Aquí abre la ventana o ejecuta el código relacionado con "Next Attack"
-            NextAttack nextAttackWindow = new NextAttack();
-        });
+        nextAttackButton.addActionListener(e -> new NextAttack());
         gbc.gridy = 7;
         gbc.gridwidth = 2;
         infoPanel.add(nextAttackButton, gbc);
 
-        // ActionListener para el botón "Battle Report"
-        battleReportButton.addActionListener(e -> {
-            // Aquí abre la ventana o ejecuta el código relacionado con "Battle Report"
-            BattleReport battleReportWindow = new BattleReport();
-        });
+        battleReportButton.addActionListener(e -> new BattleReport());
         gbc.gridy = 8;
         gbc.gridwidth = 2;
         infoPanel.add(battleReportButton, gbc);
 
-        statsButton.addActionListener(e -> {
-            // Aquí abre la ventana o ejecuta el código relacionado con "Battle Report"
-            StatsCivilization statsCivilization = new StatsCivilization();
-        });
+        statsButton.addActionListener(e -> new StatsCivilization());
         gbc.gridy = 9;
         gbc.gridwidth = 2;
         infoPanel.add(statsButton, gbc);
-
-        // Temporizador
+        
         timerLabel = new JLabel("Tiempo: 00:00");
         gbc.gridy = 10;
         gbc.gridwidth = 2;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
         infoPanel.add(timerLabel, gbc);
+        
+        salirButton.addActionListener(e -> dispose());
+        gbc.gridy = 11;
+        gbc.gridwidth = 2;
+        infoPanel.add(salirButton, gbc);
 
         add(infoPanel, BorderLayout.EAST);
 
-        // Iniciar el temporizador
         Timer timer = new Timer(1000, e -> {
             seconds++;
             int minutes = seconds / 60;
@@ -150,6 +174,6 @@ public class GameWindow extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(GameWindow::new);
+        SwingUtilities.invokeLater(() -> new GameWindow(null).setVisible(true));
     }
 }

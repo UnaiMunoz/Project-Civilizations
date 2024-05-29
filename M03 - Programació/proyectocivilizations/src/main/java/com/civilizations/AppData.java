@@ -60,7 +60,26 @@ class AppData {
         }
     }
 
-    
+    public void SaveGame(String sql, List<Object> values) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            // Setear los valores en la consulta preparada
+            for (int i = 0; i < values.size(); i++) {
+                pstmt.setObject(i + 1, values.get(i));
+            }
+            pstmt.executeUpdate();
+            conn.commit(); // Confirmar los cambios
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            try {
+                conn.rollback(); // Revertir los cambios en caso de error
+            } catch (SQLException ex) {
+                System.out.println("Error en hacer rollback.");
+                ex.printStackTrace();
+            }
+        }
+    }
+
+
     
 
     public int insertAndGetId(String sql) {

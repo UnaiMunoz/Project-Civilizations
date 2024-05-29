@@ -68,7 +68,23 @@ public class NewGameWindow extends JFrame {
             }
         });
 
-        
+        // Crear y añadir el botón de cargar partida
+        JButton loadButton = new JButton("Load Game");
+        loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(loadButton);
+
+        // Añadir ActionListener al botón "Load Game"
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Cerrar la ventana actual
+                SwingUtilities.invokeLater(() -> {
+                    LoadGameWindow loadGameWindow = new LoadGameWindow();
+                    loadGameWindow.setVisible(true);
+                });
+            }
+        });
         
         // Añadir el panel a la ventana
         add(panel);
