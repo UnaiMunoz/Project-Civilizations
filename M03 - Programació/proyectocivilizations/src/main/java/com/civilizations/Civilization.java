@@ -2,6 +2,7 @@ package com.civilizations;
 import java.util.ArrayList;
 
 public class Civilization implements Variables {
+
     int technologyDefense;
     int technologyAttack;
     int wood;
@@ -18,7 +19,7 @@ public class Civilization implements Variables {
 
     // Constructor
     public Civilization(int technologyDefense, int technologyAttack, int wood, int iron, int food, int mana, int magicTower, int church, int farm, int smithy, int carpentry, int battles) {
-        this.technologyDefense = 0;
+          this.technologyDefense = 0;
         this.technologyAttack = 0;
         this.wood = 0;
         this.iron = 0;
