@@ -550,8 +550,6 @@ private TimerTask taskAttack = new TimerTask() {
     // Battle reports method
     public void reportesDeBatalla() {
         limpiarPantalla();
-        System.out.println("Mostrando Reportes de Batalla...");
-        // Implement logic to show battle reports
     }
     
 
