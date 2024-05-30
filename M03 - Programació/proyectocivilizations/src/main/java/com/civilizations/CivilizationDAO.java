@@ -14,6 +14,13 @@ package com.civilizations;
                 return null;
             }
         }
+
+    public static void viewGame(){
+        String sql = "SELECT * from civilization_stats";
+        AppData db = AppData.getInstance();
+        db.query(sql);
+    }
+
     public static void addWood(int Wood){
         String sql = "UPDATE civilization_stats " +
             "SET wood_amount = wood_amount + " + Wood;         

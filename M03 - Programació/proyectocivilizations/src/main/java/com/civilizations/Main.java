@@ -166,7 +166,6 @@ private TimerTask taskAttack = new TimerTask() {
                     }
                 }
     
-                // Check if the army is not empty
                 for (ArrayList<MilitaryUnit> units : enemyArmy) {
                     if (!units.isEmpty()) {
                         armyCreated = true;
@@ -174,7 +173,6 @@ private TimerTask taskAttack = new TimerTask() {
                     }
                 }
     
-                // If the army is still empty, or resource limits are exceeded, reinitialize
                 if (!armyCreated || !isWithinResourceLimits()) {
                     initializeEnemyArmy();
                 }
@@ -550,9 +548,11 @@ private TimerTask taskAttack = new TimerTask() {
     // Battle reports method
     public void reportesDeBatalla() {
         limpiarPantalla();
+        Battle battle = new Battle(civilizationArmy,enemyArmy);
         System.out.println("Mostrando Reportes de Batalla...");
-        // Implement logic to show battle reports
+        battle.getBattleReport(1);
     }
+
     
 
     // Main method
@@ -564,8 +564,9 @@ private TimerTask taskAttack = new TimerTask() {
 
         // Start attack timer with a delay of 5 minutes and a period of 3 minutes
         mainInstance.startTimerAttack(30000, 60000);
+        boolean continuarEjecucion = true;
 
-        while (true) {
+        while (continuarEjecucion) {
             mainInstance.mainMenu();
             System.out.print("\nSelecciona una opción: ");
             int opcion = scanner.nextInt();
@@ -600,7 +601,9 @@ private TimerTask taskAttack = new TimerTask() {
                     break;    
                 case 8:
                     System.out.println("Game Over");
+                    continuarEjecucion = false; // Establecer continuarEjecucion como falso para salir del bucle
                     scanner.close();
+                    System.exit(0); // Salir del programa
                     break;
                 default:
                     System.out.println("Opción no válida. Inténtalo de nuevo.");

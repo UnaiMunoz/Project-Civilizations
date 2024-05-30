@@ -50,10 +50,38 @@ public class NewGameWindow extends JFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText(); // Obtener el texto del campo de texto
+                
+                if (!username.isEmpty()) { // Verificar si el campo de texto no está vacío
+                    CivilizationDAO civilizationDAO = new CivilizationDAO(); // Crear una instancia de CivilizationDAO
+                    civilizationDAO.addUser(username); // Llamar al método addUser con el nombre de usuario obtenido
+                    
+                    dispose(); // Cerrar la ventana actual
+                    SwingUtilities.invokeLater(() -> {
+                        GameWindow gameWindow = new GameWindow();
+                        gameWindow.setVisible(true);
+                    });
+                } else {
+                    // Mostrar un mensaje de error si el campo de texto está vacío
+                    JOptionPane.showMessageDialog(NewGameWindow.this, "Please enter a username", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        // Crear y añadir el botón de cargar partida
+        JButton loadButton = new JButton("Load Game");
+        loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(loadButton);
+
+        // Añadir ActionListener al botón "Load Game"
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 dispose(); // Cerrar la ventana actual
                 SwingUtilities.invokeLater(() -> {
-                    GameWindow gameWindow = new GameWindow();
-                    gameWindow.setVisible(true);
+                    LoadGameWindow loadGameWindow = new LoadGameWindow();
+                    loadGameWindow.setVisible(true);
                 });
             }
         });
