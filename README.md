@@ -15,7 +15,7 @@ Bienvenido a "Civilizations", un juego de estrategia donde tomarás el rol de un
 # Instrucciones de Ejecución
 
 1. Clona este repositorio en tu máquina local.
-2. Configura la base de datos Oracle SQL Developer según las instrucciones proporcionadas en la sección de Funcionamiento / Instalación.
+2. Configura la base de datos Oracle SQL Developer añadiendo las tablas que hay en la carpeta de M02 Base de Datos.
 3. Abre el proyecto en tu IDE preferido.
 4. Cambia los datos en el archivo AppData.java según tus credenciales y configuración de la base de datos.
 5. Compila y ejecuta el proyecto para iniciar el juego.
