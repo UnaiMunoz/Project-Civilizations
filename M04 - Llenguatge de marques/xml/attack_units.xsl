@@ -5,20 +5,22 @@
         <html>
             <head>
                 <title>Attack Units</title>
-                <script src="shadowpartial.js"></script>
                 <link rel="stylesheet" href="css/all.css"/>
+                <xsl:text disable-output-escaping="yes">
+                    &lt;script src="shadowPartial.js"&gt;&lt;/script&gt;
+                </xsl:text>
             </head>
             <body>
-                <div class="sticky">
-                    <shadow-partial data-html="menu2.part.html" data-css="menu2.part.css"></shadow-partial>
-                </div> <br/>
+                <xsl:text disable-output-escaping="yes">
+                    &lt;shadow-partial data-html="menu.part.html" data-css="menu.part.css"&gt;&lt;/shadow-partial&gt;
+                </xsl:text>
                 <h1>Attack Units</h1>
-                <div class="container">
+                <div class='container'>
                     <xsl:for-each select="attack_units/unit">
-                        <div class="unit">
+                        <div class='unit'>
                             <h2><xsl:value-of select="name"/></h2>
-                            <div class="foto">
-                                <img src="{sprite}" alt="Unit image"></img>
+                            <div class='foto'>
+                                <img src="{sprite}" alt="unit image"></img>
                             </div>
                             <p>Base Damage: <xsl:value-of select="base_damage"/></p>
                             <p>Armor: <xsl:value-of select="armour"/></p>
@@ -43,6 +45,12 @@
                         </div>
                     </xsl:for-each>
                 </div>
+                
+
+                <!-- Añadimos el segundo elemento shadow-partial al final del body -->
+                <xsl:text disable-output-escaping="yes">
+                    &lt;shadow-partial data-html="footer.part.html" data-css="footer.part.css"&gt;&lt;/shadow-partial&gt;
+                </xsl:text>
             </body>
         </html>
     </xsl:template>

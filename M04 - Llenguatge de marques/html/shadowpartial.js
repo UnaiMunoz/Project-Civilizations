@@ -1,32 +1,31 @@
 class shadowPartial extends HTMLElement {
     
-    constructor () {
-        super()
-        this.shadow = this.attachShadow({ mode: 'open' })
+    constructor() {
+        super();
+        this.shadow = this.attachShadow({ mode: 'open' });
     }
 
     static get observedAttributes() { return []; }
 
     attributeChangedCallback(name, oldValue, newValue) { }
 
-    connectedCallback () {
+    connectedCallback() {
+        this.elmStyle = document.createElement("style");
+        this.shadow.appendChild(this.elmStyle);
 
-        this.elmStyle = document.createElement("style")
-        this.shadow.appendChild(this.elmStyle)
+        this.elmRoot = document.createElement("div");
+        this.elmRoot.className = "root";
+        this.shadow.appendChild(this.elmRoot);
 
-        this.elmRoot = document.createElement("div")
-        this.elmRoot.className = "root"
-        this.shadow.appendChild(this.elmRoot)
-
-        this.elmStyle.textContent = ""
-        this.elmRoot.innerHTML = "menu"
+        this.elmStyle.textContent = "";
+        this.elmRoot.innerHTML = "abc";
 
         this.load();
     }
 
-    async load () {
-        this.elmStyle.textContent = await (await fetch(this.getAttribute("data-css"))).text()
-        this.elmRoot.innerHTML = await (await fetch(this.getAttribute("data-html"))).text()
+    async load() {
+        this.elmStyle.textContent = await (await fetch(this.getAttribute("data-css"))).text();
+        this.elmRoot.innerHTML = await (await fetch(this.getAttribute("data-html"))).text();
     }
 }
 
