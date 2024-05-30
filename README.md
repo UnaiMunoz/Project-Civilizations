@@ -14,11 +14,11 @@ Para poder ejecutar nuesto juego Civilizations necesitaremos una base de datos e
 
 # Características Destacadas:
 
-Gestión de Recursos: Administra sabiamente tus recursos, como alimentos, hierro, madera o mana, para mantener el crecimiento y la prosperidad de tu civilización.
+Gestión de Recursos: En Civilizations, la gestión inteligente de recursos es esencial para el éxito de tu civilización. Desde alimentos hasta madero, hierro y hasta mana, cada recurso desempeña un papel vital en el crecimiento y la prosperidad de tu pueblo. Asegúrate de administrar sabiamente tus recursos para mantener el equilibrio y garantizar el progreso continuo de tu civilización. ¡El futuro de tu pueblo depende de tu capacidad para gestionar estos recursos con astucia y sabiduría!
 
-Construcción de Edificios: Desde granjas y herrerias hasta torres de magos y iglesias, construye una variedad de edificios para mejorar tus recursos y asi el nivel de tu civilización.
+Construcción de Edificios: Desde granjas y herrerías hasta torres de magos e iglesias, en Civilizations podrás construir una amplia variedad de edificios para impulsar el crecimiento y la prosperidad de tu civilización. Estos edificios no solo proporcionan recursos vitales como alimentos y materiales, sino que también mejoran diversos aspectos de tu civilización, como bien puede ser la tecnologia de defensa y ataque ¡Construye sabiamente para elevar el nivel de tu civilización y asegurar su lugar en la historia!
 
-Entrenamiento de Unidades: Recluta y entrena a diversas unidades militares, desde soldados básicos como espadachines hasta poderosos guerreros como magos, para defender tu territorio y conquistar nuevas tierras.
+Entrenamiento de Unidades: Enfrenta los desafíos del mundo antiguo reclutando y entrenando una variedad de unidades militares en Civilizations. Desde soldados básicos como espadachines hasta poderosos guerreros como magos, cada unidad tiene estadísticas únicas y contribuye de manera única a tu ejército. ¡El destino de tu civilización está en tus manos!
 
 # Desarolladores
 - David Bargados -> https://github.com/Barg0s
