@@ -12,6 +12,14 @@ Para poder ejecutar nuesto juego Civilizations necesitaremos una base de datos e
   <img src="https://github.com/UnaiMunoz/Project-Civilizations/assets/152631520/f8e30ae0-3ff7-4880-b997-4ed1e46be9fb" alt="AppData" />
 </p>
 
+# Características Destacadas:
+
+Gestión de Recursos: Administra sabiamente tus recursos, como alimentos, hierro, madera o mana, para mantener el crecimiento y la prosperidad de tu civilización.
+
+Construcción de Edificios: Desde granjas y herrerias hasta torres de magos y iglesias, construye una variedad de edificios para mejorar tus recursos y asi el nivel de tu civilización.
+
+Entrenamiento de Unidades: Recluta y entrena a diversas unidades militares, desde soldados básicos como espadachines hasta poderosos guerreros como magos, para defender tu territorio y conquistar nuevas tierras.
+
 # Desarolladores
 - David Bargados -> https://github.com/Barg0s
 - Unai Muñoz -> https://github.com/UnaiMunoz
