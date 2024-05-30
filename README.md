@@ -11,3 +11,8 @@ Para poder ejecutar nuesto juego Civilizations necesitaremos una base de datos e
 <p align="center">
   <img src="https://github.com/UnaiMunoz/Project-Civilizations/assets/152631520/f8e30ae0-3ff7-4880-b997-4ed1e46be9fb" alt="AppData" />
 </p>
+
+# Desarolladores
+- David Bargados -> https://github.com/Barg0s
+- Unai Muñoz -> https://github.com/UnaiMunoz
+- Denis Fernandez -> https://github.com/DenisFV05
