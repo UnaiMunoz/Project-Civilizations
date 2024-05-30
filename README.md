@@ -18,7 +18,7 @@ Bienvenido a "Civilizations", un juego de estrategia donde tomarás el rol de un
 2. Configura la base de datos Oracle SQL Developer añadiendo las tablas que hay en la carpeta de M02 Base de Datos.
 3. Abre el proyecto en tu IDE preferido.
 4. Cambia los datos en el archivo AppData.java según tus credenciales y configuración de la base de datos.
-5. Compila y ejecuta el proyecto para iniciar el juego.
+5. Compila y ejecuta el proyecto para iniciar el juego des de el archivo Main.java.
 
 <p align="center">
   <img src="https://github.com/UnaiMunoz/Project-Civilizations/assets/152631520/f8e30ae0-3ff7-4880-b997-4ed1e46be9fb" alt="AppData" />
