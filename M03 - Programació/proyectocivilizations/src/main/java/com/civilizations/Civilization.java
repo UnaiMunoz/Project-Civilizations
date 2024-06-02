@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class Civilization implements Variables {
 
     int technologyDefense;
+    String name;
     int technologyAttack;
     int wood;
     int iron;
@@ -15,31 +16,44 @@ public class Civilization implements Variables {
     int smithy;
     int carpentry;
     int battles;
+    int civilization_id; // New field for civilization ID
     ArrayList<MilitaryUnit>[] army;
 
     // Constructor
-    public Civilization(int technologyDefense, int technologyAttack, int wood, int iron, int food, int mana, int magicTower, int church, int farm, int smithy, int carpentry, int battles) {
-          this.technologyDefense = 0;
-        this.technologyAttack = 0;
-        this.wood = 0;
-        this.iron = 0;
-        this.food = 0;
-        this.mana = 0;
-        this.magicTower = 0;
-        this.church = 0;
-        this.farm = 0;
-        this.smithy = 0;
-        this.carpentry = 0;
-        this.battles = 0;
-
+    public Civilization(int civilization_id,String name, int technologyDefense, int technologyAttack, int wood, int iron, int food, int mana, int magicTower, int church, int farm, int smithy, int carpentry, int battles) {
+        this.civilization_id = civilization_id; // Initialize the new field
+        this.name = name;
+        this.technologyDefense = technologyDefense;
+        this.technologyAttack = technologyAttack;
+        this.wood = wood;
+        this.iron = iron;
+        this.food = food;
+        this.mana = mana;
+        this.magicTower = magicTower;
+        this.church = church;
+        this.farm = farm;
+        this.smithy = smithy;
+        this.carpentry = carpentry;
+        this.battles = battles;
         this.army = new ArrayList[9]; // Utilizamos un array de ArrayList<MilitaryUnit>
         for (int i = 0; i < 9; i++) {
             this.army[i] = new ArrayList<MilitaryUnit>(); // Inicializamos cada ArrayList
         }
     }
-    
+    public Civilization(){};
+   
 
     // Getters and Setters
+
+    public int getCivilization_id() {
+        return this.civilization_id;
+    }
+
+    
+    public String getName() {
+        return this.name;
+    }
+
     public int getTechnologyDefense() {
         return this.technologyDefense;
     }

@@ -11,7 +11,7 @@ class AppData {
     private Connection conn;
 
     private AppData() {
-        // Connecta al crear la primera instància
+        // Conectar al crear la primera instancia
         connect();
     }
 
@@ -37,60 +37,70 @@ class AppData {
             System.out.println("Error connecting to database: " + e.getMessage());
         }
     }
+
+    public Connection getConnection() {
+        try {
+            if (conn == null || conn.isClosed()) {
+                connect();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking database connection: " + e.getMessage());
+        }
+        return conn;
+    }
+
     public void close() {
         try {
-            if (conn != null) conn.close();
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+            }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error closing connection: " + e.getMessage());
         }
     }
 
     public void update(String sql) {
-        try (Statement stmt = conn.createStatement()) {
+        try (Statement stmt = getConnection().createStatement()) {
             stmt.executeUpdate(sql);
-            conn.commit(); // Confirma els canvis
+            conn.commit(); // Confirm changes
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             try {
-                conn.rollback(); // Reverteix els canvis en cas d'error
+                getConnection().rollback(); // Rollback changes in case of error
             } catch (SQLException ex) {
-                System.out.println("Error en fer rollback.");
+                System.out.println("Error during rollback.");
                 ex.printStackTrace();
             }
         }
     }
 
-    public void SaveGame(String sql, List<Object> values) {
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            // Setear los valores en la consulta preparada
+    public void saveGame(String sql, List<Object> values) {
+        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
+            // Set values in prepared statement
             for (int i = 0; i < values.size(); i++) {
                 pstmt.setObject(i + 1, values.get(i));
             }
             pstmt.executeUpdate();
-            conn.commit(); // Confirmar los cambios
+            conn.commit(); // Confirm changes
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             try {
-                conn.rollback(); // Revertir los cambios en caso de error
+                getConnection().rollback(); // Rollback changes in case of error
             } catch (SQLException ex) {
-                System.out.println("Error en hacer rollback.");
+                System.out.println("Error during rollback.");
                 ex.printStackTrace();
             }
         }
     }
 
-
-    
-
     public int insertAndGetId(String sql) {
         int generatedId = -1;
-        try (Statement stmt = conn.createStatement()) {
-            // Execute the update
+        try (Statement stmt = getConnection().createStatement()) {
             stmt.executeUpdate(sql);
-            conn.commit();  // Make sure to commit the transaction if auto-commit is disabled
-    
+            conn.commit();  // Confirm changes if auto-commit is disabled
+
             // Query the last inserted row ID
-            try (ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()")) {
+            try (ResultSet rs = stmt.executeQuery("SELECT civilization_seq.currval FROM dual")) {
                 if (rs.next()) {
                     generatedId = rs.getInt(1); // Retrieve the last inserted ID
                 }
@@ -98,7 +108,7 @@ class AppData {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             try {
-                conn.rollback(); // Rollback the transaction in case of error
+                getConnection().rollback(); // Rollback changes in case of error
             } catch (SQLException ex) {
                 System.out.println("Error during rollback.");
                 ex.printStackTrace();
@@ -106,14 +116,11 @@ class AppData {
         }
         return generatedId;
     }
-    
-    // Aquesta funció transforma el ResultSet en un Map<String, Object>
-    // per fer l'accés a la informació més genèric
+
     public List<Map<String, Object>> query(String sql) {
         List<Map<String, Object>> resultList = new ArrayList<>();
 
-        // try-with-resources tancarà el ResultSet quan acabi el bloc
-        try (Statement stmt = conn.createStatement();
+        try (Statement stmt = getConnection().createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
@@ -130,21 +137,20 @@ class AppData {
         }
         return resultList;
     }
+
     public void updateWithBlob(String query, byte[] blobData) {
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (PreparedStatement pstmt = getConnection().prepareStatement(query)) {
             pstmt.setBytes(1, blobData);
             pstmt.executeUpdate();
-            conn.commit(); // Commit the changes
+            conn.commit(); // Confirm changes
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             try {
-                conn.rollback(); // Rollback changes in case of error
+                getConnection().rollback(); // Rollback changes in case of error
             } catch (SQLException ex) {
-                System.out.println("Error in rollback.");
+                System.out.println("Error during rollback.");
                 ex.printStackTrace();
             }
         }
     }
-    }
-    
-
+}

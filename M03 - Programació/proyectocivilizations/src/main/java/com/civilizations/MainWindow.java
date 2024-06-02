@@ -41,29 +41,29 @@ public class MainWindow extends JFrame {
         panel.add(titulo);
 
         // Crear botones personalizados y añadirlos al panel
-        JButton boton1 = new JButton("New Game");
-        JButton boton2 = new JButton("Load Game");
-        JButton boton3 = new JButton("Exit");
+        JButton NewGameButton = new JButton("New Game");
+        JButton LoadGameButton = new JButton("Load Game");
+        JButton ExitButton = new JButton("Exit");
 
-        boton1.setBounds(50, 150, 130, 50);
-        boton2.setBounds(50, 220, 130, 50);
-        boton3.setBounds(50, 290, 130, 50);
+        NewGameButton.setBounds(50, 150, 130, 50);
+        LoadGameButton.setBounds(50, 220, 130, 50);
+        ExitButton.setBounds(50, 290, 130, 50);
 
         // Establecer estilo para los botones
-        boton1.setForeground(Color.BLACK);
-        boton1.setFont(new Font("Garamond", Font.BOLD, 16));
+        NewGameButton.setForeground(Color.BLACK);
+        NewGameButton.setFont(new Font("Garamond", Font.BOLD, 16));
 
-        boton2.setForeground(Color.BLACK);
-        boton2.setFont(new Font("Garamond", Font.BOLD, 16));
+        LoadGameButton.setForeground(Color.BLACK);
+        LoadGameButton.setFont(new Font("Garamond", Font.BOLD, 16));
 
-        boton3.setForeground(Color.BLACK);
-        boton3.setFont(new Font("Garamond", Font.BOLD, 16));
+        ExitButton.setForeground(Color.BLACK);
+        ExitButton.setFont(new Font("Garamond", Font.BOLD, 16));
 
         // Agregar ActionListener al botón "New Game"
-        boton1.addActionListener(new ActionListener() {
+        NewGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Cerrar la ventana actual
+                dispose();
                 SwingUtilities.invokeLater(() -> {
                     NewGameWindow newGameWindow = new NewGameWindow();
                     newGameWindow.setVisible(true);
@@ -71,25 +71,38 @@ public class MainWindow extends JFrame {
             }
         });
 
+
+        LoadGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                SwingUtilities.invokeLater(() -> {
+                    LoadGameWindow loadGameWindow = new LoadGameWindow();
+                    loadGameWindow.setVisible(true);
+                });
+            }
+        });
+
         // Agregar ActionListener al botón "Exit"
-        boton3.addActionListener(new ActionListener() {
+        ExitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
 
-        panel.add(boton1);
-        panel.add(boton2);
-        panel.add(boton3);
+        panel.add(NewGameButton);
+        panel.add(LoadGameButton);
+        panel.add(ExitButton);
 
         // Añadir el panel al JFrame
         add(panel);
     }
 
     public static void main(String[] args) {
-        // Crear y mostrar la ventana
-        MainWindow ventana = new MainWindow();
-        ventana.setVisible(true);
+        SwingUtilities.invokeLater(() -> {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.setVisible(true);
+        });
     }
 }

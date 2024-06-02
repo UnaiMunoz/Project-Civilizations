@@ -7,6 +7,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Main implements Variables {
+    CivilizationDAO civilizationDAO = new CivilizationDAO();
+
     public ArrayList<MilitaryUnit>[] enemyArmy;
     private Civilization civilization;
     private Timer timer;
@@ -14,16 +16,24 @@ public class Main implements Variables {
     private boolean enemyApproaching;
     private boolean enemyArmyCreated;
     public ArrayList<MilitaryUnit>[] civilizationArmy;
-    public Main() {
-        civilization = new Civilization(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+    public Main(int civilizationId) {
+        civilization = CivilizationDAO.CurrentGame(civilizationId); // Corrección aquí
         timer = new Timer();
         enemyApproaching = false;
         enemyArmyCreated = false;
         initializeEnemyArmy();
         civilizationArmy = new ArrayList[8]; // Assuming there are 8 types of military units
         for (int i = 0; i < civilizationArmy.length; i++) {
-            civilizationArmy[i] = new ArrayList<>();}
+            civilizationArmy[i] = new ArrayList<>();
+        }
     }
+
+    public static int obtenerIdDePartidaPorNombre(String nombrePartida) {
+        CivilizationDAO civilizationDAO = new CivilizationDAO();
+        return civilizationDAO.getCivilizationIdByName(nombrePartida);
+    }
+
 
     // Initialize enemyArmy array
     private void initializeEnemyArmy() {
@@ -31,6 +41,8 @@ public class Main implements Variables {
     for (int i = 0; i < enemyArmy.length; i++) {
         enemyArmy[i] = new ArrayList<>(); // Inicializamos cada lista de unidades
     }
+
+    
 
     // Agregamos unidades predefinidas
     addUnitToEnemyArmy(new Swordsman(), 20); // Agrega 20 espaderos
@@ -556,9 +568,23 @@ private TimerTask taskAttack = new TimerTask() {
     
 
     // Main method
+    
     public static void main(String[] args) {
-        Main mainInstance = new Main();
+        CivilizationDAO civilizationDAO = new CivilizationDAO();
         Scanner scanner = new Scanner(System.in);
+        
+        // Obtener el nombre de la civilización
+        Civilization civilization = new Civilization();
+        String civilizationName = civilization.getName(); // Obtener el nombre
+        
+        // Obtener el objeto de Civilización actual utilizando CivilizationDAO
+        Civilization currentCivilization = civilizationDAO.CurrentGame(obtenerIdDePartidaPorNombre(civilizationName));
+            
+        // Obtener la ID de la partida del objeto de Civilización
+        int civilizationId = currentCivilization.getCivilization_id();
+        
+        // Crear una instancia de Main con la ID de la partida obtenida
+        Main mainInstance = new Main(civilizationId);
         mainInstance.limpiarPantalla();
         mainInstance.startTimerResources(0, 30000); // Generate resources every 30 seconds
 
@@ -567,6 +593,7 @@ private TimerTask taskAttack = new TimerTask() {
         boolean continuarEjecucion = true;
 
         while (continuarEjecucion) {
+
             mainInstance.mainMenu();
             System.out.print("\nSelecciona una opción: ");
             int opcion = scanner.nextInt();
