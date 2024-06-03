@@ -23,7 +23,7 @@ public class Buildings extends JFrame {
         titleLabel.setFont(new Font("Garamond", Font.BOLD, 36));  // Puedes ajustar el tamaño y la fuente
 
         // Crear los botones superiores con imágenes redimensionadas y textos
-        JButton carpentryButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/carpentry.png", "Carpentry", 180, 140);
+        JButton CarpentryButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/carpentry.png", "Carpentry", 180, 140);
         JButton FarmButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/farm.png", "Farm", 180, 140);
         JButton SmithyButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/smithy.png", "Smithy", 180, 140);
 
@@ -31,7 +31,7 @@ public class Buildings extends JFrame {
         JButton ChurchButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/church.png", "Church", 180, 140);
         JButton MagicTowerButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/magictower.png", "Magic Tower", 180, 140);
 
-        carpentryButton.setFocusable(false);
+        CarpentryButton.setFocusable(false);
         FarmButton.setFocusable(false);
         SmithyButton.setFocusable(false);
         ChurchButton.setFocusable(false);
@@ -40,7 +40,7 @@ public class Buildings extends JFrame {
         // Crear un contenedor para los botones superiores
         JPanel topButtonPanel = new JPanel();
         topButtonPanel.setLayout(new BoxLayout(topButtonPanel, BoxLayout.X_AXIS)); // Establecer el layout horizontal
-        topButtonPanel.add(carpentryButton);
+        topButtonPanel.add(CarpentryButton);
         topButtonPanel.add(Box.createHorizontalStrut(40)); // Espacio entre el primer y segundo botón
         topButtonPanel.add(FarmButton);
         topButtonPanel.add(Box.createHorizontalStrut(40)); // Espacio entre el segundo y tercer botón
@@ -93,7 +93,53 @@ public class Buildings extends JFrame {
                 buildingsDAO.setMagictowerCounter(Buildings.this.civilizationId);
                 gameWindow.UpdateFields();  // Actualiza los campos en GameWindow
             }
-        });        
+        });  
+        
+        ChurchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("ChurchButton ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Buildings.this.civilizationId); // Verificar civilizationId aquí
+                BuildingsDAO buildingsDAO = new BuildingsDAO();
+                buildingsDAO.setChurchCounter(Buildings.this.civilizationId);
+                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow
+            }
+        });
+        
+        FarmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("FarmButton ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Buildings.this.civilizationId); // Verificar civilizationId aquí
+                BuildingsDAO buildingsDAO = new BuildingsDAO();
+                buildingsDAO.setFarmCounter(Buildings.this.civilizationId);
+                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow
+            }
+        });
+        
+        SmithyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("SmithyButton ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Buildings.this.civilizationId); // Verificar civilizationId aquí
+                BuildingsDAO buildingsDAO = new BuildingsDAO();
+                buildingsDAO.setSmithyCounter(Buildings.this.civilizationId);
+                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow
+            }
+        });
+        
+        CarpentryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("CarpentryButton ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Buildings.this.civilizationId); // Verificar civilizationId aquí
+                BuildingsDAO buildingsDAO = new BuildingsDAO();
+                buildingsDAO.setCarpentryCounter(Buildings.this.civilizationId);
+                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow
+            }
+        });
+        
+
     }
 
     // Método para crear botón con imagen redimensionada y tamaño preferido
