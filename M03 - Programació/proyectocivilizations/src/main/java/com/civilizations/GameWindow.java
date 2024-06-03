@@ -15,12 +15,15 @@ public class GameWindow extends JFrame implements Variables {
     private JTextField maderaTextField, comidaTextField, hierroTextField, manaTextField;
     private int seconds = 0;
     private int civilizationId;
+    private String username;
 
     // Constructor para nueva partida
     public GameWindow(String username) {
+        this.username = username;
         CivilizationDAO civilizationDAO = new CivilizationDAO();
         civilizationId = civilizationDAO.getCivilizationIdByName(username);
         initGUI(0, 0, 0, 0);  // Inicializa la GUI con valores iniciales
+        System.out.println("ID: " + civilizationId);
     }
 
     // Constructor para cargar partida
@@ -51,7 +54,7 @@ public class GameWindow extends JFrame implements Variables {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-    
+
         // Panel de la imagen o video
         JPanel mediaPanel = new JPanel() {
             @Override
@@ -66,41 +69,41 @@ public class GameWindow extends JFrame implements Variables {
         };
         mediaPanel.setPreferredSize(new Dimension(600, 500));
         add(mediaPanel, BorderLayout.CENTER);
-    
+
         // Panel de la columna de información
         JPanel infoPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 5, 5, 5);
-    
+
         JLabel maderaLabel = new JLabel("Wood:");
         JLabel comidaLabel = new JLabel("Food:");
         JLabel hierroLabel = new JLabel("Iron:");
         JLabel manaLabel = new JLabel("Mana:");
-    
+
         maderaTextField = new JTextField(10);
         maderaTextField.setEditable(false);
         maderaTextField.setText(String.valueOf(madera));
-    
+
         comidaTextField = new JTextField(10);
         comidaTextField.setEditable(false);
         comidaTextField.setText(String.valueOf(comida));
-    
+
         hierroTextField = new JTextField(10);
         hierroTextField.setEditable(false);
         hierroTextField.setText(String.valueOf(hierro));
-    
+
         manaTextField = new JTextField(10);
         manaTextField.setEditable(false);
         manaTextField.setText(String.valueOf(mana));
-    
+
         JButton construccionesButton = new JButton("Buildings");
         JButton ejercitoButton = new JButton("Armies");
         JButton nextAttackButton = new JButton("Next Attack");
         JButton battleReportButton = new JButton("Battle Report");
         JButton statsButton = new JButton("Civilization Stats");
         JButton salirButton = new JButton("Exit");
-    
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         infoPanel.add(maderaLabel, gbc);
@@ -121,51 +124,51 @@ public class GameWindow extends JFrame implements Variables {
         infoPanel.add(manaLabel, gbc);
         gbc.gridx = 1;
         infoPanel.add(manaTextField, gbc);
-    
+
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
         infoPanel.add(Box.createVerticalStrut(20), gbc);
-    
-        construccionesButton.addActionListener(e -> new Buildings());
+
+        construccionesButton.addActionListener(e -> new Buildings(username, civilizationId, this));
         gbc.gridy = 5;
         gbc.gridwidth = 2;
         infoPanel.add(construccionesButton, gbc);
-    
+
         ejercitoButton.addActionListener(e -> new Armies());
         gbc.gridy = 6;
         gbc.gridwidth = 2;
         infoPanel.add(ejercitoButton, gbc);
-    
+
         nextAttackButton.addActionListener(e -> new NextAttack());
         gbc.gridy = 7;
         gbc.gridwidth = 2;
         infoPanel.add(nextAttackButton, gbc);
-    
+
         battleReportButton.addActionListener(e -> new BattleReport());
         gbc.gridy = 8;
         gbc.gridwidth = 2;
         infoPanel.add(battleReportButton, gbc);
-    
+
         statsButton.addActionListener(e -> new StatsCivilization());
         gbc.gridy = 9;
         gbc.gridwidth = 2;
         infoPanel.add(statsButton, gbc);
-    
+
         timerLabel = new JLabel("Tiempo: 00:00");
         gbc.gridy = 10;
         gbc.gridwidth = 2;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
         infoPanel.add(timerLabel, gbc);
-    
+
         salirButton.addActionListener(e -> dispose());
         gbc.gridy = 11;
         gbc.gridwidth = 2;
         infoPanel.add(salirButton, gbc);
-    
+
         add(infoPanel, BorderLayout.EAST);
-    
+
         // Iniciar el temporizador del reloj
         javax.swing.Timer timer = new javax.swing.Timer(1000, new ActionListener() {
             @Override
@@ -178,27 +181,33 @@ public class GameWindow extends JFrame implements Variables {
             }
         });
         timer.start();
-    
+
         // Crear un objeto TimerTask para actualizar la cantidad de madera cada 30 segundos
         TimerTask woodTimer = new TimerTask() {
             @Override
             public void run() {
                 CivilizationDAO civilizationDAO = new CivilizationDAO();
                 civilizationDAO.UpdateAmounts(civilizationId);
-                maderaTextField.setText(String.valueOf(civilizationDAO.getWood(civilizationId)));
-                comidaTextField.setText(String.valueOf(civilizationDAO.getFood(civilizationId)));
-                hierroTextField.setText(String.valueOf(civilizationDAO.getIron(civilizationId)));
-                manaTextField.setText(String.valueOf(civilizationDAO.getMana(civilizationId)));
+                UpdateFields();
             }
         };
-    
+
         // Crear un objeto Timer
         Timer woodUpdateTimer = new Timer();
-    
+
         // Programar el TimerTask para que se ejecute cada 30 segundos
         woodUpdateTimer.scheduleAtFixedRate(woodTimer, 0, 30000);
-    
+
         // Mostrar la ventana
         setVisible(true);
+    }
+
+    // Método para actualizar los campos de recursos
+    public void UpdateFields() {
+        CivilizationDAO civilizationDAO = new CivilizationDAO();
+        maderaTextField.setText(String.valueOf(civilizationDAO.getWood(civilizationId)));
+        comidaTextField.setText(String.valueOf(civilizationDAO.getFood(civilizationId)));
+        hierroTextField.setText(String.valueOf(civilizationDAO.getIron(civilizationId)));
+        manaTextField.setText(String.valueOf(civilizationDAO.getMana(civilizationId)));
     }
 }

@@ -8,14 +8,14 @@ import java.awt.event.ActionListener;
 public class Buildings extends JFrame {
 
     private int civilizationId;
+    private GameWindow gameWindow;
 
     // Constructor para nueva partida
-    public Buildings(String username) {
-        CivilizationDAO civilizationDAO = new CivilizationDAO();
-        civilizationId = civilizationDAO.getCivilizationIdByName(username);
-    }
+    public Buildings(String username, int civilizationId, GameWindow gameWindow) {
+        this.civilizationId = civilizationId; // Asignar el civilizationId aquí
+        this.gameWindow = gameWindow; // Asignar la referencia de GameWindow
+        System.out.println("ID de buildings: " + this.civilizationId);
 
-    public Buildings() {
         setTitle("Buildings");
 
         // Crear el título
@@ -29,13 +29,13 @@ public class Buildings extends JFrame {
 
         // Crear los botones inferiores con imágenes redimensionadas y textos
         JButton ChurchButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/church.png", "Church", 180, 140);
-        JButton MaigcTowerButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/magictower.png", "Magic Tower", 180, 140);
+        JButton MagicTowerButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/magictower.png", "Magic Tower", 180, 140);
 
         carpentryButton.setFocusable(false);
         FarmButton.setFocusable(false);
         SmithyButton.setFocusable(false);
         ChurchButton.setFocusable(false);
-        MaigcTowerButton.setFocusable(false);
+        MagicTowerButton.setFocusable(false);
 
         // Crear un contenedor para los botones superiores
         JPanel topButtonPanel = new JPanel();
@@ -51,7 +51,7 @@ public class Buildings extends JFrame {
         JPanel bottomButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         bottomButtonPanel.add(ChurchButton);
         bottomButtonPanel.add(Box.createHorizontalStrut(40)); // Espacio entre los botones inferior
-        bottomButtonPanel.add(MaigcTowerButton);
+        bottomButtonPanel.add(MagicTowerButton);
         bottomButtonPanel.setOpaque(false);  // Hacer el panel transparente para mostrar la imagen de fondo
 
         // Crear un contenedor principal con BoxLayout
@@ -82,6 +82,18 @@ public class Buildings extends JFrame {
         setLocationRelativeTo(null);  // Centrar la ventana en la pantalla
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
+        
+        // ActionListener para MagicTowerButton
+        MagicTowerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("MagicTowerButton ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Buildings.this.civilizationId); // Verificar civilizationId aquí
+                BuildingsDAO buildingsDAO = new BuildingsDAO();
+                buildingsDAO.setMagictowerCounter(Buildings.this.civilizationId);
+                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow
+            }
+        });        
     }
 
     // Método para crear botón con imagen redimensionada y tamaño preferido
@@ -111,6 +123,6 @@ public class Buildings extends JFrame {
 
     public static void main(String[] args) {
         // Crear una instancia de Buildings
-        SwingUtilities.invokeLater(Buildings::new);
+        SwingUtilities.invokeLater(() -> new GameWindow("testUser"));
     }
 }
