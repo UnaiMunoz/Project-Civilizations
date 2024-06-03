@@ -1,20 +1,27 @@
 package com.civilizations;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
 public class MainWindow extends JFrame {
+
+    private MainWindowController controller;
+
     public MainWindow() {
         // Configurar la ventana
         setTitle("Civilizations");
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        // Inicializar el controlador
+        controller = new MainWindowController();
+
+        // Reproducir la música de fondo
+        controller.playBackgroundMusic("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\BGM\\AmomentPeace.mp3");
 
         // Crear un JPanel personalizado para dibujar la imagen de fondo
         JPanel panel = new JPanel() {
@@ -23,7 +30,7 @@ public class MainWindow extends JFrame {
                 super.paintComponent(g);
                 try {
                     // Cargar la imagen de fondo
-                    Image backgroundImage = ImageIO.read(new File("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\civilizations.jpg"));
+                    Image backgroundImage = ImageIO.read(new File("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/civilizations.jpg"));
                     // Dibujar la imagen de fondo
                     g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
                 } catch (IOException e) {
@@ -41,59 +48,32 @@ public class MainWindow extends JFrame {
         panel.add(titulo);
 
         // Crear botones personalizados y añadirlos al panel
-        JButton NewGameButton = new JButton("New Game");
-        JButton LoadGameButton = new JButton("Load Game");
-        JButton ExitButton = new JButton("Exit");
+        JButton newGameButton = new JButton("New Game");
+        JButton loadGameButton = new JButton("Load Game");
+        JButton exitButton = new JButton("Exit");
 
-        NewGameButton.setBounds(50, 150, 130, 50);
-        LoadGameButton.setBounds(50, 220, 130, 50);
-        ExitButton.setBounds(50, 290, 130, 50);
+        newGameButton.setBounds(50, 150, 130, 50);
+        loadGameButton.setBounds(50, 220, 130, 50);
+        exitButton.setBounds(50, 290, 130, 50);
 
         // Establecer estilo para los botones
-        NewGameButton.setForeground(Color.BLACK);
-        NewGameButton.setFont(new Font("Garamond", Font.BOLD, 16));
+        newGameButton.setForeground(Color.BLACK);
+        newGameButton.setFont(new Font("Garamond", Font.BOLD, 16));
 
-        LoadGameButton.setForeground(Color.BLACK);
-        LoadGameButton.setFont(new Font("Garamond", Font.BOLD, 16));
+        loadGameButton.setForeground(Color.BLACK);
+        loadGameButton.setFont(new Font("Garamond", Font.BOLD, 16));
 
-        ExitButton.setForeground(Color.BLACK);
-        ExitButton.setFont(new Font("Garamond", Font.BOLD, 16));
+        exitButton.setForeground(Color.BLACK);
+        exitButton.setFont(new Font("Garamond", Font.BOLD, 16));
 
-        // Agregar ActionListener al botón "New Game"
-        NewGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                SwingUtilities.invokeLater(() -> {
-                    NewGameWindow newGameWindow = new NewGameWindow();
-                    newGameWindow.setVisible(true);
-                });
-            }
-        });
+        // Agregar ActionListener a los botones
+        newGameButton.addActionListener(e -> controller.startNewGame(this));
+        loadGameButton.addActionListener(e -> controller.loadGame(this));
+        exitButton.addActionListener(e -> controller.exitApplication());
 
-
-        LoadGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                SwingUtilities.invokeLater(() -> {
-                    LoadGameWindow loadGameWindow = new LoadGameWindow();
-                    loadGameWindow.setVisible(true);
-                });
-            }
-        });
-
-        // Agregar ActionListener al botón "Exit"
-        ExitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
-
-        panel.add(NewGameButton);
-        panel.add(LoadGameButton);
-        panel.add(ExitButton);
+        panel.add(newGameButton);
+        panel.add(loadGameButton);
+        panel.add(exitButton);
 
         // Añadir el panel al JFrame
         add(panel);

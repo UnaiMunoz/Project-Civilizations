@@ -183,7 +183,12 @@ public class GameWindow extends JFrame implements Variables {
         TimerTask woodTimer = new TimerTask() {
             @Override
             public void run() {
-                UpdateAmounts(civilizationId);
+                CivilizationDAO civilizationDAO = new CivilizationDAO();
+                civilizationDAO.UpdateAmounts(civilizationId);
+                maderaTextField.setText(String.valueOf(civilizationDAO.getWood(civilizationId)));
+                comidaTextField.setText(String.valueOf(civilizationDAO.getFood(civilizationId)));
+                hierroTextField.setText(String.valueOf(civilizationDAO.getIron(civilizationId)));
+                manaTextField.setText(String.valueOf(civilizationDAO.getMana(civilizationId)));
             }
         };
     
@@ -196,22 +201,4 @@ public class GameWindow extends JFrame implements Variables {
         // Mostrar la ventana
         setVisible(true);
     }
-    
-
-    private void UpdateAmounts(int civilizationId) {
-        CivilizationDAO civilizationDAO = new CivilizationDAO();
-
-    
-        int foodAmount = civilizationDAO.getFood(civilizationId);
-        int woodAmount = civilizationDAO.getWood(civilizationId);
-        int ironAmount = civilizationDAO.getIron(civilizationId);
-        int manaAmount = civilizationDAO.getMana(civilizationId);
-        
-        civilizationDAO.updateResources(foodAmount + CIVILIZATION_FOOD_GENERATED, woodAmount + CIVILIZATION_WOOD_GENERATED, ironAmount + CIVILIZATION_IRON_GENERATED, manaAmount + 0, civilizationId); // Añade 3000 a la madera directamente en la base de datos    
-        // Mostrar el valor actualizado de la madera en el campo de texto
-        maderaTextField.setText(String.valueOf(civilizationDAO.getWood(civilizationId)));
-        comidaTextField.setText(String.valueOf(civilizationDAO.getFood(civilizationId)));
-        hierroTextField.setText(String.valueOf(civilizationDAO.getIron(civilizationId)));
-        manaTextField.setText(String.valueOf(civilizationDAO.getMana(civilizationId)));
-    } 
 }

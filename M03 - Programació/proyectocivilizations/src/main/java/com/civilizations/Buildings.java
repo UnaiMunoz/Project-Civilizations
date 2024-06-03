@@ -14,35 +14,35 @@ public class Buildings extends JFrame {
         titleLabel.setFont(new Font("Garamond", Font.BOLD, 36));  // Puedes ajustar el tamaño y la fuente
 
         // Crear los botones superiores con imágenes redimensionadas y textos
-        JButton button1 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/carpentry.png", "Carpentry", 180, 140);
-        JButton button2 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/farm.png", "Farm", 180, 140);
-        JButton button3 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/smithy.png", "Smithy", 180, 140);
+        JButton carpentryButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/carpentry.png", "Carpentry", 180, 140);
+        JButton FarmButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/farm.png", "Farm", 180, 140);
+        JButton SmithyButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/smithy.png", "Smithy", 180, 140);
 
         // Crear los botones inferiores con imágenes redimensionadas y textos
-        JButton button4 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/church.png", "Church", 180, 140);
-        JButton button5 = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/magictower.png", "Magic Tower", 180, 140);
+        JButton ChurchButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/church.png", "Church", 180, 140);
+        JButton MaigcTowerButton = createButton("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/magictower.png", "Magic Tower", 180, 140);
 
-        button1.setFocusable(false);
-        button2.setFocusable(false);
-        button3.setFocusable(false);
-        button4.setFocusable(false);
-        button5.setFocusable(false);
+        carpentryButton.setFocusable(false);
+        FarmButton.setFocusable(false);
+        SmithyButton.setFocusable(false);
+        ChurchButton.setFocusable(false);
+        MaigcTowerButton.setFocusable(false);
 
         // Crear un contenedor para los botones superiores
         JPanel topButtonPanel = new JPanel();
         topButtonPanel.setLayout(new BoxLayout(topButtonPanel, BoxLayout.X_AXIS)); // Establecer el layout horizontal
-        topButtonPanel.add(button1);
+        topButtonPanel.add(carpentryButton);
         topButtonPanel.add(Box.createHorizontalStrut(40)); // Espacio entre el primer y segundo botón
-        topButtonPanel.add(button2);
+        topButtonPanel.add(FarmButton);
         topButtonPanel.add(Box.createHorizontalStrut(40)); // Espacio entre el segundo y tercer botón
-        topButtonPanel.add(button3);
+        topButtonPanel.add(SmithyButton);
         topButtonPanel.setOpaque(false);  // Hacer el panel transparente para mostrar la imagen de fondo
 
         // Crear un contenedor para los botones inferiores con FlowLayout centrado
         JPanel bottomButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        bottomButtonPanel.add(button4);
+        bottomButtonPanel.add(ChurchButton);
         bottomButtonPanel.add(Box.createHorizontalStrut(40)); // Espacio entre los botones inferior
-        bottomButtonPanel.add(button5);
+        bottomButtonPanel.add(MaigcTowerButton);
         bottomButtonPanel.setOpaque(false);  // Hacer el panel transparente para mostrar la imagen de fondo
 
         // Crear un contenedor principal con BoxLayout

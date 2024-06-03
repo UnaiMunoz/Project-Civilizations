@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.Map;
 
-public class CivilizationDAO {
+public class CivilizationDAO implements Variables {
 
     // Método para agregar un nuevo usuario y devolver el objeto Civilization con los valores de la base de datos
     public static Civilization addUser(String name) {
@@ -132,7 +132,17 @@ public class CivilizationDAO {
         }
     }
     
-    
+    public void UpdateAmounts(int civilizationId) {
+   
+        int foodAmount = getFood(civilizationId);
+        int woodAmount = getWood(civilizationId);
+        int ironAmount = getIron(civilizationId);
+        int manaAmount = getMana(civilizationId);
+        
+        updateResources(foodAmount + CIVILIZATION_FOOD_GENERATED, woodAmount + CIVILIZATION_WOOD_GENERATED, ironAmount + CIVILIZATION_IRON_GENERATED, manaAmount + 0, civilizationId); // Añade 3000 a la madera directamente en la base de datos    
+        // Mostrar el valor actualizado de la madera en el campo de texto
+
+    } 
     
     public int getFood(int id){
         String sql = "SELECT food_amount FROM civilization_stats WHERE civilization_id = ?";
