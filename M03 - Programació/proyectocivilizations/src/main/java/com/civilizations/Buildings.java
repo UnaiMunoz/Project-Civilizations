@@ -6,6 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Buildings extends JFrame {
+
+    private int civilizationId;
+
+    // Constructor para nueva partida
+    public Buildings(String username) {
+        CivilizationDAO civilizationDAO = new CivilizationDAO();
+        civilizationId = civilizationDAO.getCivilizationIdByName(username);
+    }
+
     public Buildings() {
         setTitle("Buildings");
 

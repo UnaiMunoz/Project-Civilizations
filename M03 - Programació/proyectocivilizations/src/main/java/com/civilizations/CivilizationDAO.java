@@ -110,7 +110,6 @@ public class CivilizationDAO implements Variables {
         return null;
     }
 
-
     public void updateResources(int food, int wood, int iron, int mana, int civilizationId) {
         // Asegúrate de que los valores no sean negativos antes de actualizar la base de datos
         if (food < 0) food = 0;
@@ -131,20 +130,28 @@ public class CivilizationDAO implements Variables {
             e.printStackTrace();
         }
     }
-    
+
     public void UpdateAmounts(int civilizationId) {
-   
+        BuildingsDAO buildingsDAO = new BuildingsDAO();
         int foodAmount = getFood(civilizationId);
         int woodAmount = getWood(civilizationId);
         int ironAmount = getIron(civilizationId);
         int manaAmount = getMana(civilizationId);
-        
-        updateResources(foodAmount + CIVILIZATION_FOOD_GENERATED, woodAmount + CIVILIZATION_WOOD_GENERATED, ironAmount + CIVILIZATION_IRON_GENERATED, manaAmount + 0, civilizationId); // Añade 3000 a la madera directamente en la base de datos    
-        // Mostrar el valor actualizado de la madera en el campo de texto
+        int magictowerCounter = buildingsDAO.getMagictowerCounter(civilizationId);
 
-    } 
-    
-    public int getFood(int id){
+        // SI MAGIC TOWER MAYOR A 1,COMIENZA A GENERAR
+        if (magictowerCounter >= 1) {
+            manaAmount += CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER;
+        }
+
+        updateResources(foodAmount + CIVILIZATION_FOOD_GENERATED, 
+                        woodAmount + CIVILIZATION_WOOD_GENERATED, 
+                        ironAmount + CIVILIZATION_IRON_GENERATED, 
+                        manaAmount, 
+                        civilizationId);
+    }
+
+    public int getFood(int id) {
         String sql = "SELECT food_amount FROM civilization_stats WHERE civilization_id = ?";
         try (Connection connection = AppData.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -159,7 +166,8 @@ public class CivilizationDAO implements Variables {
         }
         return 0;
     }
-    public int getWood(int id){
+
+    public int getWood(int id) {
         String sql = "SELECT wood_amount FROM civilization_stats WHERE civilization_id = ?";
         try (Connection connection = AppData.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -174,7 +182,8 @@ public class CivilizationDAO implements Variables {
         }
         return 0;
     }
-    public int getIron(int id){
+
+    public int getIron(int id) {
         String sql = "SELECT iron_amount FROM civilization_stats WHERE civilization_id = ?";
         try (Connection connection = AppData.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -189,7 +198,8 @@ public class CivilizationDAO implements Variables {
         }
         return 0;
     }
-    public int getMana(int id){
+
+    public int getMana(int id) {
         String sql = "SELECT mana_amount FROM civilization_stats WHERE civilization_id = ?";
         try (Connection connection = AppData.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -204,4 +214,5 @@ public class CivilizationDAO implements Variables {
         }
         return 0;
     }
-    }
+
+}
