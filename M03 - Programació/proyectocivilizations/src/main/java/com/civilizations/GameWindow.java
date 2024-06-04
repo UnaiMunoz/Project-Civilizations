@@ -138,7 +138,7 @@ public class GameWindow extends JFrame implements Variables {
         ejercitoButton.addActionListener(e -> new Armies(username, civilizationId, this));
         gbc.gridy = 6;
         gbc.gridwidth = 2;
-        infoPanel.add(ejercitoButton, gbc);
+        infoPanel.add(ejercitoButton, gbc);;
 
         nextAttackButton.addActionListener(e -> new NextAttack());
         gbc.gridy = 7;
@@ -183,7 +183,7 @@ public class GameWindow extends JFrame implements Variables {
         timer.start();
 
         // Crear un objeto TimerTask para actualizar la cantidad de madera cada 30 segundos
-        TimerTask woodTimer = new TimerTask() {
+        TimerTask ResourceTimer = new TimerTask() {
             @Override
             public void run() {
                 CivilizationDAO civilizationDAO = new CivilizationDAO();
@@ -193,10 +193,10 @@ public class GameWindow extends JFrame implements Variables {
         };
 
         // Crear un objeto Timer
-        Timer woodUpdateTimer = new Timer();
+        Timer ResourceUpdateTimer = new Timer();
 
         // Programar el TimerTask para que se ejecute cada 30 segundos
-        woodUpdateTimer.scheduleAtFixedRate(woodTimer, 0, 30000);
+        ResourceUpdateTimer.scheduleAtFixedRate(ResourceTimer, 0, 30000);
 
         // Mostrar la ventana
         setVisible(true);

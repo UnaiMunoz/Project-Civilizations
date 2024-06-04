@@ -138,18 +138,36 @@ public class CivilizationDAO implements Variables {
         int ironAmount = getIron(civilizationId);
         int manaAmount = getMana(civilizationId);
         int magictowerCounter = buildingsDAO.getMagictowerCounter(civilizationId);
-
-        // SI MAGIC TOWER MAYOR A 1,COMIENZA A GENERAR
+    
+        // Si hay al menos una torre mágica, genera maná adicional
         if (magictowerCounter >= 1) {
             manaAmount += CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER;
         }
-
+    
+        // Lógica de las granjas
+        int farmCounter = buildingsDAO.getFarmCounter(civilizationId);
+        if (farmCounter >= 1){
+            int additionalFood = farmCounter * CIVILIZATION_FOOD_GENERATED_PER_FARM;
+            foodAmount += additionalFood;
+        }
+        int smithyCounter = buildingsDAO.getSmithyCounter(civilizationId);
+        if (smithyCounter >= 1){
+            int additionalIron = smithyCounter * CIVILIZATION_IRON_GENERATED_PER_SMITHY;
+            ironAmount += additionalIron;
+        }
+        int WoodCounter = buildingsDAO.getCarpentryCounter(civilizationId);
+        if (WoodCounter >= 1){
+            int additionalWood = WoodCounter * CIVILIZATION_WOOD_GENERATED_PER_CARPENTRY;
+            woodAmount += additionalWood;
+        }   
+        // Actualiza todos los recursos de una vez
         updateResources(foodAmount + CIVILIZATION_FOOD_GENERATED, 
                         woodAmount + CIVILIZATION_WOOD_GENERATED, 
                         ironAmount + CIVILIZATION_IRON_GENERATED, 
                         manaAmount, 
                         civilizationId);
     }
+    
 
     public int getFood(int id) {
         String sql = "SELECT food_amount FROM civilization_stats WHERE civilization_id = ?";
