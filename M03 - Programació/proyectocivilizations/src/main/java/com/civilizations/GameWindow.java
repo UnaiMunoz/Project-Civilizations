@@ -135,7 +135,7 @@ public class GameWindow extends JFrame implements Variables {
         gbc.gridwidth = 2;
         infoPanel.add(construccionesButton, gbc);
 
-        ejercitoButton.addActionListener(e -> new Armies());
+        ejercitoButton.addActionListener(e -> new Armies(username, civilizationId, this));
         gbc.gridy = 6;
         gbc.gridwidth = 2;
         infoPanel.add(ejercitoButton, gbc);

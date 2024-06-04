@@ -2,9 +2,21 @@ package com.civilizations;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Armies extends JFrame {
-    public Armies() {
+
+    private int civilizationId;
+    private GameWindow gameWindow;
+
+
+    public Armies(String username, int civilizationId, GameWindow gameWindow) {
+
+        this.civilizationId = civilizationId; // Asignar el civilizationId aquí
+        this.gameWindow = gameWindow; // Asignar la referencia de GameWindow
+        System.out.println("ID de buildings: " + this.civilizationId);
+
         setTitle("Armies");
 
         // Crear el título
@@ -13,12 +25,92 @@ public class Armies extends JFrame {
 
         // Crear los botones con imágenes redimensionadas y textos
         JButton button1 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\swordsman2.jpg", "Swordsman", 100, 100);
+
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Swordsman ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId); // Verificar civilizationId aquí
+                CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
+                civilizationArmyDAO.setSwordsman(Armies.this.civilizationId); // Actualizado para llamar a setSwordsman en lugar de setSwordsMan
+                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow; actualizado el nombre del método a minúsculas
+            }
+        });
+            
+
+
         JButton button2 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\cannon.png", "Cannon", 100, 100);
+        button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Cannon ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
+                CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
+                civilizationArmyDAO.setCannon(Armies.this.civilizationId);
+                gameWindow.UpdateFields();
+            }
+        });
+
         JButton button3 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\spearman.png", "Spearman", 100, 100);
+        button3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Spearman ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
+                CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
+                civilizationArmyDAO.setSpearman(Armies.this.civilizationId);
+                gameWindow.UpdateFields();
+            }
+        });
+
         JButton button4 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\crossbow.png", "Crossbow", 100, 100);
+        button4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Crossbow ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
+                CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
+                civilizationArmyDAO.setCrossbow(Armies.this.civilizationId);
+                gameWindow.UpdateFields();
+            }
+        });
+
         JButton button5 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\catapult.png", "Catapult", 100, 100);
+        button5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Catapult ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
+                CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
+                civilizationArmyDAO.setCatapult(Armies.this.civilizationId);
+                gameWindow.UpdateFields();
+            }
+        });
+
         JButton button6 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\arrowtower.png", "Arrow Tower", 100, 100);
+        button6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Arrow Tower ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
+                CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
+                civilizationArmyDAO.setArrowTower(Armies.this.civilizationId);
+                gameWindow.UpdateFields();
+            }
+        });
+
         JButton button7 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\rockettower.png", "Rocket Tower", 100, 100);
+        button7.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Rocket Tower ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
+                CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
+                civilizationArmyDAO.setRocketLauncherTower(Armies.this.civilizationId);
+                gameWindow.UpdateFields();
+            }
+        });
+
         JButton button8 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\magician.png", "Magician", 100, 100);
         JButton button9 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\priest.png", "Priest", 100, 100);
 
@@ -86,7 +178,7 @@ public class Armies extends JFrame {
     }
 
     public static void main(String[] args) {
-        // Crear una instancia de Armies
-        SwingUtilities.invokeLater(Armies::new);
+        // Crear una instancia de Buildings
+        SwingUtilities.invokeLater(() -> new GameWindow("testUser"));
     }
 }
