@@ -1,59 +1,73 @@
 
-CREATE TABLE Civilization_stats (
-    civilization_id NUMBER(10) NOT NULL PRIMARY KEY,
+CREATE TABLE civilization_stats (
+    civilization_id NUMBER(10) NOT NULL,
     name VARCHAR2(20),
     wood_amount NUMBER(10),
     iron_amount NUMBER(10),
     food_amount NUMBER(10),
     mana_amount NUMBER(10),
-        
-    magicTower_counter NUMBER(10),  
+    magictower_counter NUMBER(10),
     church_counter NUMBER(10),
     farm_counter NUMBER(10),
     smithy_counter NUMBER(10),
     carpentry_counter NUMBER(10),
-        
     technology_defense_level NUMBER(10),
     technology_attack_level NUMBER(10),
-    battles_counter NUMBER(10)
+    battles_counter NUMBER(10),
+    CONSTRAINT pk_civilization_stats PRIMARY KEY (civilization_id)
 );
 
 CREATE SEQUENCE civilization_seq START WITH 1 INCREMENT BY 1;
 
-CREATE TABLE attack_unit_stats (
-    civilization_id NUMBER(10) NOT NULL,
-    unit_id NUMBER(10) NOT NULL,
-    type_unit VARCHAR2(10),
-    armor NUMBER(10),
-    base_damage NUMBER(10),
-    experience NUMBER(10),
-    sanctified BOOL DEFAULT FALSE,
-    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id),
-    CONSTRAINT pk_attack PRIMARY KEY (civilization_id, unit_id),
-    CONSTRAINT attack CHECK (type_unit IN ('swordman', 'spearman', 'crossbow', 'cannon'))
+CREATE TABLE ATTACK_UNITS_STATS (
+    CIVILIZATION_ID NUMBER(10, 0) NOT NULL,
+    UNIT_ID NUMBER(10) NOT NULL,
+    TYPE_UNIT VARCHAR2(10 BYTE),
+    ARMOR NUMBER(10, 0),
+    BASE_DAMAGE NUMBER(10, 0),
+    EXPERIENCE NUMBER(10, 0),
+    SANCTIFIED VARCHAR2(3 BYTE),
+    CONSTRAINT PK_CIVI_UNIT PRIMARY KEY (CIVILIZATION_ID, UNIT_ID),
+    CONSTRAINT FK_CIVI_STATS FOREIGN KEY (CIVILIZATION_ID) REFERENCES CIVILIZATION_STATS (CIVILIZATION_ID),
+    CONSTRAINT CHK_TYPE_UNIT CHECK (TYPE_UNIT IN ('Swordsman', 'Spearman', 'Crossbow', 'Cannon'))
+);  
+
+CREATE TABLE ENEMY_THREAD (
+    CIVILIZATION_ID NUMBER(10, 0) NOT NULL,
+    UNIT_ID NUMBER(10) NOT NULL,
+    TYPE_UNIT VARCHAR2(10 BYTE),
+    ARMOR NUMBER(10, 0),
+    BASE_DAMAGE NUMBER(10, 0),
+    EXPERIENCE NUMBER(10, 0),
+    CONSTRAINT PK_ENEMY_UNIT PRIMARY KEY (CIVILIZATION_ID, UNIT_ID),
+    CONSTRAINT FK_ENEMY_STATS FOREIGN KEY (CIVILIZATION_ID) REFERENCES CIVILIZATION_STATS (CIVILIZATION_ID),
+    CONSTRAINT CHK_ENEMY_TYPE_UNIT CHECK (TYPE_UNIT IN ('Swordsman', 'Spearman', 'Crossbow', 'Cannon'))
+); 
+
+CREATE SEQUENCE unit_id_seq START WITH 1 INCREMENT BY 1
+
+
+CREATE TABLE DEFENSE_UNITS_STATS (
+    CIVILIZATION_ID NUMBER(10, 0) NOT NULL,
+    UNIT_ID NUMBER(10) NOT NULL,
+    TYPE_UNIT VARCHAR2(20 BYTE),
+    ARMOR NUMBER(10, 0),
+    BASE_DAMAGE NUMBER(10, 0),
+    EXPERIENCE NUMBER(10, 0),
+    SANCTIFIED VARCHAR2(3 BYTE),
+    CONSTRAINT PK_PRIMARY_DEFENSE PRIMARY KEY (CIVILIZATION_ID, UNIT_ID),
+    CONSTRAINT CHK_TYPE_UNIT_DEFENSE CHECK (TYPE_UNIT IN ('ArrowTower', 'Catapult', 'RocketLauncherTower'))
 );
 
-CREATE TABLE defense_units_stats (
-    civilization_id NUMBER(10) NOT NULL,
-    unit_id NUMBER(10) NOT NULL,
-    type_unit VARCHAR2(10),
-    armor NUMBER(10),
-    base_damage NUMBER(10),
-    experience NUMBER(10),
-    sanctified BOOL DEFAULT FALSE,
-    FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id),
-    CONSTRAINT pk_defense PRIMARY KEY (civilization_id, unit_id),
-    CONSTRAINT defense CHECK (type_unit IN ('ArrowTower', 'Catapult', 'RocketLauncherTower'))
-);
 
-CREATE TABLE special_units_stats (
-    civilization_id NUMBER(10) NOT NULL,
-    unit_id NUMBER(10) NOT NULL,
-    type_unit VARCHAR2(10),
-    armor NUMBER(10),
-    base_damage NUMBER(10),
-    experience NUMBER(10),
+CREATE TABLE SPECIAL_UNITS_STATS (
+    CIVILIZATION_ID NUMBER(10, 0) NOT NULL,
+    UNIT_ID NUMBER(10) NOT NULL,
+    TYPE_UNIT VARCHAR2(10 BYTE),
+    ARMOR NUMBER(10, 0),
+    BASE_DAMAGE NUMBER(10, 0),
+    EXPERIENCE NUMBER(10, 0),
     FOREIGN KEY (civilization_id) REFERENCES Civilization_stats(civilization_id),
-    CONSTRAINT pk_special PRIMARY KEY (civilization_id, unit_id),
-    CONSTRAINT special CHECK (type_unit IN ('Magician', 'Priest'))
+    CONSTRAINT PK_PRIMARY_SPECIAL PRIMARY KEY (CIVILIZATION_ID, UNIT_ID),
+    CONSTRAINT CHK_TYPE_UNIT_SPECIAL CHECK (type_unit IN ('Magician', 'Priest'))
 );

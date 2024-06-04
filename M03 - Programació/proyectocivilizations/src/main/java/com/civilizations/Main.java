@@ -7,6 +7,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Main implements Variables {
+    CivilizationDAO civilizationDAO = new CivilizationDAO();
+
     public ArrayList<MilitaryUnit>[] enemyArmy;
     private Civilization civilization;
     private Timer timer;
@@ -14,23 +16,37 @@ public class Main implements Variables {
     private boolean enemyApproaching;
     private boolean enemyArmyCreated;
     public ArrayList<MilitaryUnit>[] civilizationArmy;
-    public Main() {
-        civilization = new Civilization(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+    public Main(int civilizationId) {
+        civilization = CivilizationDAO.CurrentGame(civilizationId); // Corrección aquí
         timer = new Timer();
         enemyApproaching = false;
         enemyArmyCreated = false;
         initializeEnemyArmy();
         civilizationArmy = new ArrayList[8]; // Assuming there are 8 types of military units
         for (int i = 0; i < civilizationArmy.length; i++) {
-            civilizationArmy[i] = new ArrayList<>();}
+            civilizationArmy[i] = new ArrayList<>();
+        }
     }
+
+    public static int obtenerIdDePartidaPorNombre(String nombrePartida) {
+        CivilizationDAO civilizationDAO = new CivilizationDAO();
+        return civilizationDAO.getCivilizationIdByName(nombrePartida);
+    }
+
 
     // Initialize enemyArmy array
     private void initializeEnemyArmy() {
-        enemyArmy = new ArrayList[4];
-        for (int i = 0; i < enemyArmy.length; i++) {
-            enemyArmy[i] = new ArrayList<>();
-        }
+        enemyArmy = new ArrayList[4]; // Creamos un array de listas para las unidades
+    for (int i = 0; i < enemyArmy.length; i++) {
+        enemyArmy[i] = new ArrayList<>(); // Inicializamos cada lista de unidades
+    }
+
+    
+
+    // Agregamos unidades predefinidas
+    addUnitToEnemyArmy(new Swordsman(), 20); // Agrega 20 espaderos
+    addUnitToEnemyArmy(new Spearman(), 10); // Agrega 10 ballesteros
     }
 
 // Timer task for attacking
@@ -47,7 +63,7 @@ private TimerTask taskAttack = new TimerTask() {
                 BattleMain battleMain = new BattleMain(civilizationArmy, enemyArmy);
                 battleMain.startBattle();
             }
-        }, 60000); // 60 segundos = 60000 milisegundos
+        }, 30000); // 60 segundos = 60000 milisegundos
     }
 };
 
@@ -162,7 +178,6 @@ private TimerTask taskAttack = new TimerTask() {
                     }
                 }
     
-                // Check if the army is not empty
                 for (ArrayList<MilitaryUnit> units : enemyArmy) {
                     if (!units.isEmpty()) {
                         armyCreated = true;
@@ -170,7 +185,6 @@ private TimerTask taskAttack = new TimerTask() {
                     }
                 }
     
-                // If the army is still empty, or resource limits are exceeded, reinitialize
                 if (!armyCreated || !isWithinResourceLimits()) {
                     initializeEnemyArmy();
                 }
@@ -546,22 +560,40 @@ private TimerTask taskAttack = new TimerTask() {
     // Battle reports method
     public void reportesDeBatalla() {
         limpiarPantalla();
+        Battle battle = new Battle(civilizationArmy,enemyArmy);
         System.out.println("Mostrando Reportes de Batalla...");
-        // Implement logic to show battle reports
+        battle.getBattleReport(1);
     }
+
     
 
     // Main method
+    
     public static void main(String[] args) {
-        Main mainInstance = new Main();
+        CivilizationDAO civilizationDAO = new CivilizationDAO();
         Scanner scanner = new Scanner(System.in);
+        
+        // Obtener el nombre de la civilización
+        Civilization civilization = new Civilization();
+        String civilizationName = civilization.getName(); // Obtener el nombre
+        
+        // Obtener el objeto de Civilización actual utilizando CivilizationDAO
+        Civilization currentCivilization = civilizationDAO.CurrentGame(obtenerIdDePartidaPorNombre(civilizationName));
+            
+        // Obtener la ID de la partida del objeto de Civilización
+        int civilizationId = currentCivilization.getCivilization_id();
+        
+        // Crear una instancia de Main con la ID de la partida obtenida
+        Main mainInstance = new Main(civilizationId);
         mainInstance.limpiarPantalla();
         mainInstance.startTimerResources(0, 30000); // Generate resources every 30 seconds
 
         // Start attack timer with a delay of 5 minutes and a period of 3 minutes
-        mainInstance.startTimerAttack(300000, 180000);
+        mainInstance.startTimerAttack(30000, 60000);
+        boolean continuarEjecucion = true;
 
-        while (true) {
+        while (continuarEjecucion) {
+
             mainInstance.mainMenu();
             System.out.print("\nSelecciona una opción: ");
             int opcion = scanner.nextInt();
@@ -574,24 +606,31 @@ private TimerTask taskAttack = new TimerTask() {
                     mainInstance.crearEdificios();
                     break;
                 case 3:
+                    mainInstance.limpiarPantalla();
                     mainInstance.mejorarTecnologias();
                     break;
                 case 4:
+                    mainInstance.limpiarPantalla();
                     mainInstance.reportesDeBatalla();
                     break;
                 case 5:
+                    mainInstance.limpiarPantalla();
                     mainInstance.setEnemyApproaching(true); // Set enemy approaching
                     mainInstance.viewThreat(); // Create enemy army
                     break;
                 case 6:
+                    mainInstance.limpiarPantalla();
                     mainInstance.mostrarRecursos();
                     break;
                 case 7:
+                    mainInstance.limpiarPantalla();
                     mainInstance.printCivilizationArmy();
-                break;    
+                    break;    
                 case 8:
                     System.out.println("Game Over");
+                    continuarEjecucion = false; // Establecer continuarEjecucion como falso para salir del bucle
                     scanner.close();
+                    System.exit(0); // Salir del programa
                     break;
                 default:
                     System.out.println("Opción no válida. Inténtalo de nuevo.");

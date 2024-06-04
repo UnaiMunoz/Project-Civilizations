@@ -8,13 +8,14 @@ public interface Variables {
         // percentage increase of resources available to create enemy fleet
         public final int ENEMY_FLEET_INCREASE = 6;
         // resources increment every minute
-        public final int CIVILIZATION_IRON_GENERATED = 10000;
-        public final int CIVILIZATION_WOOD_GENERATED = 10000;
-        public final int CIVILIZATION_FOOD_GENERATED = 10000;
-        public final int CIVILIZATION_IRON_GENERATED_PER_SMITHY = (int) (0.5*CIVILIZATION_IRON_GENERATED);
-        public final int CIVILIZATION_WOOD_GENERATED_PER_CARPENTRY = (int) (0.5*CIVILIZATION_WOOD_GENERATED);
-        public final int CIVILIZATION_FOOD_GENERATED_PER_FARM = (int) (0.5*CIVILIZATION_FOOD_GENERATED);
-        public final int CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER = 10000;
+        public final int CIVILIZATION_IRON_GENERATED = 20000;
+        public final int CIVILIZATION_WOOD_GENERATED = 20000;
+        public final int CIVILIZATION_FOOD_GENERATED = 20000;
+        public final int CIVILIZATION_IRON_GENERATED_PER_SMITHY = (int) (0.5 * CIVILIZATION_IRON_GENERATED);
+        public final int CIVILIZATION_WOOD_GENERATED_PER_CARPENTRY = (int) (0.5 * CIVILIZATION_WOOD_GENERATED);
+
+        public final int CIVILIZATION_FOOD_GENERATED_PER_FARM = (int) (0.5 * CIVILIZATION_FOOD_GENERATED);
+        public final int CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER = 20000;
         // TECHNOLOGY COST
         public final int UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST = 2000;
         public final int UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST = 2000;
@@ -72,7 +73,7 @@ public interface Variables {
         public final int[] FOOD_COST_UNITS = {FOOD_COST_SWORDSMAN,FOOD_COST_SPEARMAN,FOOD_COST_CROSSBOW,FOOD_COST_CANNON,FOOD_COST_ARROWTOWER,FOOD_COST_CATAPULT,FOOD_COST_ROCKETLAUNCHERTOWER,FOOD_COST_MAGICIAN,FOOD_COST_PRIEST};
             //Cost Buildings
         public final int FOOD_COST_FARM = 5000;
-        public final int WOOD_COST_FARM = 10000;
+        public final int WOOD_COST_FARM = 5000;
         public final int IRON_COST_FARM = 12000;
         public final int FOOD_COST_CARPENTRY = 5000;
         public final int WOOD_COST_CARPENTRY = 10000;

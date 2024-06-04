@@ -2,7 +2,9 @@ package com.civilizations;
 import java.util.ArrayList;
 
 public class Civilization implements Variables {
+
     int technologyDefense;
+    String name;
     int technologyAttack;
     int wood;
     int iron;
@@ -14,31 +16,44 @@ public class Civilization implements Variables {
     int smithy;
     int carpentry;
     int battles;
+    int civilization_id; // New field for civilization ID
     ArrayList<MilitaryUnit>[] army;
 
     // Constructor
-    public Civilization(int technologyDefense, int technologyAttack, int wood, int iron, int food, int mana, int magicTower, int church, int farm, int smithy, int carpentry, int battles) {
-        this.technologyDefense = 0;
-        this.technologyAttack = 0;
-        this.wood = 0;
-        this.iron = 0;
-        this.food = 0;
-        this.mana = 0;
-        this.magicTower = 0;
-        this.church = 0;
-        this.farm = 0;
-        this.smithy = 0;
-        this.carpentry = 0;
-        this.battles = 0;
-
+    public Civilization(int civilization_id,String name, int technologyDefense, int technologyAttack, int wood, int iron, int food, int mana, int magicTower, int church, int farm, int smithy, int carpentry, int battles) {
+        this.civilization_id = civilization_id; // Initialize the new field
+        this.name = name;
+        this.technologyDefense = technologyDefense;
+        this.technologyAttack = technologyAttack;
+        this.wood = wood;
+        this.iron = iron;
+        this.food = food;
+        this.mana = mana;
+        this.magicTower = magicTower;
+        this.church = church;
+        this.farm = farm;
+        this.smithy = smithy;
+        this.carpentry = carpentry;
+        this.battles = battles;
         this.army = new ArrayList[9]; // Utilizamos un array de ArrayList<MilitaryUnit>
         for (int i = 0; i < 9; i++) {
             this.army[i] = new ArrayList<MilitaryUnit>(); // Inicializamos cada ArrayList
         }
     }
-    
+    public Civilization(){};
+   
 
     // Getters and Setters
+
+    public int getCivilization_id() {
+        return this.civilization_id;
+    }
+
+    
+    public String getName() {
+        return this.name;
+    }
+
     public int getTechnologyDefense() {
         return this.technologyDefense;
     }
@@ -332,28 +347,24 @@ public class Civilization implements Variables {
     }
     
     public void newCrossbow(int n) throws ResourceException {
-        int foodCost = FOOD_COST_CROSSBOW * n;
         int woodCost = WOOD_COST_CROSSBOW * n;
         int ironCost = IRON_COST_CROSSBOW * n;
     
         // Verificar si se tienen suficientes recursos
-        if (food < foodCost || wood < woodCost || iron < ironCost) {
+        if (wood < woodCost || iron < ironCost) {
             throw new ResourceException("You dont have enough resources");
         } else {
             // Calcular el número máximo de crossbows que se pueden entrenar con los recursos disponibles
-            int maxCrossbowsFood = food / FOOD_COST_CROSSBOW;
             int maxCrossbowsWood = wood / WOOD_COST_CROSSBOW;
             int maxCrossbowsIron = iron / IRON_COST_CROSSBOW;
-            int maxCrossbows = Math.min(maxCrossbowsFood, Math.min(maxCrossbowsWood, maxCrossbowsIron));
+            int maxCrossbows = Math.min(maxCrossbowsWood, maxCrossbowsIron);
     
             // Entrenar la cantidad máxima posible de crossbows
             int trainedCrossbows = Math.min(n, maxCrossbows);
     
             // Reducir los recursos necesarios
-            int foodCostForTrained = FOOD_COST_CROSSBOW * trainedCrossbows;
             int woodCostForTrained = WOOD_COST_CROSSBOW * trainedCrossbows;
             int ironCostForTrained = IRON_COST_CROSSBOW * trainedCrossbows;
-            food -= foodCostForTrained;
             wood -= woodCostForTrained;
             iron -= ironCostForTrained;
     
@@ -369,28 +380,24 @@ public class Civilization implements Variables {
     // Implementa métodos similares para los otros tipos de unidades
     
     public void newCannon(int n) throws ResourceException {
-        int foodCost = FOOD_COST_CANNON * n;
         int woodCost = WOOD_COST_CANNON * n;
         int ironCost = IRON_COST_CANNON * n;
     
         // Verificar si se tienen suficientes recursos
-        if (food < foodCost || wood < woodCost || iron < ironCost) {
+        if (wood < woodCost || iron < ironCost) {
             throw new ResourceException("You don't have enough resources");
         } else {
             // Calcular el número máximo de cannons que se pueden entrenar con los recursos disponibles
-            int maxCannonsFood = food / FOOD_COST_CANNON;
             int maxCannonsWood = wood / WOOD_COST_CANNON;
             int maxCannonsIron = iron / IRON_COST_CANNON;
-            int maxCannons = Math.min(maxCannonsFood, Math.min(maxCannonsWood, maxCannonsIron));
+            int maxCannons = Math.min(maxCannonsWood, maxCannonsIron);
     
             // Entrenar la cantidad máxima posible de cannons
             int trainedCannons = Math.min(n, maxCannons);
     
             // Reducir los recursos necesarios
-            int foodCostForTrained = FOOD_COST_CANNON * trainedCannons;
             int woodCostForTrained = WOOD_COST_CANNON * trainedCannons;
             int ironCostForTrained = IRON_COST_CANNON * trainedCannons;
-            food -= foodCostForTrained;
             wood -= woodCostForTrained;
             iron -= ironCostForTrained;
     
@@ -403,26 +410,18 @@ public class Civilization implements Variables {
         }
     }
     public void newArrowTower(int n) throws ResourceException {
-        int foodCost = FOOD_COST_ARROWTOWER * n;
         int woodCost = WOOD_COST_ARROWTOWER * n;
-        int ironCost = IRON_COST_ARROWTOWER * n;
     
-        if (food < foodCost || wood < woodCost || iron < ironCost) {
+        if (wood < woodCost) {
             throw new ResourceException("You don't have enough resources");
         } else {
-            int maxArrowTowersFood = food / FOOD_COST_ARROWTOWER;
             int maxArrowTowersWood = wood / WOOD_COST_ARROWTOWER;
-            int maxArrowTowersIron = iron / IRON_COST_ARROWTOWER;
-            int maxArrowTowers = Math.min(maxArrowTowersFood, Math.min(maxArrowTowersWood, maxArrowTowersIron));
+            int maxArrowTowers = maxArrowTowersWood;
     
             int trainedArrowTowers = Math.min(n, maxArrowTowers);
     
-            int foodCostForTrained = FOOD_COST_ARROWTOWER * trainedArrowTowers;
             int woodCostForTrained = WOOD_COST_ARROWTOWER * trainedArrowTowers;
-            int ironCostForTrained = IRON_COST_ARROWTOWER * trainedArrowTowers;
-            food -= foodCostForTrained;
             wood -= woodCostForTrained;
-            iron -= ironCostForTrained;
     
             for (int i = 0; i < trainedArrowTowers; i++) {
                 army[4].add(new ArrowTower());
@@ -433,24 +432,20 @@ public class Civilization implements Variables {
     }
     
     public void newCatapult(int n) throws ResourceException {
-        int foodCost = FOOD_COST_CATAPULT * n;
         int woodCost = WOOD_COST_CATAPULT * n;
         int ironCost = IRON_COST_CATAPULT * n;
     
-        if (food < foodCost || wood < woodCost || iron < ironCost) {
+        if (wood < woodCost || iron < ironCost) {
             throw new ResourceException("You don't have enough resources");
         } else {
-            int maxCatapultsFood = food / FOOD_COST_CATAPULT;
             int maxCatapultsWood = wood / WOOD_COST_CATAPULT;
             int maxCatapultsIron = iron / IRON_COST_CATAPULT;
-            int maxCatapults = Math.min(maxCatapultsFood, Math.min(maxCatapultsWood, maxCatapultsIron));
+            int maxCatapults = Math.min(maxCatapultsWood, maxCatapultsIron);
     
             int trainedCatapults = Math.min(n, maxCatapults);
     
-            int foodCostForTrained = FOOD_COST_CATAPULT * trainedCatapults;
             int woodCostForTrained = WOOD_COST_CATAPULT * trainedCatapults;
             int ironCostForTrained = IRON_COST_CATAPULT * trainedCatapults;
-            food -= foodCostForTrained;
             wood -= woodCostForTrained;
             iron -= ironCostForTrained;
     
@@ -463,24 +458,20 @@ public class Civilization implements Variables {
     }
     
     public void newRocketLauncher(int n) throws ResourceException {
-        int foodCost = FOOD_COST_ROCKETLAUNCHERTOWER * n;
         int woodCost = WOOD_COST_ROCKETLAUNCHERTOWER * n;
         int ironCost = IRON_COST_ROCKETLAUNCHERTOWER * n;
     
-        if (food < foodCost || wood < woodCost || iron < ironCost) {
+        if (wood < woodCost || iron < ironCost) {
             throw new ResourceException("You don't have enough resources");
         } else {
-            int maxROCKETLAUNCHERTOWERsFood = food / FOOD_COST_ROCKETLAUNCHERTOWER;
             int maxROCKETLAUNCHERTOWERsWood = wood / WOOD_COST_ROCKETLAUNCHERTOWER;
             int maxROCKETLAUNCHERTOWERsIron = iron / IRON_COST_ROCKETLAUNCHERTOWER;
-            int maxROCKETLAUNCHERTOWERs = Math.min(maxROCKETLAUNCHERTOWERsFood, Math.min(maxROCKETLAUNCHERTOWERsWood, maxROCKETLAUNCHERTOWERsIron));
+            int maxROCKETLAUNCHERTOWERs = Math.min(maxROCKETLAUNCHERTOWERsWood, maxROCKETLAUNCHERTOWERsIron);
     
             int trainedROCKETLAUNCHERTOWERs = Math.min(n, maxROCKETLAUNCHERTOWERs);
     
-            int foodCostForTrained = FOOD_COST_ROCKETLAUNCHERTOWER * trainedROCKETLAUNCHERTOWERs;
             int woodCostForTrained = WOOD_COST_ROCKETLAUNCHERTOWER * trainedROCKETLAUNCHERTOWERs;
             int ironCostForTrained = IRON_COST_ROCKETLAUNCHERTOWER * trainedROCKETLAUNCHERTOWERs;
-            food -= foodCostForTrained;
             wood -= woodCostForTrained;
             iron -= ironCostForTrained;
     
@@ -496,25 +487,29 @@ public class Civilization implements Variables {
         int foodCost = FOOD_COST_MAGICIAN * n;
         int woodCost = WOOD_COST_MAGICIAN * n;
         int ironCost = IRON_COST_MAGICIAN * n;
+        int manaCost = MANA_COST_MAGICIAN * n;
         if (magicTower == 0){
             throw new BuildingException("You need a magic tower");
         }
-        if (food < foodCost || wood < woodCost || iron < ironCost) {
+        if (food < foodCost || wood < woodCost || iron < ironCost || mana < manaCost) {
             throw new ResourceException("You don't have enough resources");
         } else {
             int maxMagiciansFood = food / FOOD_COST_MAGICIAN;
             int maxMagiciansWood = wood / WOOD_COST_MAGICIAN;
             int maxMagiciansIron = iron / IRON_COST_MAGICIAN;
-            int maxMagicians = Math.min(maxMagiciansFood, Math.min(maxMagiciansWood, maxMagiciansIron));
+            int maxMagiciansMana = mana / MANA_COST_MAGICIAN;
+            int maxMagicians = Math.min(maxMagiciansFood, Math.min(maxMagiciansWood, Math.min(maxMagiciansMana, maxMagiciansIron)));
     
             int trainedMagicians = Math.min(n, maxMagicians);
     
             int foodCostForTrained = FOOD_COST_MAGICIAN * trainedMagicians;
             int woodCostForTrained = WOOD_COST_MAGICIAN * trainedMagicians;
             int ironCostForTrained = IRON_COST_MAGICIAN * trainedMagicians;
+            int manaCostForTrained = MANA_COST_MAGICIAN * trainedMagicians;
             food -= foodCostForTrained;
             wood -= woodCostForTrained;
             iron -= ironCostForTrained;
+            mana -= manaCostForTrained;
     
             for (int i = 0; i < trainedMagicians; i++) {
                 army[7].add(new Magician());
@@ -526,27 +521,23 @@ public class Civilization implements Variables {
     
     public void newPriest(int n) throws BuildingException, ResourceException {
         int foodCost = FOOD_COST_PRIEST * n;
-        int woodCost = WOOD_COST_PRIEST * n;
-        int ironCost = IRON_COST_PRIEST * n;
+        int manaCost = MANA_COST_PRIEST * n;
         if (church == 0){
             throw new BuildingException("You don't have a church.");
         }
-        if (food < foodCost || wood < woodCost || iron < ironCost) {
+        if (food < foodCost || mana < manaCost ) {
             throw new ResourceException("You don't have enough resources");
         } else {
             int maxPriestsFood = food / FOOD_COST_PRIEST;
-            int maxPriestsWood = wood / WOOD_COST_PRIEST;
-            int maxPriestsIron = iron / IRON_COST_PRIEST;
-            int maxPriests = Math.min(maxPriestsFood, Math.min(maxPriestsWood, maxPriestsIron));
+            int maxPriestMana = mana / MANA_COST_PRIEST;
+            int maxPriests = Math.min(maxPriestsFood, maxPriestMana);
     
             int trainedPriests = Math.min(n, maxPriests);
     
             int foodCostForTrained = FOOD_COST_PRIEST * trainedPriests;
-            int woodCostForTrained = WOOD_COST_PRIEST * trainedPriests;
-            int ironCostForTrained = IRON_COST_PRIEST * trainedPriests;
+            int manaCostForTrained = MANA_COST_PRIEST * trainedPriests;
             food -= foodCostForTrained;
-            wood -= woodCostForTrained;
-            iron -= ironCostForTrained;
+            mana -= manaCostForTrained;
     
             for (int i = 0; i < trainedPriests; i++) {
                 army[8].add(new Priest());
