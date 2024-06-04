@@ -112,7 +112,28 @@ public class Armies extends JFrame {
         });
 
         JButton button8 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\magician.png", "Magician", 100, 100);
+        button8.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Magician ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
+                CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
+                civilizationArmyDAO.setMagician(Armies.this.civilizationId);
+                gameWindow.UpdateFields();
+            }
+        });
+
         JButton button9 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\priest.png", "Priest", 100, 100);
+        button9.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Priest ActionListener ejecutado");
+                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
+                CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
+                civilizationArmyDAO.setPriest(Armies.this.civilizationId);
+                gameWindow.UpdateFields();
+            }
+        });
 
         button1.setFocusable(false);
         button2.setFocusable(false);
