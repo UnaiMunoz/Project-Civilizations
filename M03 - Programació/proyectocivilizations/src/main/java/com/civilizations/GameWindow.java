@@ -138,9 +138,9 @@ public class GameWindow extends JFrame implements Variables {
         ejercitoButton.addActionListener(e -> new Armies(username, civilizationId, this));
         gbc.gridy = 6;
         gbc.gridwidth = 2;
-        infoPanel.add(ejercitoButton, gbc);;
+        infoPanel.add(ejercitoButton, gbc);
 
-        nextAttackButton.addActionListener(e -> new NextAttack());
+        nextAttackButton.addActionListener(e -> new NextAttack(username, civilizationId, this));
         gbc.gridy = 7;
         gbc.gridwidth = 2;
         infoPanel.add(nextAttackButton, gbc);
@@ -167,6 +167,7 @@ public class GameWindow extends JFrame implements Variables {
         gbc.gridwidth = 2;
         infoPanel.add(salirButton, gbc);
 
+        // Crear y agregar el botón de advertencia de enemigos
         add(infoPanel, BorderLayout.EAST);
 
         // Iniciar el temporizador del reloj
@@ -183,7 +184,7 @@ public class GameWindow extends JFrame implements Variables {
         timer.start();
 
         // Crear un objeto TimerTask para actualizar la cantidad de madera cada 30 segundos
-        TimerTask ResourceTimer = new TimerTask() {
+        TimerTask resourceTimer = new TimerTask() {
             @Override
             public void run() {
                 CivilizationDAO civilizationDAO = new CivilizationDAO();
@@ -193,10 +194,39 @@ public class GameWindow extends JFrame implements Variables {
         };
 
         // Crear un objeto Timer
-        Timer ResourceUpdateTimer = new Timer();
+        Timer resourceUpdateTimer = new Timer();
 
         // Programar el TimerTask para que se ejecute cada 30 segundos
-        ResourceUpdateTimer.scheduleAtFixedRate(ResourceTimer, 0, 30000);
+        resourceUpdateTimer.scheduleAtFixedRate(resourceTimer, 0, 30000);
+
+        // Crear un objeto TimerTask para los ataques enemigos entrantes
+        TimerTask enemyAttackTimer = new TimerTask() {
+            @Override
+            public void run() {
+                EnemyArmy enemyArmy = new EnemyArmy(civilizationId);
+                EnemyDAO enemyDAO = new EnemyDAO();
+                System.out.print("ID DE CIVILIZACION PARA EL ENEMIGO: " + civilizationId);
+                enemyArmy.createEnemyArmy(civilizationId);
+                EnemyDAO.UnitCounts counts = enemyDAO.viewIncomingThreat(civilizationId);
+
+                // Mostrar el botón de advertencia y el popup
+                SwingUtilities.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(GameWindow.this, "An enemy army is approaching!!!!", "Enemy Alert", JOptionPane.INFORMATION_MESSAGE);
+                });
+                
+
+                // Aquí puedes actualizar los campos correspondientes en la GUI si es necesario
+                System.out.println("Swordsman: " + counts.swordsmanCount);
+                System.out.println("Spearman: " + counts.spearmanCount);
+                System.out.println("Cannon: " + counts.cannonCount);
+                System.out.println("Crossbow: " + counts.crossbowCount);
+            }
+        };
+        // Crear un objeto Timer para los ataques enemigos
+        Timer incomingAttackTimer = new Timer();
+
+        // Programar el TimerTask para que se ejecute cada 3 minutos
+        incomingAttackTimer.scheduleAtFixedRate(enemyAttackTimer, 30000, 40000);
 
         // Mostrar la ventana
         setVisible(true);
