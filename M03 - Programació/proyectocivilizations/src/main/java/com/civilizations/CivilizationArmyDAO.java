@@ -134,6 +134,68 @@ public class CivilizationArmyDAO implements Variables {
         return -1;
     }
     
+    public int setMagician(int id) {
+        return createMagicUnit(id, FOOD_COST_MAGICIAN, WOOD_COST_MAGICIAN, IRON_COST_MAGICIAN, MANA_COST_MAGICIAN, "Magician", 0, BASE_DAMAGE_MAGICIAN);
+    }
+    
+    public int setPriest(int id) {
+        // Check if the civilization has an available church
+        if (civilizationDAO.getChurchCount(id) >= 1) {
+            return createMagicUnit(id, FOOD_COST_PRIEST, WOOD_COST_PRIEST, IRON_COST_PRIEST, MANA_COST_PRIEST, "Priest", 0, 0);
+        } else {
+            System.out.println("No tienes suficientes iglesias para crear un Priest.");
+            return -1;
+        }
+    }
+    
+    private int createMagicUnit(int id, int foodCost, int woodCost, int ironCost, int manaCost, String unitType, int armor, int baseDamage) {
+        if (civilizationDAO.getWood(id) >= woodCost && civilizationDAO.getFood(id) >= foodCost
+                && civilizationDAO.getIron(id) >= ironCost && civilizationDAO.getMana(id) >= manaCost) {
+            String sql = "INSERT INTO SPECIAL_UNITS_STATS (CIVILIZATION_ID, UNIT_ID, TYPE_UNIT, ARMOR, BASE_DAMAGE) " +
+                         "VALUES (?, ?, ?, ?, ?)";
+            String getMaxUnitIdSql = "SELECT COALESCE(MAX(UNIT_ID), 0) + 1 AS new_unit_id FROM SPECIAL_UNITS_STATS";
+    
+            try (Connection connection = AppData.getInstance().getConnection();
+                 PreparedStatement getMaxUnitIdStmt = connection.prepareStatement(getMaxUnitIdSql);
+                 PreparedStatement insertStmt = connection.prepareStatement(sql)) {
+    
+                // Obtener el nuevo UNIT_ID
+                ResultSet resultSet = getMaxUnitIdStmt.executeQuery();
+                int newUnitId = 1;
+                if (resultSet.next()) {
+                    newUnitId = resultSet.getInt("new_unit_id");
+                }
+    
+                // Configurar los parámetros de la consulta de inserción
+                insertStmt.setInt(1, id);
+                insertStmt.setInt(2, newUnitId);
+                insertStmt.setString(3, unitType);
+                insertStmt.setInt(4, armor);
+                insertStmt.setInt(5, baseDamage);
+    
+                // Ejecutar la inserción
+                insertStmt.executeUpdate();
+    
+                // Restar los costos de los recursos
+                civilizationDAO.updateResources(
+                        civilizationDAO.getFood(id) - foodCost,
+                        civilizationDAO.getWood(id) - woodCost,
+                        civilizationDAO.getIron(id) - ironCost,
+                        civilizationDAO.getMana(id) - manaCost,
+                        id
+                );
+    
+                return 1; // Indica que la actualización fue exitosa
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return 0; // Indica que hubo un error durante la actualización
+            }
+        }
+    
+        // Indicar que no hay suficientes recursos
+        System.out.println("No hay suficientes recursos para construir la unidad " + unitType);
+        return -1;
+    }
     
 
 }
