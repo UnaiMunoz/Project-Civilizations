@@ -1,13 +1,17 @@
 package com.civilizations;
 
 public class AttackUnit implements MilitaryUnit, Variables {
+    int civilization_id;
+    int unit_id;
     int armor;
     int initialArmor;
     int baseDamage;
     int experience;
     boolean sanctified;
 
-    public AttackUnit(int armor, int initialArmor, int baseDamage, int experience, boolean sanctified) {
+    public AttackUnit(int civilization_id,int unit_id,int armor, int initialArmor, int baseDamage, int experience, boolean sanctified) {
+        this.civilization_id = civilization_id;
+        this.unit_id = unit_id;
         this.armor = armor;
         this.initialArmor = initialArmor;
         this.baseDamage = baseDamage;
@@ -21,7 +25,29 @@ public class AttackUnit implements MilitaryUnit, Variables {
         this.baseDamage = baseDamage;
     }
 
+    public AttackUnit(int civilization_id,int unit_id,int armor, int baseDamage) {
+        this.civilization_id = civilization_id;
+        this.unit_id = unit_id;
+        this.armor = armor;
+        this.baseDamage = baseDamage;
+    }
 
+
+    public int getCivilization_id() {
+        return this.civilization_id;
+    }
+
+    public void setCivilization_id(int civilization_id) {
+        this.civilization_id = civilization_id;
+    }
+
+    public int getUnit_id() {
+        return this.unit_id;
+    }
+
+    public void setUnit_id(int unit_id) {
+        this.unit_id = unit_id;
+    }
 
     public int attack() {
         // Return the attack power of the unit.

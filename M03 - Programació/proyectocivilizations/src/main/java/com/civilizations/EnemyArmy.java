@@ -89,7 +89,7 @@ public class EnemyArmy implements Variables,MilitaryUnit{
     }
 
     // Método para crear el ejército enemigo
-    public void createEnemyArmy() {
+    public void createEnemyArmy(int id) {
         if (!enemyArmyCreated) {
             initializeEnemyArmy();
             Random random = new Random();
@@ -102,8 +102,6 @@ public class EnemyArmy implements Variables,MilitaryUnit{
                 for (int i = 0; i < unitProbabilities.length; i++) {
                     double probability = unitProbabilities[i];
                     EnemyDAO enemyDAO = new EnemyDAO();
-                    CivilizationDAO civilizationDAO = new CivilizationDAO();
-                    int id = civilizationDAO.getCivilizationIdByName(username);
                     if (random.nextDouble() < (probability / 100)) {
                         int numUnits = random.nextInt(100);
                         for (int j = 0; j < numUnits; j++) {

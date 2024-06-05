@@ -4,7 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class NextAttack extends JFrame {
-    public NextAttack() {
+
+    private JTextField swordsmanField;
+    private JTextField spearmanField;
+    private JTextField cannonField;
+    private JTextField crossbowField;
+
+    public NextAttack(String username, int civilizationId, GameWindow gameWindow) {
         setTitle("Next Attack");
         setSize(300, 200);
         setLocationRelativeTo(null);  // Centrar la ventana en la pantalla
@@ -18,19 +24,19 @@ public class NextAttack extends JFrame {
 
         // Crear y añadir las etiquetas y campos de texto al panel
         JLabel swordsmanLabel = new JLabel("Swordsman:");
-        JTextField swordsmanField = new JTextField(10);
+        swordsmanField = new JTextField(10);
         swordsmanField.setEditable(false);
 
         JLabel spearmanLabel = new JLabel("Spearman:");
-        JTextField spearmanField = new JTextField(10);
+        spearmanField = new JTextField(10);
         spearmanField.setEditable(false);
 
         JLabel cannonLabel = new JLabel("Cannon:");
-        JTextField cannonField = new JTextField(10);
+        cannonField = new JTextField(10);
         cannonField.setEditable(false);
 
         JLabel crossbowLabel = new JLabel("Crossbow:");
-        JTextField crossbowField = new JTextField(10);
+        crossbowField = new JTextField(10);
         crossbowField.setEditable(false);
 
         gbc.gridx = 0;
@@ -60,11 +66,25 @@ public class NextAttack extends JFrame {
         // Agregar el panel principal al marco
         getContentPane().add(mainPanel);
 
+        // Mostrar la ventana
         setVisible(true);
+
+        // Obtener y mostrar los valores de la base de datos
+        loadUnitCounts(civilizationId);
+    }
+
+    private void loadUnitCounts(int civilizationId) {
+        EnemyDAO enemyDAO = new EnemyDAO();
+        EnemyDAO.UnitCounts counts = enemyDAO.viewIncomingThreat(civilizationId);
+
+        swordsmanField.setText(String.valueOf(counts.swordsmanCount));
+        spearmanField.setText(String.valueOf(counts.spearmanCount));
+        cannonField.setText(String.valueOf(counts.cannonCount));
+        crossbowField.setText(String.valueOf(counts.crossbowCount));
     }
 
     public static void main(String[] args) {
-        // Crear una instancia de NextAttack
-        SwingUtilities.invokeLater(NextAttack::new);
+        // Crear una instancia de NextAttack con un civilizationId de ejemplo
+        SwingUtilities.invokeLater(() -> new GameWindow("testUser"));
     }
 }

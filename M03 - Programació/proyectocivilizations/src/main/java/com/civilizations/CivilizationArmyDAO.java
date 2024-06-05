@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class CivilizationArmyDAO implements Variables {
 
@@ -198,6 +201,129 @@ public class CivilizationArmyDAO implements Variables {
     }
     
 
+
+    public List<AttackUnit> getAttackUnits(int id) {
+        List<AttackUnit> attackUnits = new ArrayList<>();
+
+        String sql = "SELECT * FROM ATTACK_UNITS_STATS";
+
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                // Extract data from result set
+                int civilization_id = resultSet.getInt("CIVILIZATION_ID");
+                int unit_id = resultSet.getInt("UNIT_ID");
+
+                int armor = resultSet.getInt("ARMOR");
+                int baseDamage = resultSet.getInt("BASE_DAMAGE");
+                // Create AttackUnit instance
+                AttackUnit attackUnit = new AttackUnit(civilization_id,unit_id,armor, baseDamage);
+                // Add AttackUnit to the list
+                attackUnits.add(attackUnit);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return attackUnits;
+    }
+    public List<DefenseUnit> getDefenseUnits(int id) {
+        List<DefenseUnit> defenseUnits = new ArrayList<>();
+
+        String sql = "SELECT * FROM DEFENSE_UNITS_STATS";
+
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                // Extract data from result set
+                int civilization_id = resultSet.getInt("CIVILIZATION_ID");
+                int unit_id = resultSet.getInt("UNIT_ID");
+
+                int armor = resultSet.getInt("ARMOR");
+                int baseDamage = resultSet.getInt("BASE_DAMAGE");
+                // Create AttackUnit instance
+                DefenseUnit defenseUnit = new DefenseUnit(civilization_id,unit_id,armor, baseDamage);
+                // Add AttackUnit to the list
+                defenseUnits.add(defenseUnit);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return defenseUnits;
+    }
+    public List<SpecialUnit> getSpecialUnits(int id) {
+        List<SpecialUnit> specialUnits = new ArrayList<>();
+
+        String sql = "SELECT * FROM SPECIAL_UNITS_STATS";
+
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                // Extract data from result set
+                int civilization_id = resultSet.getInt("CIVILIZATION_ID");
+                int unit_id = resultSet.getInt("UNIT_ID");
+
+                int armor = resultSet.getInt("ARMOR");
+                int baseDamage = resultSet.getInt("BASE_DAMAGE");
+                // Create AttackUnit instance
+                SpecialUnit specialunit = new SpecialUnit(civilization_id,unit_id,armor, baseDamage);
+                // Add AttackUnit to the list
+                specialUnits.add(specialunit);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return specialUnits;
+    }
+
+    //ELIMINAR
+    public void deleteAttackUnit(int unitId) {
+        String sql = "DELETE FROM ATTACK_UNITS_STATS WHERE UNIT_ID = ?";
+    
+        try (Connection conn = AppData.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, unitId);
+    
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void deleteDefenseUnit(int unitId) {
+        String sql = "DELETE FROM DEFENSE_UNITS_STATS WHERE UNIT_ID = ?";
+    
+        try (Connection conn = AppData.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, unitId);
+    
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void deleteSpecialUnit(int unitId) {
+        String sql = "DELETE FROM SPECIAL_UNITS_STATS WHERE UNIT_ID = ?";
+    
+        try (Connection conn = AppData.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, unitId);
+    
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
 }
 
 
