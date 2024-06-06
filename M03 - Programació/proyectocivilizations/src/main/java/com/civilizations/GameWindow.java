@@ -150,7 +150,7 @@ public class GameWindow extends JFrame implements Variables {
         gbc.gridwidth = 2;
         infoPanel.add(battleReportButton, gbc);
 
-        statsButton.addActionListener(e -> new StatsCivilization());
+        statsButton.addActionListener(e -> new CivilizationStatsView(civilizationId));
         gbc.gridy = 9;
         gbc.gridwidth = 2;
         infoPanel.add(statsButton, gbc);
