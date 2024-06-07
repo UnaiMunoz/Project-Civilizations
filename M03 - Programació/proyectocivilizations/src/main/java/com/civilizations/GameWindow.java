@@ -99,6 +99,7 @@ public class GameWindow extends JFrame implements Variables {
 
         JButton construccionesButton = new JButton("Buildings");
         JButton ejercitoButton = new JButton("Armies");
+        JButton technologyButton = new JButton("Technology upgrade");
         JButton nextAttackButton = new JButton("Next Attack");
         JButton battleReportButton = new JButton("Battle Report");
         JButton statsButton = new JButton("Civilization Stats");
@@ -140,30 +141,35 @@ public class GameWindow extends JFrame implements Variables {
         gbc.gridwidth = 2;
         infoPanel.add(ejercitoButton, gbc);
 
-        nextAttackButton.addActionListener(e -> new NextAttack(username, civilizationId, this));
+        technologyButton.addActionListener(e -> new Technology(username, civilizationId, this));
         gbc.gridy = 7;
+        gbc.gridwidth = 2;
+        infoPanel.add(technologyButton, gbc);
+
+        nextAttackButton.addActionListener(e -> new NextAttack(username, civilizationId, this));
+        gbc.gridy = 8;
         gbc.gridwidth = 2;
         infoPanel.add(nextAttackButton, gbc);
 
         battleReportButton.addActionListener(e -> new BattleReport());
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         gbc.gridwidth = 2;
         infoPanel.add(battleReportButton, gbc);
 
         statsButton.addActionListener(e -> new CivilizationStatsView(civilizationId));
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         gbc.gridwidth = 2;
         infoPanel.add(statsButton, gbc);
 
         timerLabel = new JLabel("Tiempo: 00:00");
-        gbc.gridy = 10;
+        gbc.gridy = 11;
         gbc.gridwidth = 2;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
         infoPanel.add(timerLabel, gbc);
 
         salirButton.addActionListener(e -> dispose());
-        gbc.gridy = 11;
+        gbc.gridy = 12;
         gbc.gridwidth = 2;
         infoPanel.add(salirButton, gbc);
 
