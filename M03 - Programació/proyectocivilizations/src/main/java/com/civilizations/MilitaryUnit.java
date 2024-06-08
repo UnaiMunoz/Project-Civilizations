@@ -26,4 +26,5 @@ public interface MilitaryUnit {
     //Establecerá la experiencia a un nuevo valor.
     abstract int getExperience();
     //Nos devolverá la experiencia actual de la unidad
+
 }

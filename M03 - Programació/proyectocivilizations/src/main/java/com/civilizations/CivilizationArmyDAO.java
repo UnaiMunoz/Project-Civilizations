@@ -202,35 +202,36 @@ public class CivilizationArmyDAO implements Variables {
     
 
 
-    public List<AttackUnit> getAttackUnits(int id) {
-        List<AttackUnit> attackUnits = new ArrayList<>();
-
+    public ArrayList<AttackUnit> getAttackUnits(int id) {
+        ArrayList<AttackUnit> attackUnits = new ArrayList<>();
+    
         String sql = "SELECT * FROM ATTACK_UNITS_STATS";
-
+    
         try (Connection connection = AppData.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
-
+    
             while (resultSet.next()) {
                 // Extract data from result set
                 int civilization_id = resultSet.getInt("CIVILIZATION_ID");
                 int unit_id = resultSet.getInt("UNIT_ID");
-
+    
                 int armor = resultSet.getInt("ARMOR");
                 int baseDamage = resultSet.getInt("BASE_DAMAGE");
                 // Create AttackUnit instance
-                AttackUnit attackUnit = new AttackUnit(civilization_id,unit_id,armor, baseDamage);
+                AttackUnit attackUnit = new AttackUnit(civilization_id, unit_id, armor, baseDamage);
                 // Add AttackUnit to the list
                 attackUnits.add(attackUnit);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    
         return attackUnits;
     }
-    public List<DefenseUnit> getDefenseUnits(int id) {
-        List<DefenseUnit> defenseUnits = new ArrayList<>();
+    
+    public ArrayList<DefenseUnit> getDefenseUnits(int id) {
+        ArrayList<DefenseUnit> defenseUnits = new ArrayList<>();
 
         String sql = "SELECT * FROM DEFENSE_UNITS_STATS";
 
@@ -256,8 +257,8 @@ public class CivilizationArmyDAO implements Variables {
 
         return defenseUnits;
     }
-    public List<SpecialUnit> getSpecialUnits(int id) {
-        List<SpecialUnit> specialUnits = new ArrayList<>();
+    public ArrayList<SpecialUnit> getSpecialUnits(int id) {
+        ArrayList<SpecialUnit> specialUnits = new ArrayList<>();
 
         String sql = "SELECT * FROM SPECIAL_UNITS_STATS";
 
@@ -322,6 +323,71 @@ public class CivilizationArmyDAO implements Variables {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public List<AttackUnit> getUnits(int civilizationId) {
+        List<AttackUnit> units = new ArrayList<>();
+        String query = "SELECT unit_id, base_damage FROM units WHERE civilization_id = ?";
+
+        try (Connection conn = AppData.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, civilizationId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int unitId = rs.getInt("unit_id");
+                int baseDamage = rs.getInt("base_damage");
+                units.add(new AttackUnit(unitId, baseDamage));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return units;
+    }
+
+    public List<Integer> getUnitIds(int civilizationId) {
+        List<Integer> unitIds = new ArrayList<>();
+        String sql = "SELECT UNIT_ID FROM ATTACK_UNITS_STATS WHERE CIVILIZATION_ID = ? " +
+                     "UNION SELECT UNIT_ID FROM DEFENSE_UNITS_STATS WHERE CIVILIZATION_ID = ? " +
+                     "UNION SELECT UNIT_ID FROM SPECIAL_UNITS_STATS WHERE CIVILIZATION_ID = ?";
+
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, civilizationId);
+            statement.setInt(2, civilizationId);
+            statement.setInt(3, civilizationId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                unitIds.add(resultSet.getInt("UNIT_ID"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return unitIds;
+    }
+    public List<Integer> getTroopType(int civilizationId) {
+        List<Integer> unitIds = new ArrayList<>();
+        String sql = "SELECT TYPE_UNIT FROM ATTACK_UNITS_STATS WHERE CIVILIZATION_ID = ? ";
+
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, civilizationId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                unitIds.add(resultSet.getInt("TYPE_UNIT"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return unitIds;
     }
     
 }

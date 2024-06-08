@@ -12,6 +12,7 @@ public class EnemyArmy implements Variables,MilitaryUnit{
     private boolean enemyApproaching;
     private boolean enemyArmyCreated;
     public ArrayList<MilitaryUnit>[] civilizationArmy;
+    int unit_id;
     String username;
     int armor;
     int initialArmor;
@@ -188,7 +189,9 @@ public class EnemyArmy implements Variables,MilitaryUnit{
         // Return the attack power of the unit.
         return baseDamage;
     }
-
+    public int getUnit_id(){
+        return unit_id;
+    }
     public void takeDamage(int receivedDamage) {
         // Reduce armor by the received damage.
         armor -= receivedDamage;
