@@ -30,7 +30,13 @@ public class SpecialUnit implements MilitaryUnit, Variables {
         this.baseDamage = baseDamage;
     }
 
+    public int getUnit_id() {
+        return this.unit_id;
+    }
 
+    public void setUnit_id(int unit_id) {
+        this.unit_id = unit_id;
+    }
 
     public int attack() {
         // Return the attack power of the unit.

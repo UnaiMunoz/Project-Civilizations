@@ -20,6 +20,8 @@ public class AttackUnit implements MilitaryUnit, Variables {
     }
 
 
+
+    public AttackUnit(){};
     public AttackUnit(int armor, int baseDamage) {
         this.armor = armor;
         this.baseDamage = baseDamage;

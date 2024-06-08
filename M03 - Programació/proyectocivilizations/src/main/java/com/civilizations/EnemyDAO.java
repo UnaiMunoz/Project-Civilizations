@@ -66,20 +66,20 @@ public class EnemyDAO {
     }
 
 
-    public List<AttackUnit> getEnemyArmy(int id) {
-        List<AttackUnit> enemyArmy = new ArrayList<>();
-
+    public ArrayList<MilitaryUnit> getEnemyArmy(int id) {
+        ArrayList<MilitaryUnit> enemyArmy = new ArrayList<>();
+    
         String sql = "SELECT * FROM ENEMY_THREAD";
-
+    
         try (Connection connection = AppData.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
-
+    
             while (resultSet.next()) {
                 // Extract data from result set
                 int civilization_id = resultSet.getInt("CIVILIZATION_ID");
                 int unit_id = resultSet.getInt("UNIT_ID");
-
+    
                 int armor = resultSet.getInt("ARMOR");
                 int baseDamage = resultSet.getInt("BASE_DAMAGE");
                 // Create AttackUnit instance
@@ -90,6 +90,7 @@ public class EnemyDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    
 
         return enemyArmy;
     }
@@ -106,5 +107,23 @@ public class EnemyDAO {
             e.printStackTrace();
         }
     }
-    
+    public List<Integer> getEnemyUnitIds(int civilizationId) {
+        List<Integer> unitIds = new ArrayList<>();
+        String sql = "SELECT UNIT_ID FROM ENEMY_THREAD WHERE CIVILIZATION_ID = ?"; // Adjust the table name as per your schema
+
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, civilizationId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                unitIds.add(resultSet.getInt("UNIT_ID"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return unitIds;
+    }
 }

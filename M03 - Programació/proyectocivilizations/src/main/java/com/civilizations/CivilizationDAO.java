@@ -71,6 +71,25 @@ public class CivilizationDAO implements Variables {
         return -1; // Indica que no se encontró
     }
 
+// Method to get username by civilization ID
+public String getUsernameByCivilizationID(int civilizationId) {
+    String sql = "SELECT name FROM civilization_stats WHERE civilization_id = ?";
+    try (Connection connection = AppData.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setInt(1, civilizationId);
+        try (ResultSet rs = statement.executeQuery()) {
+            if (rs.next()) {
+                return rs.getString("name");
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null; // Indicate that no username was found
+}
+
+
+
     public static void viewGame() {
         String sql = "SELECT * FROM civilization_stats";
         AppData db = AppData.getInstance();
