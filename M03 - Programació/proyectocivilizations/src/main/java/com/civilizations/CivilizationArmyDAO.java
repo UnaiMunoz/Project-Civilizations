@@ -202,26 +202,30 @@ public class CivilizationArmyDAO implements Variables {
     
 
 
-    public ArrayList<AttackUnit> getAttackUnits(int id) {
-        ArrayList<AttackUnit> attackUnits = new ArrayList<>();
+    public ArrayList<MilitaryUnit> getAttackUnitsByCivilization(int civilizationId) {
+        ArrayList<MilitaryUnit> attackUnits = new ArrayList<>();
     
-        String sql = "SELECT * FROM ATTACK_UNITS_STATS";
+        String sql = "SELECT * FROM ATTACK_UNITS_STATS WHERE CIVILIZATION_ID = ?";
     
         try (Connection connection = AppData.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            
+            // Set the parameter in the SQL query
+            statement.setInt(1, civilizationId);
     
-            while (resultSet.next()) {
-                // Extract data from result set
-                int civilization_id = resultSet.getInt("CIVILIZATION_ID");
-                int unit_id = resultSet.getInt("UNIT_ID");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    // Extract data from result set
+                    int civId = resultSet.getInt("CIVILIZATION_ID");
+                    int uId = resultSet.getInt("UNIT_ID");
+                    int armor = resultSet.getInt("ARMOR");
+                    int baseDamage = resultSet.getInt("BASE_DAMAGE");
     
-                int armor = resultSet.getInt("ARMOR");
-                int baseDamage = resultSet.getInt("BASE_DAMAGE");
-                // Create AttackUnit instance
-                AttackUnit attackUnit = new AttackUnit(civilization_id, unit_id, armor, baseDamage);
-                // Add AttackUnit to the list
-                attackUnits.add(attackUnit);
+                    // Create AttackUnit instance
+                    AttackUnit attackUnit = new AttackUnit(civId, uId, armor, baseDamage);
+                    // Add AttackUnit to the list
+                    attackUnits.add(attackUnit);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -229,6 +233,7 @@ public class CivilizationArmyDAO implements Variables {
     
         return attackUnits;
     }
+    
     
     public ArrayList<DefenseUnit> getDefenseUnits(int id) {
         ArrayList<DefenseUnit> defenseUnits = new ArrayList<>();
@@ -324,28 +329,7 @@ public class CivilizationArmyDAO implements Variables {
             e.printStackTrace();
         }
     }
-    public List<AttackUnit> getUnits(int civilizationId) {
-        List<AttackUnit> units = new ArrayList<>();
-        String query = "SELECT unit_id, base_damage FROM units WHERE civilization_id = ?";
 
-        try (Connection conn = AppData.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-            pstmt.setInt(1, civilizationId);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                int unitId = rs.getInt("unit_id");
-                int baseDamage = rs.getInt("base_damage");
-                units.add(new AttackUnit(unitId, baseDamage));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return units;
-    }
 
     public List<Integer> getUnitIds(int civilizationId) {
         List<Integer> unitIds = new ArrayList<>();
@@ -370,25 +354,142 @@ public class CivilizationArmyDAO implements Variables {
 
         return unitIds;
     }
-    public List<Integer> getTroopType(int civilizationId) {
-        List<Integer> unitIds = new ArrayList<>();
-        String sql = "SELECT TYPE_UNIT FROM ATTACK_UNITS_STATS WHERE CIVILIZATION_ID = ? ";
 
+
+    public static class UnitCounts {
+        public int swordsmanCount;
+        public int crossbowCount;
+        public int cannonCount;
+        public int spearmanCount;
+        public int arrowTowerCount;
+        public int catapultCount;
+        public int rlTowerCount;
+        public int magicianCount;
+        public int priestCount;
+
+
+
+
+    }
+    //CONTAR:
+    public UnitCounts CountArmy(int id) {
+        String sql = "SELECT TYPE_UNIT, COUNT(*) AS unitCount FROM ATTACK_UNITS_STATS " +
+                     "WHERE CIVILIZATION_ID = ? " +
+                     "GROUP BY TYPE_UNIT " +
+                     "UNION " +
+                     "SELECT TYPE_UNIT, COUNT(*) AS unitCount FROM DEFENSE_UNITS_STATS " +
+                     "WHERE CIVILIZATION_ID = ? " +
+                     "GROUP BY TYPE_UNIT " +
+                     "UNION " +
+                     "SELECT TYPE_UNIT, COUNT(*) AS unitCount FROM SPECIAL_UNITS_STATS " +
+                     "WHERE CIVILIZATION_ID = ? " +
+                     "GROUP BY TYPE_UNIT";
+        UnitCounts counts = new UnitCounts();
         try (Connection connection = AppData.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setInt(1, civilizationId);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                unitIds.add(resultSet.getInt("TYPE_UNIT"));
+            statement.setInt(1, id);
+            statement.setInt(2, id);
+            statement.setInt(3, id);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    String typeUnit = rs.getString("TYPE_UNIT");
+                    int count = rs.getInt("unitCount");
+                    switch (typeUnit) {
+                        case "Swordsman":
+                            counts.swordsmanCount = count;
+                            break;
+                        case "Crossbow":
+                            counts.crossbowCount = count;
+                            break;
+                        case "Cannon":
+                            counts.cannonCount = count;
+                            break;
+                        case "Spearman":
+                            counts.spearmanCount = count;
+                            break;
+                        case "Arrow Tower":
+                            counts.arrowTowerCount = count;
+                            break;
+                        case "Catapult":
+                            counts.catapultCount = count;
+                            break;
+                        case "Rocket Launcher Tower":
+                            counts.rlTowerCount = count;
+                            break;
+                        case "Magician":
+                            counts.magicianCount = count;
+                            break;
+                        case "Priest":
+                            counts.priestCount = count;
+                            break;
+                    }
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return unitIds;
+        return counts;
     }
+    
+    
+    
+    //OBTENER TROPAS:
+    public ArrayList<MilitaryUnit> getArmy(int civilizationId) {
+        ArrayList<MilitaryUnit> allUnits = new ArrayList<>();
+    
+        String sql = "SELECT CIVILIZATION_ID, UNIT_ID, TYPE_UNIT, ARMOR, BASE_DAMAGE FROM ATTACK_UNITS_STATS " +
+                     "WHERE CIVILIZATION_ID = ? " +
+                     "UNION " +
+                     "SELECT CIVILIZATION_ID, UNIT_ID, TYPE_UNIT, ARMOR, BASE_DAMAGE FROM DEFENSE_UNITS_STATS " +
+                     "WHERE CIVILIZATION_ID = ? " +
+                     "UNION " +
+                     "SELECT CIVILIZATION_ID, UNIT_ID, TYPE_UNIT, ARMOR, BASE_DAMAGE FROM SPECIAL_UNITS_STATS " +
+                     "WHERE CIVILIZATION_ID = ?";
+    
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+    
+            statement.setInt(1, civilizationId);
+            statement.setInt(2, civilizationId);
+            statement.setInt(3, civilizationId);
+    
+            ResultSet resultSet = statement.executeQuery();
+    
+            while (resultSet.next()) {
+                int civId = resultSet.getInt("CIVILIZATION_ID");
+                int unitId = resultSet.getInt("UNIT_ID");
+                String typeUnit = resultSet.getString("TYPE_UNIT");
+                int armor = resultSet.getInt("ARMOR");
+                int baseDamage = resultSet.getInt("BASE_DAMAGE");
+    
+                // Create appropriate unit instance based on the type
+                MilitaryUnit unit;
+                switch (typeUnit) {
+                    case "Swordsman":
+                    case "Spearman":
+                    case "Crossbow":
+                    case "Cannon":
+                        unit = new AttackUnit(civId, unitId, armor, baseDamage);
+                        break;
+                    case "ArrowTower":
+                    case "Catapult":
+                    case "RocketLauncherTower":
+                        unit = new DefenseUnit(civId, unitId, armor, baseDamage);
+                        break;
+                    default:
+                        unit = new SpecialUnit(civId, unitId, armor, baseDamage);
+                        break;
+                }
+    
+                allUnits.add(unit);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return allUnits;
+    }
+    
     
 }
 

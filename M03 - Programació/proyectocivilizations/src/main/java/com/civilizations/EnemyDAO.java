@@ -66,8 +66,8 @@ public class EnemyDAO {
     }
 
 
-    public ArrayList<AttackUnit> getEnemyArmy(int id) {
-        ArrayList<AttackUnit> enemyArmy = new ArrayList<>();
+    public ArrayList<MilitaryUnit> getEnemyArmy(int id) {
+        ArrayList<MilitaryUnit> enemyArmy = new ArrayList<>();
     
         String sql = "SELECT * FROM ENEMY_THREAD";
     
