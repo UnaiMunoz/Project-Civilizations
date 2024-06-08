@@ -41,6 +41,7 @@ public class LoadGameWindow extends JFrame {
                 if (selectedGame != null) {
                     GameWindow gameWindow = new GameWindow(selectedGame);
                     gameWindow.setVisible(true);
+                    dispose();  // Cierra la ventana de carga
                 } else {
                     JOptionPane.showMessageDialog(null, "Please select a game to load.");
                 }
