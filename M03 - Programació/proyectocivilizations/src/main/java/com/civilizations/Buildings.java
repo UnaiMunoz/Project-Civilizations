@@ -83,63 +83,41 @@ public class Buildings extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
         
-        // ActionListener para MagicTowerButton
+        // ActionListeners para los botones
         MagicTowerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("MagicTowerButton ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Buildings.this.civilizationId); // Verificar civilizationId aquí
-                BuildingsDAO buildingsDAO = new BuildingsDAO();
-                buildingsDAO.setMagictowerCounter(Buildings.this.civilizationId);
-                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow
+                handleBuildingCreation("Magic Tower", new BuildingsDAO().setMagictowerCounter(Buildings.this.civilizationId));
             }
         });  
         
         ChurchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ChurchButton ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Buildings.this.civilizationId); // Verificar civilizationId aquí
-                BuildingsDAO buildingsDAO = new BuildingsDAO();
-                buildingsDAO.setChurchCounter(Buildings.this.civilizationId);
-                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow
+                handleBuildingCreation("Church", new BuildingsDAO().setChurchCounter(Buildings.this.civilizationId));
             }
         });
         
         FarmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("FarmButton ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Buildings.this.civilizationId); // Verificar civilizationId aquí
-                BuildingsDAO buildingsDAO = new BuildingsDAO();
-                buildingsDAO.setFarmCounter(Buildings.this.civilizationId);
-                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow
+                handleBuildingCreation("Farm", new BuildingsDAO().setFarmCounter(Buildings.this.civilizationId));
             }
         });
         
         SmithyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("SmithyButton ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Buildings.this.civilizationId); // Verificar civilizationId aquí
-                BuildingsDAO buildingsDAO = new BuildingsDAO();
-                buildingsDAO.setSmithyCounter(Buildings.this.civilizationId);
-                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow
+                handleBuildingCreation("Smithy", new BuildingsDAO().setSmithyCounter(Buildings.this.civilizationId));
             }
         });
         
         CarpentryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("CarpentryButton ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Buildings.this.civilizationId); // Verificar civilizationId aquí
-                BuildingsDAO buildingsDAO = new BuildingsDAO();
-                buildingsDAO.setCarpentryCounter(Buildings.this.civilizationId);
-                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow
+                handleBuildingCreation("Carpentry", new BuildingsDAO().setCarpentryCounter(Buildings.this.civilizationId));
             }
         });
-        
-
     }
 
     // Método para crear botón con imagen redimensionada y tamaño preferido
@@ -156,15 +134,16 @@ public class Buildings extends JFrame {
 
         button.setFocusable(false);
 
-        // Añadir ActionListener para mostrar ventana emergente
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(Buildings.this, "Se ha creado " + text, "Creación de Edificio", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-
         return button;
+    }
+
+    private void handleBuildingCreation(String buildingType, int result) {
+        if (result == 1) {
+            JOptionPane.showMessageDialog(Buildings.this, "Se ha creado " + buildingType, "Creación de Edificio", JOptionPane.INFORMATION_MESSAGE);
+            gameWindow.UpdateFields();
+        } else if (result == -1) {
+            JOptionPane.showMessageDialog(Buildings.this, "Error al crear " + buildingType + ". No tienes suficientes recursos.", "Error de Creación", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String[] args) {
