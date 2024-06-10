@@ -10,7 +10,6 @@ public class Armies extends JFrame {
     private int civilizationId;
     private GameWindow gameWindow;
 
-
     public Armies(String username, int civilizationId, GameWindow gameWindow) {
 
         this.civilizationId = civilizationId; // Asignar el civilizationId aquí
@@ -29,25 +28,19 @@ public class Armies extends JFrame {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Swordsman ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId); // Verificar civilizationId aquí
                 CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
-                civilizationArmyDAO.setSwordsman(Armies.this.civilizationId); // Actualizado para llamar a setSwordsman en lugar de setSwordsMan
-                gameWindow.UpdateFields();  // Actualiza los campos en GameWindow; actualizado el nombre del método a minúsculas
+                int result = civilizationArmyDAO.setSwordsman(Armies.this.civilizationId);
+                handleCreationResult(result, "Swordsman");
             }
         });
-            
-
 
         JButton button2 = createButton("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\cannon.png", "Cannon", 100, 100);
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cannon ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
                 CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
-                civilizationArmyDAO.setCannon(Armies.this.civilizationId);
-                gameWindow.UpdateFields();
+                int result = civilizationArmyDAO.setCannon(Armies.this.civilizationId);
+                handleCreationResult(result, "Cannon");
             }
         });
 
@@ -55,11 +48,9 @@ public class Armies extends JFrame {
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Spearman ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
                 CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
-                civilizationArmyDAO.setSpearman(Armies.this.civilizationId);
-                gameWindow.UpdateFields();
+                int result = civilizationArmyDAO.setSpearman(Armies.this.civilizationId);
+                handleCreationResult(result, "Spearman");
             }
         });
 
@@ -67,11 +58,9 @@ public class Armies extends JFrame {
         button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Crossbow ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
                 CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
-                civilizationArmyDAO.setCrossbow(Armies.this.civilizationId);
-                gameWindow.UpdateFields();
+                int result = civilizationArmyDAO.setCrossbow(Armies.this.civilizationId);
+                handleCreationResult(result, "Crossbow");
             }
         });
 
@@ -79,11 +68,9 @@ public class Armies extends JFrame {
         button5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Catapult ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
                 CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
-                civilizationArmyDAO.setCatapult(Armies.this.civilizationId);
-                gameWindow.UpdateFields();
+                int result = civilizationArmyDAO.setCatapult(Armies.this.civilizationId);
+                handleCreationResult(result, "Catapult");
             }
         });
 
@@ -91,11 +78,9 @@ public class Armies extends JFrame {
         button6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Arrow Tower ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
                 CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
-                civilizationArmyDAO.setArrowTower(Armies.this.civilizationId);
-                gameWindow.UpdateFields();
+                int result = civilizationArmyDAO.setArrowTower(Armies.this.civilizationId);
+                handleCreationResult(result, "Arrow Tower");
             }
         });
 
@@ -103,11 +88,9 @@ public class Armies extends JFrame {
         button7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Rocket Tower ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
                 CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
-                civilizationArmyDAO.setRocketLauncherTower(Armies.this.civilizationId);
-                gameWindow.UpdateFields();
+                int result = civilizationArmyDAO.setRocketLauncherTower(Armies.this.civilizationId);
+                handleCreationResult(result, "Rocket Tower");
             }
         });
 
@@ -115,11 +98,9 @@ public class Armies extends JFrame {
         button8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Magician ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
                 CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
-                civilizationArmyDAO.setMagician(Armies.this.civilizationId);
-                gameWindow.UpdateFields();
+                int result = civilizationArmyDAO.setMagician(Armies.this.civilizationId);
+                handleCreationResult(result, "Magician");
             }
         });
 
@@ -127,11 +108,9 @@ public class Armies extends JFrame {
         button9.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Priest ActionListener ejecutado");
-                System.out.println("ID de buildings al pulsar botón: " + Armies.this.civilizationId);
                 CivilizationArmyDAO civilizationArmyDAO = new CivilizationArmyDAO();
-                civilizationArmyDAO.setPriest(Armies.this.civilizationId);
-                gameWindow.UpdateFields();
+                int result = civilizationArmyDAO.setPriest(Armies.this.civilizationId);
+                handleCreationResult(result, "Priest");
             }
         });
 
@@ -192,10 +171,16 @@ public class Armies extends JFrame {
         button.setVerticalTextPosition(SwingConstants.BOTTOM);
         button.setPreferredSize(new Dimension(width, height + 30));  // Añadir espacio para el texto
 
-        // Añadir ActionListener para mostrar ventana emergente
-        button.addActionListener(e -> JOptionPane.showMessageDialog(Armies.this, "Se ha creado " + text, "Creación de Ejército", JOptionPane.INFORMATION_MESSAGE));
-
         return button;
+    }
+
+    private void handleCreationResult(int result, String unitType) {
+        if (result == 1) {
+            JOptionPane.showMessageDialog(Armies.this, "Se ha creado " + unitType, "Creación de Ejército", JOptionPane.INFORMATION_MESSAGE);
+            gameWindow.UpdateFields();
+        } else if (result == -1) {
+            JOptionPane.showMessageDialog(Armies.this, "Error al crear " + unitType + ". No tienes suficientes recursos.", "Error de Creación", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String[] args) {
