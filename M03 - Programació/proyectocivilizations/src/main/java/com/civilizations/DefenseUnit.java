@@ -168,4 +168,8 @@ public class DefenseUnit implements MilitaryUnit, Variables {
         // Set the sanctified status of the unit.
         this.sanctified = sanctified;
     }
-}
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
+    
+}    

@@ -15,4 +15,8 @@ public class Magician extends SpecialUnit{
             baseDamage = BASE_DAMAGE_MAGICIAN + (civilization.getTechnologyAttack() * PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY) * 10;
         }
     }
+    @Override
+    public String getName() {
+        return "Magician";
+    }
 }

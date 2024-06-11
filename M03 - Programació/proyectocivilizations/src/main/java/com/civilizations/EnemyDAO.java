@@ -72,28 +72,53 @@ public class EnemyDAO {
         String sql = "SELECT * FROM ENEMY_THREAD";
     
         try (Connection connection = AppData.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
     
-            while (resultSet.next()) {
-                // Extract data from result set
-                int civilization_id = resultSet.getInt("CIVILIZATION_ID");
-                int unit_id = resultSet.getInt("UNIT_ID");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    // Extract data from result set
+                    int civId = resultSet.getInt("CIVILIZATION_ID");
+                    int uId = resultSet.getInt("UNIT_ID");
+                    int armor = resultSet.getInt("ARMOR");
+                    int baseDamage = resultSet.getInt("BASE_DAMAGE");
+                    String unitType = resultSet.getString("TYPE_UNIT");
     
-                int armor = resultSet.getInt("ARMOR");
-                int baseDamage = resultSet.getInt("BASE_DAMAGE");
-                // Create AttackUnit instance
-                AttackUnit enemyTroop = new AttackUnit(civilization_id,unit_id,armor, baseDamage);
-                // Add AttackUnit to the list
-                enemyArmy.add(enemyTroop);
+                    // Create unit instance based on unit type
+                    MilitaryUnit unit = null;
+                    switch (unitType.toUpperCase()) {
+                        case "SWORDSMAN":
+                            unit = new Swordsman(civId, uId, armor, baseDamage);
+                            break;
+                        case "SPEARMAN":
+                            unit = new Spearman(civId, uId, armor, baseDamage);
+                            break;
+                        case "CROSSBOW":
+                            unit = new Crossbow(civId, uId, armor, baseDamage);
+                            break;
+                        case "CANNON":
+                            unit = new Cannon(civId, uId, armor, baseDamage);
+                            break;
+                        // Add cases for other unit types as needed
+                        default:
+                            // Handle unknown unit types
+                            System.err.println("Unknown unit type: " + unitType);
+                            break;
+                    }
+    
+                    // Add unit to the list if it's not null
+                    if (unit != null) {
+                        enemyArmy.add(unit);
+                    }
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     
-
         return enemyArmy;
     }
+    
+    
     //DELETES
     public void deleteEnemyTroop(int unitId) {
         String sql = "DELETE FROM ENEMY_THREAD WHERE UNIT_ID = ?";

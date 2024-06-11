@@ -194,6 +194,8 @@ public class AttackUnit implements MilitaryUnit, Variables {
 
         }
     }
-
-
-}
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
+    
+}    

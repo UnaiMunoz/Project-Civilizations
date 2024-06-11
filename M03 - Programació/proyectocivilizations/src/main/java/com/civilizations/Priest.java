@@ -54,4 +54,8 @@ public class Priest extends SpecialUnit{
     public int getExperience(){
         return super.experience;
     };
+    @Override
+    public String getName() {
+        return "Priest";
+    }
 }

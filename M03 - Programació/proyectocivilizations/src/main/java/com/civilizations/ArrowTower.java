@@ -64,4 +64,8 @@ public class ArrowTower extends DefenseUnit {
     public int getExperience(){
         return super.experience;
     };
+    @Override
+    public String getName() {
+        return "Arrow Tower";
+    }
 }
