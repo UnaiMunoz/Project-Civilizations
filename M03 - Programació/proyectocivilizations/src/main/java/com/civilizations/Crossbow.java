@@ -17,10 +17,17 @@ public class Crossbow extends AttackUnit{
         }
         initialArmor = ARMOR_CROSSBOW;
     }
+
     public Crossbow() {
         super(ARMOR_CROSSBOW, BASE_DAMAGE_CROSSBOW);
         this.initialArmor = ARMOR_CROSSBOW;
     }
+
+    public Crossbow(int civilizationid,int armor, int baseDamage,int experience) {
+        super(armor, baseDamage);
+        
+    }
+
     public void takeDamage(int receivedDamage){
         super.armor -= receivedDamage;
     }
@@ -64,4 +71,9 @@ public class Crossbow extends AttackUnit{
     public int getExperience(){
         return super.experience;
     };
+    
+    @Override
+    public String getName() {
+        return "Crossbow";
+    }
 }

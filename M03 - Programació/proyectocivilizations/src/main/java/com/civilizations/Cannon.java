@@ -21,6 +21,12 @@ public class Cannon extends AttackUnit{
         super(ARMOR_CANNON, BASE_DAMAGE_CANNON);
         this.initialArmor = ARMOR_CANNON;
     }
+
+    public Cannon(int civilizationid,int armor, int baseDamage,int experience) {
+        super(armor, baseDamage);
+        
+    }
+
     public int attack(){
         return super.baseDamage;
     }
@@ -68,4 +74,8 @@ public class Cannon extends AttackUnit{
     public int getExperience(){
         return super.experience;
     };
+    @Override
+    public String getName() {
+        return "Cannon";
+    }
 }

@@ -21,6 +21,15 @@ public class Spearman extends AttackUnit{
         super(ARMOR_SPEARMAN, BASE_DAMAGE_SPEARMAN);
         this.initialArmor = ARMOR_SPEARMAN;
     }
+
+    public Spearman(int civilizationid,int armor, int baseDamage,int experience) {
+        super(armor, baseDamage);
+        
+    }
+
+
+
+
     public int attack(){
         return super.baseDamage;
     }
@@ -67,5 +76,9 @@ public class Spearman extends AttackUnit{
 
     public int getExperience(){
         return super.experience;
+    }
+    @Override
+    public String getName() {
+        return "Spearman";
     }
 }

@@ -331,6 +331,8 @@ public class EnemyArmy implements Variables,MilitaryUnit{
         }
     }
 
-
-}
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
     
+}       

@@ -220,11 +220,34 @@ public class CivilizationArmyDAO implements Variables {
                     int uId = resultSet.getInt("UNIT_ID");
                     int armor = resultSet.getInt("ARMOR");
                     int baseDamage = resultSet.getInt("BASE_DAMAGE");
+                    String unitType = resultSet.getString("TYPE_UNIT");
     
-                    // Create AttackUnit instance
-                    AttackUnit attackUnit = new AttackUnit(civId, uId, armor, baseDamage);
-                    // Add AttackUnit to the list
-                    attackUnits.add(attackUnit);
+                    // Create unit instance based on unit type
+                    MilitaryUnit unit = null;
+                    switch (unitType.toUpperCase()) {
+                        case "SWORDSMAN":
+                            unit = new Swordsman(civId, uId, armor, baseDamage);
+                            break;
+                        case "SPEARMAN":
+                            unit = new Spearman(civId, uId, armor, baseDamage);
+                            break;
+                        case "CROSSBOW":
+                            unit = new Crossbow(civId, uId, armor, baseDamage);
+                            break;
+                        case "CANNON":
+                            unit = new Cannon(civId, uId, armor, baseDamage);
+                            break;
+                        // Add cases for other unit types as needed
+                        default:
+                            // Handle unknown unit types
+                            System.err.println("Unknown unit type: " + unitType);
+                            break;
+                    }
+    
+                    // Add unit to the list if it's not null
+                    if (unit != null) {
+                        attackUnits.add(unit);
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -233,6 +256,7 @@ public class CivilizationArmyDAO implements Variables {
     
         return attackUnits;
     }
+    
     
     
     public ArrayList<DefenseUnit> getDefenseUnits(int id) {
@@ -489,7 +513,31 @@ public class CivilizationArmyDAO implements Variables {
     
         return allUnits;
     }
-    
+    private String getUnitNameByType(String type) {
+    switch (type) {
+        case "Swordsman":
+            return "Swordsman";
+        case "Spearman":
+            return "Spearman";
+        case "Crossbow":
+            return "Crossbow";
+        case "Cannon":
+            return "Cannon";
+        case "ArrowTower":
+            return "Arrow Tower";
+        case "Catapult":
+            return "Catapult";
+        case "RocketLauncherTower":
+            return "Rocket Launcher Tower";
+        case "Magician":
+            return "Magician";
+        case "Priest":
+            return "Priest";
+        default:
+            return "Unknown";
+    }
+}
+
     
 }
 

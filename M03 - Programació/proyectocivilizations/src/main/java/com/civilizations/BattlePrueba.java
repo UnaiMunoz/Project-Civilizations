@@ -63,7 +63,8 @@ public class BattlePrueba {
 
     public void initInitialArmies() {
         for (MilitaryUnit unit : civilizationArmy) {
-            switch (unit.getClass().getSimpleName()) {
+            System.out.println("Unit name: " + unit.getName());
+            switch (unit.getName().toUpperCase()) {
                 case "SWORDSMAN":
                     initialArmies[0][0]++;
                     actualNumberUnitsCivilization[0]++;
@@ -103,7 +104,7 @@ public class BattlePrueba {
             }
         }
         for (MilitaryUnit unit : enemyArmy) {
-            switch (unit.getClass().getSimpleName()) {
+            switch (unit.getName().toUpperCase()) {
                 case "SWORDSMAN":
                     initialArmies[1][0]++;
                     actualNumberUnitsEnemy[0]++;
@@ -123,6 +124,7 @@ public class BattlePrueba {
             }
         }
     }
+    
 
     public void updateResourcesLooses() {
         resourcesLooses[0][0] = initialCostFleet[0][0] - fleetResourceCost(civilizationArmy)[0];
@@ -139,62 +141,10 @@ public class BattlePrueba {
     public int[] fleetResourceCost(ArrayList<MilitaryUnit> army) {
         int[] cost = new int[4];
         for (MilitaryUnit unit : army) {
-            switch (unit.getClass().getSimpleName()) {
-                case "SWORDSMAN":
-                    cost[0] += unit.getWoodCost(); 
-                    cost[1] += unit.getFoodCost();
-                    cost[2] += unit.getIronCost();
-                    cost[3] += unit.getManaCost();
-                    break;
-                case "SPEARMAN":
-                    cost[0] += unit.getWoodCost(); 
-                    cost[1] += unit.getFoodCost();
-                    cost[2] += unit.getIronCost();
-                    cost[3] += unit.getManaCost();
-                    break;
-                case "CROSSBOW":
-                    cost[0] += unit.getWoodCost(); 
-                    cost[1] += unit.getFoodCost();
-                    cost[2] += unit.getIronCost();
-                    cost[3] += unit.getManaCost();
-                    break;
-                case "CANNON":
-                    cost[0] += unit.getWoodCost(); 
-                    cost[1] += unit.getFoodCost();
-                    cost[2] += unit.getIronCost();
-                    cost[3] += unit.getManaCost();
-                    break;
-                case "ARROW_TOWER":
-                    cost[0] += unit.getWoodCost(); 
-                    cost[1] += unit.getFoodCost();
-                    cost[2] += unit.getIronCost();
-                    cost[3] += unit.getManaCost();
-                    break;
-                case "CATAPULT":
-                    cost[0] += unit.getWoodCost(); 
-                    cost[1] += unit.getFoodCost();
-                    cost[2] += unit.getIronCost();
-                    cost[3] += unit.getManaCost();
-                    break;
-                case "ROCKET_LAUNCHER_TOWER":
-                    cost[0] += unit.getWoodCost(); 
-                    cost[1] += unit.getFoodCost();
-                    cost[2] += unit.getIronCost();
-                    cost[3] += unit.getManaCost();
-                    break;
-                case "MAGICIAN":
-                    cost[0] += unit.getWoodCost(); 
-                    cost[1] += unit.getFoodCost();
-                    cost[2] += unit.getIronCost();
-                    cost[3] += unit.getManaCost();
-                    break;
-                case "PRIEST":
-                    cost[0] += unit.getWoodCost(); 
-                    cost[1] += unit.getFoodCost();
-                    cost[2] += unit.getIronCost();
-                    cost[3] += unit.getManaCost();
-                    break;
-            }
+            cost[0] += unit.getWoodCost();
+            cost[1] += unit.getFoodCost();
+            cost[2] += unit.getIronCost();
+            cost[3] += unit.getManaCost();
         }
         return cost;
     }
@@ -236,25 +186,27 @@ public class BattlePrueba {
         return battleDevelopment;
     }
 
-    // Lógica de ataque básica
+    // Lógica de ataque
     private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> defenders) {
         int attackerIndex = random.nextInt(attackers.size());
         int defenderIndex = getGroupDefender(defenders);
-    
+
         MilitaryUnit attacker = attackers.get(attackerIndex);
         MilitaryUnit defender = defenders.get(defenderIndex);
-    
+
         int damage = attacker.attack();
-        int armor = defender.getActualArmor();
-        int actualDamage = Math.max(0, damage - armor);
-    
-        defender.takeDamage(Math.max(0, armor - actualDamage));
-    
-        battleDevelopment += "Attacker: " + attacker.getClass().getSimpleName() + " dealt " + actualDamage + " damage to " + defender.getClass().getSimpleName() + "\n";
-    
+        int actualDamage = Math.max(0, damage - defender.getActualArmor());
+
+        defender.takeDamage(actualDamage);
+
+        System.out.println("Attacker: " + attacker.getName() + " dealt " + damage + " damage to " + defender.getName());
+
+
+        battleDevelopment += "Attacker: " + attacker.getName() + " dealt " + actualDamage + " damage to " + defender.getName() + "\n";
+
         if (defender.getActualArmor() <= 0) {
             defenders.remove(defenderIndex);
-            battleDevelopment += defender.getClass().getSimpleName() + " has been destroyed!\n";
+            battleDevelopment += defender.getName() + " has been destroyed!\n";
             if (defenders == enemyArmy) {
                 civilizationDrops++;
             } else {
@@ -262,5 +214,4 @@ public class BattlePrueba {
             }
         }
     }
-    
 }

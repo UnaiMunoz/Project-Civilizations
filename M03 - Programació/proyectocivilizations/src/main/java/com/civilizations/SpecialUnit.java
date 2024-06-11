@@ -146,4 +146,8 @@ public class SpecialUnit implements MilitaryUnit, Variables {
         return baseDamage;
     }
 
-}
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
+    
+}    

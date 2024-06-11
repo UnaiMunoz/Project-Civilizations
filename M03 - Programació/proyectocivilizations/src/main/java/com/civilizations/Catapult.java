@@ -68,4 +68,8 @@ public class Catapult extends DefenseUnit {
     public int getExperience(){
         return super.experience;
     };
+    @Override
+    public String getName() {
+        return "Catapult";
+    }
 }

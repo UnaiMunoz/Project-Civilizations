@@ -17,6 +17,13 @@ public class Swordsman extends AttackUnit{
         }
         initialArmor = ARMOR_SWORDSMAN;
     }
+
+    public Swordsman(int civilizationid,int armor, int baseDamage,int experience) {
+        super(armor, baseDamage);
+        
+    }
+        
+
     public Swordsman() {
         super(ARMOR_SWORDSMAN, BASE_DAMAGE_SWORDSMAN);
         this.initialArmor = ARMOR_SWORDSMAN;
@@ -67,5 +74,10 @@ public class Swordsman extends AttackUnit{
 
     public int getExperience(){
         return super.experience;
+    }
+
+    @Override
+    public String getName() {
+        return "Swordsman";
     }
 }
