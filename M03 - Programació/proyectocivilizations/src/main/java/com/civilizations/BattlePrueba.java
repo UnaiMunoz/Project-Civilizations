@@ -27,7 +27,8 @@ public class BattlePrueba implements Variables {
     private int enemyCasualties = 0;
 
     // DAOs
-    private CivilizationArmyDAO civilizationDAO;
+    private CivilizationArmyDAO civilizationArmyDAO;
+    private CivilizationDAO civilizationDAO;
     private EnemyDAO enemyDAO;
 
     // Bandera para controlar si la batalla ha terminado
@@ -35,10 +36,11 @@ public class BattlePrueba implements Variables {
 
     // Constructor
     public BattlePrueba(int civilizationId, int enemyId) {
-        this.civilizationDAO = new CivilizationArmyDAO();
+        this.civilizationDAO = new CivilizationDAO();
+        this.civilizationArmyDAO = new CivilizationArmyDAO();
         this.enemyDAO = new EnemyDAO();
 
-        this.civilizationArmy = civilizationDAO.getArmy(civilizationId);
+        this.civilizationArmy = civilizationArmyDAO.getArmy(civilizationId);
         this.enemyArmy = enemyDAO.getEnemyArmy(enemyId);
         this.armies = new ArrayList<>(2);
         this.armies.add(civilizationArmy);
@@ -92,10 +94,15 @@ public class BattlePrueba implements Variables {
         // Marcar la batalla como finalizada
         isBattleFinished = true;
         /* PONLO AQUI---> LO DE ACTUALIZAR LA BATTLE
-        HAZ UN METODO DE GETBATTLECOUNTER EN EL CIVILIZATIONDAO Y LUEGO HACES TMB UN SETBATTLECOUNTER CON UPDATE Y LE PASAS UN NUMERO COMO ATRIBUTO
+        HAZ UN METODO DE GETBATTLECOUNTER EN EL civilizationArmyDAO Y LUEGO HACES TMB UN SETBATTLECOUNTER CON UPDATE Y LE PASAS UN NUMERO COMO ATRIBUTO
         LUEGO, AQUI LO LLAMAS SETBATTLECOUNTER(GETBATTLECOUNTER + 1) O ALGUNA COSA ASI*/ 
         
-
+        //
+        int currentBattleCounter = civilizationDAO.getBattleCounter(civilizationId);
+        int newBattleCounter = currentBattleCounter + 1;
+            
+        civilizationDAO.setBattleCounter(civilizationId, newBattleCounter);
+        //    
 
         EnemyDAO enemyDAO = new EnemyDAO();
         enemyDAO.deleteEnemyArmy();
@@ -237,7 +244,7 @@ public class BattlePrueba implements Variables {
 
         if (defender.getActualArmor() <= 0) {
             if (defenders == civilizationArmy) {
-                removeUnitFromDatabase(defender, civilizationDAO);
+                removeUnitFromDatabase(defender, civilizationArmyDAO);
                 boolean generates_waste = unitGeneratesWaste(defender);
                 if (generates_waste) {
                     generateWaste(defender);
@@ -281,15 +288,15 @@ public class BattlePrueba implements Variables {
         wasteWoodIron[1] += ironWaste; // Sumar residuos de hierro
     }
 
-    private void removeUnitFromDatabase(MilitaryUnit unit, CivilizationArmyDAO civilizationDAO) {
+    private void removeUnitFromDatabase(MilitaryUnit unit, CivilizationArmyDAO civilizationArmyDAO) {
         if (unit instanceof SpecialUnit) {
-            civilizationDAO.deleteSpecialUnit(unit.getUnit_id());
+            civilizationArmyDAO.deleteSpecialUnit(unit.getUnit_id());
             System.out.println("SpecialUnit deleted: " + unit.getUnit_id());
         } else if (unit instanceof AttackUnit) {
-            civilizationDAO.deleteAttackUnit(unit.getUnit_id());
+            civilizationArmyDAO.deleteAttackUnit(unit.getUnit_id());
             System.out.println("AttackUnit deleted: " + unit.getUnit_id());
         } else if (unit instanceof DefenseUnit) {
-            civilizationDAO.deleteDefenseUnit(unit.getUnit_id());
+            civilizationArmyDAO.deleteDefenseUnit(unit.getUnit_id());
             System.out.println("DefenseUnit deleted: " + unit.getUnit_id());
         }
     }

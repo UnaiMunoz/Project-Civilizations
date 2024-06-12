@@ -263,4 +263,35 @@ public String getUsernameByCivilizationID(int civilizationId) {
         }
         return false;
     }
+
+    public int getBattleCounter(int civilizationId) {
+        String sql = "SELECT MAX(num_battle) AS battles_counter FROM battle_log WHERE civilization_id = ?";
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, civilizationId);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("battles_counter");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; 
+    }
+
+    public void setBattleCounter(int civilizationId, int battleCounter) {
+        String sql = "INSERT INTO battle_log (civilization_id, num_battle, num_line, log_entry) VALUES (?, ?, ?, ?)";
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, civilizationId);
+            statement.setInt(2, battleCounter);
+            statement.setInt(3, 0);
+            statement.setString(4, ""); 
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }    
