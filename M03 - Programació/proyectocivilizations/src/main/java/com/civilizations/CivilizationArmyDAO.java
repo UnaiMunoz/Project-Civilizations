@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class CivilizationArmyDAO implements Variables {
@@ -227,15 +229,19 @@ public class CivilizationArmyDAO implements Variables {
                     switch (unitType.toUpperCase()) {
                         case "SWORDSMAN":
                             unit = new Swordsman(uId, civilizationId, armor, baseDamage, 0);
+                            setSwordsman(civId);
                             break;
                         case "SPEARMAN":
-                            unit = new Spearman(uId, civilizationId, armor, baseDamage, 0);
+                            unit= new Spearman(uId, civilizationId, armor, baseDamage, 0);
+                            setSpearman(civId);
                             break;
                         case "CROSSBOW":
                             unit = new Crossbow(uId, civilizationId, armor, baseDamage, 0);
+                            setCrossbow(civId);
                             break;
                         case "CANNON":
                             unit = new Cannon(uId, civilizationId, armor, baseDamage, 0);
+                            setCannon(civId);
                             break;
                         // Add cases for other unit types as needed
                         default:
@@ -281,12 +287,15 @@ public class CivilizationArmyDAO implements Variables {
                 switch (unitType.toUpperCase()) {
                     case "ARROWTOWER":
                         unit = new ArrowTower(uId, civId, armor, baseDamage, 0);
+                        setArrowTower(civId);
                         break;
                     case "CATAPULT":
                         unit = new Catapult(uId, civId, armor, baseDamage, 0);
+                        setCatapult(civId);
                         break;
                     case "ROCKETLAUNCHERTOWER":
                         unit = new RocketLauncherTower(uId, civId, armor, baseDamage, 0);
+                        setRocketLauncherTower(civId);
                         break;
 
                     // Add cases for other unit types as needed
@@ -325,9 +334,11 @@ public class CivilizationArmyDAO implements Variables {
                 switch (unitType.toUpperCase()) {
                     case "MAGICIAN":
                         unit = new Magician(uId, civId, armor, baseDamage, 0);
+                        setMagician(civId);
                         break;
                     case "PRIEST":
                         unit = new Priest(uId, civId, armor, baseDamage, 0);
+                        setPriest(civId);
                         break;                
                     }                
                     specialUnits.add(unit);
@@ -552,30 +563,18 @@ public class CivilizationArmyDAO implements Variables {
     
         return allUnits;
     }
-    private String getUnitNameByType(String type) {
-    switch (type) {
-        case "Swordsman":
-            return "Swordsman";
-        case "Spearman":
-            return "Spearman";
-        case "Crossbow":
-            return "Crossbow";
-        case "Cannon":
-            return "Cannon";
-        case "ArrowTower":
-            return "Arrow Tower";
-        case "Catapult":
-            return "Catapult";
-        case "RocketLauncherTower":
-            return "Rocket Launcher Tower";
-        case "Magician":
-            return "Magician";
-        case "Priest":
-            return "Priest";
-        default:
-            return "Unknown";
+    public Map<String, Object> getCivilizationArmy(int civilizationId) {
+        Map<String, Object> civilizationArmy = new HashMap<>();
+        ArrayList<MilitaryUnit> attackUnits = getAttackUnitsByCivilization(civilizationId);
+        ArrayList<MilitaryUnit> defenseUnits = getDefenseUnits(civilizationId);
+        ArrayList<MilitaryUnit> specialUnits = getSpecialUnits(civilizationId);
+
+        civilizationArmy.put("AttackUnits", attackUnits);
+        civilizationArmy.put("DefenseUnits", defenseUnits);
+        civilizationArmy.put("SpecialUnits", specialUnits);
+
+        return civilizationArmy;
     }
-}
 
     
 }

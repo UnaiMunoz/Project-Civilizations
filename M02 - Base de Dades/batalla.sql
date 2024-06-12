@@ -62,7 +62,7 @@ CREATE TABLE battle_log (
     civilization_id NUMBER(10) NOT NULL,
     num_battle NUMBER(10) NOT NULL,
     num_line NUMBER(10) NOT NULL,
-    log_entry CLOB,
+    log_entry VARCHAR(20000),
     CONSTRAINT pk_battle_log PRIMARY KEY (civilization_id, num_line),
     CONSTRAINT fk_battle_log_battle FOREIGN KEY (civilization_id, num_battle) REFERENCES battle_stats (civilization_id, num_battle)
 );
