@@ -250,5 +250,17 @@ public String getUsernameByCivilizationID(int civilizationId) {
         return 0;
     }
     
-
-}
+    public boolean doesCivilizationExist(int civilizationId) {
+        String sql = "SELECT 1 FROM civilization_stats WHERE civilization_id = ?";
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, civilizationId);
+            try (ResultSet rs = statement.executeQuery()) {
+                return rs.next(); // Si hay alguna fila, significa que la civilización existe
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+}    

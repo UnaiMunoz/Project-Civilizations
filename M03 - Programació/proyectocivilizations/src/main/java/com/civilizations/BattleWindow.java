@@ -44,7 +44,7 @@ public class BattleWindow extends JFrame {
         battle = new BattlePrueba(civilizationId,civilizationId);
 
         // Iniciar la batalla
-        battle.startBattle();
+        battle.startBattle(civilizationId);
 
         // Mostrar el desarrollo de la batalla en el área de texto
         updateBattleTextArea();
@@ -58,9 +58,4 @@ public class BattleWindow extends JFrame {
         battleTextArea.setText(battleDevelopment);
     }
 
-    public static void main(String[] args) {
-        // Ejemplo de uso de la ventana de batalla
-        int civilizationId = 1; // Id de la civilización
-        SwingUtilities.invokeLater(() -> new BattleWindow(civilizationId,civilizationId));
-    }
 }

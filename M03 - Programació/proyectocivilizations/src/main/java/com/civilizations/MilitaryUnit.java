@@ -1,7 +1,10 @@
 package com.civilizations;
 
 public interface MilitaryUnit {
+    int getUnit_id();
+    //DEVUELVE LA ID DE LA TROPA
     String getName();
+    //DEVUELVE NOMBRE
     int attack();
     // Nos devolverá el poder de ataque que tenga la unidad.
     void takeDamage(int receivedDamage);

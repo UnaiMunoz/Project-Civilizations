@@ -47,6 +47,7 @@ CREATE TABLE enemy_attack_stats (
 
 
 
+-- Crear la tabla battle_stats
 CREATE TABLE battle_stats (
     civilization_id NUMBER(10) NOT NULL,
     num_battle NUMBER(10) NOT NULL,
@@ -56,16 +57,14 @@ CREATE TABLE battle_stats (
     CONSTRAINT fk_battle_stats_civilization FOREIGN KEY (civilization_id) REFERENCES civilization_stats (civilization_id)
 );
 
-
-
+-- Crear la tabla battle_log
 CREATE TABLE battle_log (
     civilization_id NUMBER(10) NOT NULL,
     num_battle NUMBER(10) NOT NULL,
     num_line NUMBER(10) NOT NULL,
-    log_entry VARCHAR2(50),
-    CONSTRAINT pk_battle_log PRIMARY KEY (civilization_id, num_battle, num_line),
+    log_entry CLOB,
+    CONSTRAINT pk_battle_log PRIMARY KEY (civilization_id, num_line),
     CONSTRAINT fk_battle_log_battle FOREIGN KEY (civilization_id, num_battle) REFERENCES battle_stats (civilization_id, num_battle)
 );
-
 
 

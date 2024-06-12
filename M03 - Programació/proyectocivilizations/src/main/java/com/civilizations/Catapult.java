@@ -21,6 +21,13 @@ public class Catapult extends DefenseUnit {
         super(ARMOR_CATAPULT, BASE_DAMAGE_CATAPULT);
         this.initialArmor = ARMOR_CATAPULT;
     }
+
+
+    public Catapult(int id, int civilizationid, int armor, int baseDamage, int experience) {
+        super(armor, baseDamage);
+        this.experience = experience;
+        this.initialArmor = ARMOR_CATAPULT;
+    }
     public int attack(){
         return super.baseDamage;
     }

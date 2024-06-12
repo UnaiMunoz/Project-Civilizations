@@ -9,7 +9,7 @@ public class AttackUnit implements MilitaryUnit, Variables {
     int experience;
     boolean sanctified;
 
-    public AttackUnit(int civilization_id,int unit_id,int armor, int initialArmor, int baseDamage, int experience, boolean sanctified) {
+    public AttackUnit(int civilization_id, int unit_id, int armor, int initialArmor, int baseDamage, int experience, boolean sanctified) {
         this.civilization_id = civilization_id;
         this.unit_id = unit_id;
         this.armor = armor;
@@ -19,21 +19,19 @@ public class AttackUnit implements MilitaryUnit, Variables {
         this.sanctified = sanctified;
     }
 
+    public AttackUnit() {}
 
-
-    public AttackUnit(){};
     public AttackUnit(int armor, int baseDamage) {
         this.armor = armor;
         this.baseDamage = baseDamage;
     }
 
-    public AttackUnit(int civilization_id,int unit_id,int armor, int baseDamage) {
+    public AttackUnit(int civilization_id, int unit_id, int armor, int baseDamage) {
         this.civilization_id = civilization_id;
         this.unit_id = unit_id;
         this.armor = armor;
         this.baseDamage = baseDamage;
     }
-
 
     public int getCivilization_id() {
         return this.civilization_id;
@@ -52,12 +50,10 @@ public class AttackUnit implements MilitaryUnit, Variables {
     }
 
     public int attack() {
-        // Return the attack power of the unit.
         return baseDamage;
     }
 
     public void takeDamage(int receivedDamage) {
-        // Reduce armor by the received damage.
         armor -= receivedDamage;
         if (armor <= 0) {
             armor = 0;
@@ -65,13 +61,11 @@ public class AttackUnit implements MilitaryUnit, Variables {
     }
 
     public int getActualArmor() {
-        // Return the current armor level after taking damage.
         return armor;
     }
 
     @Override
     public int getFoodCost() {
-        // Return the food cost of creating a new unit.
         switch (this.getClass().getSimpleName()) {
             case "Swordsman":
                 return FOOD_COST_UNITS[0];
@@ -82,13 +76,10 @@ public class AttackUnit implements MilitaryUnit, Variables {
             case "Cannon":
                 return FOOD_COST_UNITS[3];
         }
-    
-    return 0;}
-       
-
+        return 0;
+    }
 
     public int getWoodCost() {
-        // Return the wood cost of creating a new unit.
         switch (this.getClass().getSimpleName()) {
             case "Swordsman":
                 return WOOD_COST_UNITS[0];
@@ -99,11 +90,10 @@ public class AttackUnit implements MilitaryUnit, Variables {
             case "Cannon":
                 return WOOD_COST_UNITS[3];
         }
-    
-    return 0;}    
+        return 0;
+    }
 
     public int getIronCost() {
-        // Return the iron cost of creating a new unit.
         switch (this.getClass().getSimpleName()) {
             case "Swordsman":
                 return IRON_COST_UNITS[0];
@@ -114,11 +104,10 @@ public class AttackUnit implements MilitaryUnit, Variables {
             case "Cannon":
                 return IRON_COST_UNITS[3];
         }
-    
-    return 0;}    
+        return 0;
+    }
 
     public int getManaCost() {
-        // Return the mana cost of creating a new unit.
         return 0;
     }
 
@@ -139,7 +128,6 @@ public class AttackUnit implements MilitaryUnit, Variables {
     }
 
     public int getChanceAttackAgain() {
-        // Return the probability of attacking again.
         switch (this.getClass().getSimpleName()) {
             case "Swordsman":
                 return CHANCE_ATTACK_AGAIN_SWORDSMAN;
@@ -154,48 +142,41 @@ public class AttackUnit implements MilitaryUnit, Variables {
     }
 
     public void resetArmor() {
-        // Reset armor to its initial value.
         armor = initialArmor;
     }
 
     public void setExperience(int n) {
-        // Set the experience to a new value.
         experience = n;
     }
 
     public int getExperience() {
-        // Return the current experience of the unit.
         return experience;
     }
 
     public int getInitialArmor() {
-        // Return the initial armor value.
         return initialArmor;
     }
 
     public int getBaseDamage() {
-        // Return the base damage value.
         return baseDamage;
     }
 
     public boolean isSanctified() {
-        // Return the sanctified status of the unit.
         return sanctified;
     }
 
     public void setSanctified(boolean sanctified) {
-        // Set the sanctified status of the unit.
         this.sanctified = sanctified;
     }
-    public void SanctifiedBuff(){
-        if (sanctified){
-            baseDamage += baseDamage * (PLUS_ATTACK_UNIT_SANCTIFIED /100);
-            armor += armor * (PLUS_ARMOR_UNIT_SANCTIFIED /100) ;
 
+    public void SanctifiedBuff() {
+        if (sanctified) {
+            baseDamage += baseDamage * (PLUS_ATTACK_UNIT_SANCTIFIED / 100);
+            armor += armor * (PLUS_ARMOR_UNIT_SANCTIFIED / 100);
         }
     }
+
     public String getName() {
         return this.getClass().getSimpleName();
     }
-    
-}    
+}

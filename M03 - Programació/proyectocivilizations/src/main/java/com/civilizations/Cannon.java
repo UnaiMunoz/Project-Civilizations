@@ -22,9 +22,10 @@ public class Cannon extends AttackUnit{
         this.initialArmor = ARMOR_CANNON;
     }
 
-    public Cannon(int civilizationid,int armor, int baseDamage,int experience) {
+    public Cannon(int id, int civilizationid, int armor, int baseDamage, int experience) {
         super(armor, baseDamage);
-        
+        this.experience = experience;
+        this.initialArmor = ARMOR_CANNON;
     }
 
     public int attack(){
