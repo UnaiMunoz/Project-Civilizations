@@ -23,8 +23,10 @@ public class Crossbow extends AttackUnit{
         this.initialArmor = ARMOR_CROSSBOW;
     }
 
-    public Crossbow(int civilizationid,int armor, int baseDamage,int experience) {
+    public Crossbow(int id, int civilizationid, int armor, int baseDamage, int experience) {
         super(armor, baseDamage);
+        this.experience = experience;
+        this.initialArmor = ARMOR_CROSSBOW;
         
     }
 

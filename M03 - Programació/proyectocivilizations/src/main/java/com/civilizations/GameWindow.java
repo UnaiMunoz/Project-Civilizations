@@ -1,9 +1,15 @@
 package com.civilizations;
 
 import javax.swing.*;
+
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -16,6 +22,8 @@ public class GameWindow extends JFrame implements Variables {
     private int seconds = 0;
     private int civilizationId;
     private String username;
+    private Player player;
+
 
     // Constructor para nueva partida
     public GameWindow(String username) {
@@ -24,6 +32,9 @@ public class GameWindow extends JFrame implements Variables {
         civilizationId = civilizationDAO.getCivilizationIdByName(username);
         initGUI(0, 0, 0, 0);  // Inicializa la GUI con valores iniciales
         System.out.println("ID: " + civilizationId);
+
+        playBackgroundMusic("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\BGM\\Monster Legends Soundtrack (Welcome to the Island).mp3", true);
+
     }
 
     // Constructor para cargar partida
@@ -46,6 +57,8 @@ public class GameWindow extends JFrame implements Variables {
             }
         }
         initGUI(madera, comida, hierro, mana);
+
+        playBackgroundMusic("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\BGM\\Monster Legends Soundtrack (Welcome to the Island).mp3", true);
     }
 
     private void initGUI(int madera, int comida, int hierro, int mana) {
@@ -236,6 +249,28 @@ public class GameWindow extends JFrame implements Variables {
 
         // Mostrar la ventana
         setVisible(true);
+    }
+
+    private void playBackgroundMusic(String filePath, boolean loop) {
+        new Thread(() -> {
+            try {
+                while (true) {
+                    FileInputStream fileInputStream = new FileInputStream(filePath);
+                    player = new Player(fileInputStream);
+                    player.play();
+                    if (!loop) break; // Sal del bucle si no se necesita repetir
+                }
+            } catch (JavaLayerException | IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    // Método para detener la música de fondo
+    private void stopBackgroundMusic() {
+        if (player != null) {
+            player.close();
+        }
     }
 
     // Método para actualizar los campos de recursos

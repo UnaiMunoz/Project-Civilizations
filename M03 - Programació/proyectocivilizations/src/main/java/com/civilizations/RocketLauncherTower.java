@@ -21,6 +21,14 @@ public class RocketLauncherTower extends DefenseUnit{
         super(ARMOR_ROCKETLAUNCHERTOWER, BASE_DAMAGE_ROCKETLAUNCHERTOWER);
         this.initialArmor = ARMOR_ROCKETLAUNCHERTOWER;
     }
+
+    public RocketLauncherTower(int id, int civilizationid, int armor, int baseDamage, int experience) {
+        super(armor, baseDamage);
+        this.experience = experience;
+        this.initialArmor = ARMOR_ROCKETLAUNCHERTOWER;
+    }
+
+
     public int attack(){
         return super.baseDamage;
     }

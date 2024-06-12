@@ -226,16 +226,16 @@ public class CivilizationArmyDAO implements Variables {
                     MilitaryUnit unit = null;
                     switch (unitType.toUpperCase()) {
                         case "SWORDSMAN":
-                            unit = new Swordsman(civId, uId, armor, baseDamage);
+                            unit = new Swordsman(uId, civilizationId, armor, baseDamage, 0);
                             break;
                         case "SPEARMAN":
-                            unit = new Spearman(civId, uId, armor, baseDamage);
+                            unit = new Spearman(uId, civilizationId, armor, baseDamage, 0);
                             break;
                         case "CROSSBOW":
-                            unit = new Crossbow(civId, uId, armor, baseDamage);
+                            unit = new Crossbow(uId, civilizationId, armor, baseDamage, 0);
                             break;
                         case "CANNON":
-                            unit = new Cannon(civId, uId, armor, baseDamage);
+                            unit = new Cannon(uId, civilizationId, armor, baseDamage, 0);
                             break;
                         // Add cases for other unit types as needed
                         default:
@@ -259,8 +259,8 @@ public class CivilizationArmyDAO implements Variables {
     
     
     
-    public ArrayList<DefenseUnit> getDefenseUnits(int id) {
-        ArrayList<DefenseUnit> defenseUnits = new ArrayList<>();
+    public ArrayList<MilitaryUnit> getDefenseUnits(int id) {
+        ArrayList<MilitaryUnit> defenseUnits = new ArrayList<>();
 
         String sql = "SELECT * FROM DEFENSE_UNITS_STATS";
 
@@ -270,15 +270,32 @@ public class CivilizationArmyDAO implements Variables {
 
             while (resultSet.next()) {
                 // Extract data from result set
-                int civilization_id = resultSet.getInt("CIVILIZATION_ID");
-                int unit_id = resultSet.getInt("UNIT_ID");
-
+                int civId = resultSet.getInt("CIVILIZATION_ID");
+                int uId = resultSet.getInt("UNIT_ID");
                 int armor = resultSet.getInt("ARMOR");
                 int baseDamage = resultSet.getInt("BASE_DAMAGE");
-                // Create AttackUnit instance
-                DefenseUnit defenseUnit = new DefenseUnit(civilization_id,unit_id,armor, baseDamage);
-                // Add AttackUnit to the list
-                defenseUnits.add(defenseUnit);
+                String unitType = resultSet.getString("TYPE_UNIT");
+                // Create DefenseUnit instance
+                MilitaryUnit unit = null;
+
+                switch (unitType.toUpperCase()) {
+                    case "ARROWTOWER":
+                        unit = new ArrowTower(uId, civId, armor, baseDamage, 0);
+                        break;
+                    case "CATAPULT":
+                        unit = new Catapult(uId, civId, armor, baseDamage, 0);
+                        break;
+                    case "ROCKETLAUNCHERTOWER":
+                        unit = new RocketLauncherTower(uId, civId, armor, baseDamage, 0);
+                        break;
+
+                    // Add cases for other unit types as needed
+                    default:
+                        // Handle unknown unit types
+                        System.err.println("Unknown unit type: " + unitType);
+                        break;
+                }                // Add AttackUnit to the list
+                defenseUnits.add(unit);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -286,8 +303,8 @@ public class CivilizationArmyDAO implements Variables {
 
         return defenseUnits;
     }
-    public ArrayList<SpecialUnit> getSpecialUnits(int id) {
-        ArrayList<SpecialUnit> specialUnits = new ArrayList<>();
+    public ArrayList<MilitaryUnit> getSpecialUnits(int id) {
+        ArrayList<MilitaryUnit> specialUnits = new ArrayList<>();
 
         String sql = "SELECT * FROM SPECIAL_UNITS_STATS";
 
@@ -297,22 +314,44 @@ public class CivilizationArmyDAO implements Variables {
 
             while (resultSet.next()) {
                 // Extract data from result set
-                int civilization_id = resultSet.getInt("CIVILIZATION_ID");
-                int unit_id = resultSet.getInt("UNIT_ID");
-
+                int civId = resultSet.getInt("CIVILIZATION_ID");
+                int uId = resultSet.getInt("UNIT_ID");
                 int armor = resultSet.getInt("ARMOR");
                 int baseDamage = resultSet.getInt("BASE_DAMAGE");
+                String unitType = resultSet.getString("TYPE_UNIT");
                 // Create AttackUnit instance
-                SpecialUnit specialunit = new SpecialUnit(civilization_id,unit_id,armor, baseDamage);
-                // Add AttackUnit to the list
-                specialUnits.add(specialunit);
+                MilitaryUnit unit = null;
+
+                switch (unitType.toUpperCase()) {
+                    case "MAGICIAN":
+                        unit = new Magician(uId, civId, armor, baseDamage, 0);
+                        break;
+                    case "PRIEST":
+                        unit = new Priest(uId, civId, armor, baseDamage, 0);
+                        break;                
+                    }                
+                    specialUnits.add(unit);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    
+            return specialUnits;
         }
 
-        return specialUnits;
-    }
+
+        //OBTENER TODAS LAS UNITS:
+        public ArrayList<MilitaryUnit> getAllUnitsByCivilization(int civilizationId) {
+            ArrayList<MilitaryUnit> allUnits = new ArrayList<>();
+            // Obtener unidades de ataque
+            allUnits.addAll(getAttackUnitsByCivilization(civilizationId));
+            // Obtener unidades de defensa
+            allUnits.addAll(getDefenseUnits(civilizationId));
+            // Obtener unidades especiales
+            allUnits.addAll(getSpecialUnits(civilizationId));
+            return allUnits;
+        }
+    
 
     //ELIMINAR
     public void deleteAttackUnit(int unitId) {
@@ -431,13 +470,13 @@ public class CivilizationArmyDAO implements Variables {
                         case "Spearman":
                             counts.spearmanCount = count;
                             break;
-                        case "Arrow Tower":
+                        case "ArrowTower":
                             counts.arrowTowerCount = count;
                             break;
                         case "Catapult":
                             counts.catapultCount = count;
                             break;
-                        case "Rocket Launcher Tower":
+                        case "RocketLauncherTower":
                             counts.rlTowerCount = count;
                             break;
                         case "Magician":

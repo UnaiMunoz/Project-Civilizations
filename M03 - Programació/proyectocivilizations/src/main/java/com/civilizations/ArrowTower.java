@@ -21,6 +21,13 @@ public class ArrowTower extends DefenseUnit {
         super(ARMOR_ARROWTOWER, BASE_DAMAGE_ARROWTOWER);
         this.initialArmor = ARMOR_ARROWTOWER;
     }
+    public ArrowTower(int id, int civilizationid, int armor, int baseDamage, int experience) {
+        super(armor, baseDamage);
+        this.experience = experience;
+        this.initialArmor = ARMOR_ARROWTOWER;
+    }
+
+
     public void takeDamage(int receivedDamage){
         super.armor -= receivedDamage;
     }

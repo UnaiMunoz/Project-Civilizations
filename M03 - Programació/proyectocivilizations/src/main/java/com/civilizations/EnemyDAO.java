@@ -66,7 +66,7 @@ public class EnemyDAO {
     }
 
 
-    public ArrayList<MilitaryUnit> getEnemyArmy(int id) {
+    public ArrayList<MilitaryUnit> getEnemyArmy(int civilizationId) {
         ArrayList<MilitaryUnit> enemyArmy = new ArrayList<>();
     
         String sql = "SELECT * FROM ENEMY_THREAD";
@@ -87,16 +87,16 @@ public class EnemyDAO {
                     MilitaryUnit unit = null;
                     switch (unitType.toUpperCase()) {
                         case "SWORDSMAN":
-                            unit = new Swordsman(civId, uId, armor, baseDamage);
+                            unit = new Swordsman(uId, civilizationId, armor, baseDamage, 0);
                             break;
                         case "SPEARMAN":
-                            unit = new Spearman(civId, uId, armor, baseDamage);
+                            unit = new Spearman(uId, civilizationId, armor, baseDamage, 0);
                             break;
                         case "CROSSBOW":
-                            unit = new Crossbow(civId, uId, armor, baseDamage);
+                            unit = new Crossbow(uId, civilizationId, armor, baseDamage, 0);
                             break;
                         case "CANNON":
-                            unit = new Cannon(civId, uId, armor, baseDamage);
+                            unit = new Cannon(uId, civilizationId, armor, baseDamage, 0);
                             break;
                         // Add cases for other unit types as needed
                         default:
@@ -132,9 +132,22 @@ public class EnemyDAO {
             e.printStackTrace();
         }
     }
+
+    public void deleteEnemyArmy() {
+        String sql = "DELETE FROM ENEMY_THREAD";
+    
+        try (Connection conn = AppData.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+
     public List<Integer> getEnemyUnitIds(int civilizationId) {
         List<Integer> unitIds = new ArrayList<>();
-        String sql = "SELECT UNIT_ID FROM ENEMY_THREAD WHERE CIVILIZATION_ID = ?"; // Adjust the table name as per your schema
+        String sql = "SELECT UNIT_ID FROM ENEMY_THREAD WHERE CIVILIZATION_ID = ?"; 
 
         try (Connection connection = AppData.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {

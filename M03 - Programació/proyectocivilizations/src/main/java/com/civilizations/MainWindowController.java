@@ -13,11 +13,13 @@ public class MainWindowController {
 
     public void playBackgroundMusic(String filePath) {
         playerThread = new Thread(() -> {
-            try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
-                player = new Player(fileInputStream);
-                player.play();
-            } catch (JavaLayerException | IOException e) {
-                e.printStackTrace();
+            while (!Thread.currentThread().isInterrupted()) {
+                try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
+                    player = new Player(fileInputStream);
+                    player.play();
+                } catch (JavaLayerException | IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

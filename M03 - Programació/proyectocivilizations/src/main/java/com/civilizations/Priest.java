@@ -11,7 +11,14 @@ public class Priest extends SpecialUnit{
             armor = 0;
             baseDamage = 0;
     }
-    
+
+    public Priest(int id, int civilizationid, int armor, int baseDamage, int experience) {
+        super(armor, baseDamage);
+        armor = 0;
+        baseDamage = 0;
+        this.experience = experience;
+    }
+
     public void takeDamage(int receivedDamage){
         super.armor -= receivedDamage;
     }

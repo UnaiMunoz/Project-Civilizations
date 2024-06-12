@@ -3,7 +3,7 @@ package com.civilizations;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BattlePrueba {
+public class BattlePrueba implements Variables {
     private ArrayList<MilitaryUnit> civilizationArmy;
     private ArrayList<MilitaryUnit> enemyArmy;
     private ArrayList<ArrayList<MilitaryUnit>> armies;
@@ -18,19 +18,26 @@ public class BattlePrueba {
     private int[][] initialArmies;
     private int[] actualNumberUnitsCivilization;
     private int[] actualNumberUnitsEnemy;
-
+    private int numLine = 0;
     private static final Random random = new Random();
+
+    // Contadores de bajas
+    private int civilizationCasualties = 0;
+    private int enemyCasualties = 0;
 
     // DAOs
     private CivilizationArmyDAO civilizationDAO;
     private EnemyDAO enemyDAO;
+
+    // Bandera para controlar si la batalla ha terminado
+    private boolean isBattleFinished = false;
 
     // Constructor
     public BattlePrueba(int civilizationId, int enemyId) {
         this.civilizationDAO = new CivilizationArmyDAO();
         this.enemyDAO = new EnemyDAO();
 
-        this.civilizationArmy = civilizationDAO.getAttackUnitsByCivilization(civilizationId);
+        this.civilizationArmy = civilizationDAO.getAllUnitsByCivilization(civilizationId);
         this.enemyArmy = enemyDAO.getEnemyArmy(enemyId);
         this.armies = new ArrayList<>(2);
         this.armies.add(civilizationArmy);
@@ -47,18 +54,42 @@ public class BattlePrueba {
         this.initInitialArmies();
     }
 
-    public void startBattle() {
-        // Lógica para iniciar la batalla
+    public void startBattle(int civilizationId) {
+        int num_battle =+ 1; // Incrementar correctamente el número de batalla
+        BattleStatsDAO battleStatsDAO = new BattleStatsDAO();
+        battleStatsDAO.saveBattleStats(civilizationId, num_battle, 0, 0);
+
         while (remainderPercentageFleet(civilizationArmy) > 20 && remainderPercentageFleet(enemyArmy) > 20) {
             int attacker = random.nextInt(2);
             if (attacker == 0) {
-                attack(civilizationArmy, enemyArmy);
+                attack(civilizationArmy, enemyArmy, civilizationId, num_battle);
             } else {
-                attack(enemyArmy, civilizationArmy);
+                attack(enemyArmy, civilizationArmy, civilizationId, num_battle);
             }
             battleDevelopment += "********************CHANGE ATTACKER********************\n";
         }
+
         updateResourcesLooses();
+        battleStatsDAO.updateBattleResources(civilizationId, num_battle, wasteWoodIron[0], wasteWoodIron[1]);
+
+        // Determinar el ganador
+        String winner;
+        if (remainderPercentageFleet(civilizationArmy) > remainderPercentageFleet(enemyArmy)) {
+            winner = "Civilization";
+        } else {
+            winner = "Enemy";
+        }
+
+        // Registrar el ganador y las bajas en el log
+        battleDevelopment += "Winner: " + winner + "\n" +
+                               "Civilization casualties: " + civilizationCasualties + "\n" +
+                               "Enemy casualties: " + enemyCasualties + "\n";
+        saveBattleLog(civilizationId, num_battle, generateNumLine(), battleDevelopment);
+
+        // Marcar la batalla como finalizada
+        isBattleFinished = true;
+        EnemyDAO enemyDAO = new EnemyDAO();
+        enemyDAO.deleteEnemyArmy();
     }
 
     public void initInitialArmies() {
@@ -124,7 +155,6 @@ public class BattlePrueba {
             }
         }
     }
-    
 
     public void updateResourcesLooses() {
         resourcesLooses[0][0] = initialCostFleet[0][0] - fleetResourceCost(civilizationArmy)[0];
@@ -186,32 +216,101 @@ public class BattlePrueba {
         return battleDevelopment;
     }
 
-    // Lógica de ataque
-    private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> defenders) {
+    public void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> defenders, int civilizationId, int numBattle) {
         int attackerIndex = random.nextInt(attackers.size());
-        int defenderIndex = getGroupDefender(defenders);
+        int defenderIndex = random.nextInt(defenders.size());
 
         MilitaryUnit attacker = attackers.get(attackerIndex);
         MilitaryUnit defender = defenders.get(defenderIndex);
 
         int damage = attacker.attack();
-        int actualDamage = Math.max(0, damage - defender.getActualArmor());
-
-        defender.takeDamage(actualDamage);
-
-        System.out.println("Attacker: " + attacker.getName() + " dealt " + damage + " damage to " + defender.getName());
-
-
-        battleDevelopment += "Attacker: " + attacker.getName() + " dealt " + actualDamage + " damage to " + defender.getName() + "\n";
+        defender.takeDamage(damage);
 
         if (defender.getActualArmor() <= 0) {
-            defenders.remove(defenderIndex);
-            battleDevelopment += defender.getName() + " has been destroyed!\n";
-            if (defenders == enemyArmy) {
-                civilizationDrops++;
-            } else {
-                enemyDrops++;
+            if (defenders == civilizationArmy) {
+                removeUnitFromDatabase(defender, civilizationDAO);
+                boolean generates_waste = unitGeneratesWaste(defender);
+                if (generates_waste) {
+                    generateWaste(defender);
+                }
+                civilizationCasualties++; // Incrementar bajas de la civilización
+            } else if (defenders == enemyArmy) {
+                enemyDAO.deleteEnemyTroop(defender.getUnit_id());
+                boolean generates_waste = unitGeneratesWaste(defender);
+                if (generates_waste) {
+                    generateWaste(defender);
+                }
+                enemyCasualties++; // Incrementar bajas del enemigo
             }
+            defenders.remove(defenderIndex);
+            battleDevelopment += "Unit destroyed.\n";
         }
+
+        battleDevelopment += "Attacker: " + attacker.getName() + " | Defender: " + defender.getName() + "\n";
+        int numLine = generateNumLine();
+        saveBattleLog(civilizationId, numBattle, numLine, battleDevelopment);
+
+        battleDevelopment += "Damage: " + damage + " | Defender's remaining armor: " + defender.getActualArmor() + "\n\n";
+        saveBattleLog(civilizationId, numBattle, numLine, battleDevelopment);
+    }
+
+    private boolean unitGeneratesWaste(MilitaryUnit unit) {
+        int chance = unit.getChanceGeneratinWaste(); // Obtener la probabilidad de la unidad
+        return random.nextInt(100) < chance; // Se generan residuos si el número aleatorio es menor que la probabilidad
+    }
+
+    private void generateWaste(MilitaryUnit unit) {
+        // Calcular la cantidad de residuos de madera y hierro
+        int woodCost = unit.getWoodCost();
+        int ironCost = unit.getIronCost();
+
+        int woodWaste = woodCost * PERCENTATGE_WASTE / 100;
+        int ironWaste = ironCost * PERCENTATGE_WASTE / 100;
+
+        // Restar la cantidad de residuos de los recursos totales del ejército
+        wasteWoodIron[0] += woodWaste; // Sumar residuos de madera
+        wasteWoodIron[1] += ironWaste; // Sumar residuos de hierro
+    }
+
+    private void removeUnitFromDatabase(MilitaryUnit unit, CivilizationArmyDAO civilizationDAO) {
+        if (unit instanceof SpecialUnit) {
+            civilizationDAO.deleteSpecialUnit(unit.getUnit_id());
+            System.out.println("SpecialUnit deleted: " + unit.getUnit_id());
+        } else if (unit instanceof AttackUnit) {
+            civilizationDAO.deleteAttackUnit(unit.getUnit_id());
+            System.out.println("AttackUnit deleted: " + unit.getUnit_id());
+        } else if (unit instanceof DefenseUnit) {
+            civilizationDAO.deleteDefenseUnit(unit.getUnit_id());
+            System.out.println("DefenseUnit deleted: " + unit.getUnit_id());
+        }
+    }
+
+    // Getters y Setters para pruebas o uso adicional
+    public ArrayList<MilitaryUnit> getCivilizationArmy() {
+        return civilizationArmy;
+    }
+
+    public ArrayList<MilitaryUnit> getEnemyArmy() {
+        return enemyArmy;
+    }
+
+    public void saveBattleStats(int civilizationId, int numBattle) {
+        // Guardar las estadísticas para la civilización
+        BattleStatsDAO civilizationBattleStatsDAO = new BattleStatsDAO();
+        civilizationBattleStatsDAO.saveBattleStats(civilizationId, numBattle, 0, 0);
+    }
+
+    private int generateNumLine() {
+        numLine++;
+        return numLine;
+    }
+
+    public void saveBattleLog(int civilizationId, int numBattle, int numLine, String battleDevelopment) {
+        BattleLogDAO battleLogDAO = new BattleLogDAO();
+        battleLogDAO.saveLogEntry(civilizationId, numBattle, numLine, battleDevelopment);
+    }
+
+    public boolean isBattleFinished() {
+        return isBattleFinished;
     }
 }

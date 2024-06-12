@@ -22,9 +22,10 @@ public class Spearman extends AttackUnit{
         this.initialArmor = ARMOR_SPEARMAN;
     }
 
-    public Spearman(int civilizationid,int armor, int baseDamage,int experience) {
-        super(armor, baseDamage);
-        
+    public Spearman(int id, int civilizationid, int armor, int baseDamage, int experience) {
+        super(civilizationid, id, armor, baseDamage);
+        this.experience = experience;
+        this.initialArmor = ARMOR_SPEARMAN;
     }
 
 
