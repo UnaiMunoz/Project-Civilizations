@@ -19,6 +19,7 @@ public class BattlePrueba implements Variables {
     private int[] actualNumberUnitsCivilization;
     private int[] actualNumberUnitsEnemy;
     private int numLine = 0;
+    private int battle_Counter = 0;
     private static final Random random = new Random();
 
     // Contadores de bajas
@@ -37,7 +38,7 @@ public class BattlePrueba implements Variables {
         this.civilizationDAO = new CivilizationArmyDAO();
         this.enemyDAO = new EnemyDAO();
 
-        this.civilizationArmy = civilizationDAO.getAllUnitsByCivilization(civilizationId);
+        this.civilizationArmy = civilizationDAO.getArmy(civilizationId);
         this.enemyArmy = enemyDAO.getEnemyArmy(enemyId);
         this.armies = new ArrayList<>(2);
         this.armies.add(civilizationArmy);
@@ -55,22 +56,22 @@ public class BattlePrueba implements Variables {
     }
 
     public void startBattle(int civilizationId) {
-        int num_battle =+ 1; // Incrementar correctamente el número de batalla
+        generateBattleNumber(); // Incrementar correctamente el número de batalla
         BattleStatsDAO battleStatsDAO = new BattleStatsDAO();
-        battleStatsDAO.saveBattleStats(civilizationId, num_battle, 0, 0);
+        battleStatsDAO.saveBattleStats(civilizationId, getBattleNumber(), 0, 0);
 
         while (remainderPercentageFleet(civilizationArmy) > 20 && remainderPercentageFleet(enemyArmy) > 20) {
             int attacker = random.nextInt(2);
             if (attacker == 0) {
-                attack(civilizationArmy, enemyArmy, civilizationId, num_battle);
+                attack(civilizationArmy, enemyArmy, civilizationId, getBattleNumber());
             } else {
-                attack(enemyArmy, civilizationArmy, civilizationId, num_battle);
+                attack(enemyArmy, civilizationArmy, civilizationId, getBattleNumber());
             }
             battleDevelopment += "********************CHANGE ATTACKER********************\n";
         }
 
         updateResourcesLooses();
-        battleStatsDAO.updateBattleResources(civilizationId, num_battle, wasteWoodIron[0], wasteWoodIron[1]);
+        battleStatsDAO.updateBattleResources(civilizationId, getBattleNumber(), wasteWoodIron[0], wasteWoodIron[1]);
 
         // Determinar el ganador
         String winner;
@@ -84,10 +85,18 @@ public class BattlePrueba implements Variables {
         battleDevelopment += "Winner: " + winner + "\n" +
                                "Civilization casualties: " + civilizationCasualties + "\n" +
                                "Enemy casualties: " + enemyCasualties + "\n";
-        saveBattleLog(civilizationId, num_battle, generateNumLine(), battleDevelopment);
+
+
+        saveBattleLog(civilizationId, getBattleNumber(), generateNumLine(), battleDevelopment);
 
         // Marcar la batalla como finalizada
         isBattleFinished = true;
+        /* PONLO AQUI---> LO DE ACTUALIZAR LA BATTLE
+        HAZ UN METODO DE GETBATTLECOUNTER EN EL CIVILIZATIONDAO Y LUEGO HACES TMB UN SETBATTLECOUNTER CON UPDATE Y LE PASAS UN NUMERO COMO ATRIBUTO
+        LUEGO, AQUI LO LLAMAS SETBATTLECOUNTER(GETBATTLECOUNTER + 1) O ALGUNA COSA ASI*/ 
+        
+
+
         EnemyDAO enemyDAO = new EnemyDAO();
         enemyDAO.deleteEnemyArmy();
     }
@@ -303,6 +312,15 @@ public class BattlePrueba implements Variables {
     private int generateNumLine() {
         numLine++;
         return numLine;
+    }
+    
+    private int generateBattleNumber(){
+        battle_Counter++;
+        return battle_Counter;
+    }
+
+    private int getBattleNumber(){
+        return battle_Counter;
     }
 
     public void saveBattleLog(int civilizationId, int numBattle, int numLine, String battleDevelopment) {
