@@ -53,7 +53,7 @@ CREATE TABLE battle_stats (
     num_battle NUMBER(10) NOT NULL,
     wood_acquired NUMBER(10),
     iron_acquired NUMBER(10),
-    CONSTRAINT pk_battle_stats PRIMARY KEY (civilization_id, num_battle),
+    CONSTRAINT pk_battle_stats PRIMARY KEY (civilization_id),
     CONSTRAINT fk_battle_stats_civilization FOREIGN KEY (civilization_id) REFERENCES civilization_stats (civilization_id)
 );
 
@@ -62,7 +62,7 @@ CREATE TABLE battle_log (
     civilization_id NUMBER(10) NOT NULL,
     num_battle NUMBER(10) NOT NULL,
     num_line NUMBER(10) NOT NULL,
-    log_entry VARCHAR(20000),
+    log_entry LONG,
     CONSTRAINT pk_battle_log PRIMARY KEY (civilization_id, num_line),
     CONSTRAINT fk_battle_log_battle FOREIGN KEY (civilization_id, num_battle) REFERENCES battle_stats (civilization_id, num_battle)
 );

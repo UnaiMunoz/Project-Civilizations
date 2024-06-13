@@ -263,4 +263,32 @@ public String getUsernameByCivilizationID(int civilizationId) {
         }
         return false;
     }
-}    
+
+    public int getBattleCounter(int civilizationId) {
+        String sql = "SELECT battles_counter FROM civilization_stats WHERE civilization_id = ?";
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, civilizationId);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("battles_counter");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; 
+    }
+
+    public void setBattleCounter(int civilizationId, int battleCounter) {
+        String sql = "UPDATE civilization_stats SET battles_counter = ? WHERE civilization_id = ?";
+        try (Connection connection = AppData.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, battleCounter);
+            statement.setInt(2, civilizationId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
