@@ -22,8 +22,8 @@ public class Technology extends JFrame {
         JLabel titleLabel = new JLabel("Technology", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Garamond", Font.BOLD, 36));
 
-        JButton upgradeAttackButton = createButton("Upgrade Attack Tech", "path/to/upgradeAttack.png", 200, 100, "Se ha mejorado el ataque de las tropas");
-        JButton upgradeDefenseButton = createButton("Upgrade Defense Tech", "path/to/upgradeDefense.png", 200, 100, "Se ha mejorado la defensa de las tropas");
+        JButton upgradeAttackButton = createButton("Upgrade Attack Tech", "M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\upgradeAttack.png", 200, 100, "Se ha mejorado el ataque de las tropas");
+        JButton upgradeDefenseButton = createButton("Upgrade Defense Tech", "M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\upgradeDefense.png", 200, 100, "Se ha mejorado la defensa de las tropas");
 
         upgradeAttackButton.addActionListener(new ActionListener() {
             @Override
@@ -51,7 +51,7 @@ public class Technology extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon backgroundIcon = new ImageIcon("path/to/game2.jpg");
+                ImageIcon backgroundIcon = new ImageIcon("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\game2.jpg");
                 Image backgroundImage = backgroundIcon.getImage();
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }

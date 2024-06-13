@@ -17,6 +17,8 @@ public class SpecialUnit implements MilitaryUnit, Variables {
         this.experience = experience;
     }
 
+    public SpecialUnit(){}
+
     public SpecialUnit(int civilization_id,int unit_id,int armor, int baseDamage) {
         this.civilization_id = civilization_id;
         this.unit_id = unit_id;
@@ -30,6 +32,14 @@ public class SpecialUnit implements MilitaryUnit, Variables {
         this.baseDamage = baseDamage;
     }
 
+    public int getCivilization_id() {
+        return this.civilization_id;
+    }
+
+    public void setCivilization_id(int civilization_id) {
+        this.civilization_id = civilization_id;
+    }
+    
     public int getUnit_id() {
         return this.unit_id;
     }

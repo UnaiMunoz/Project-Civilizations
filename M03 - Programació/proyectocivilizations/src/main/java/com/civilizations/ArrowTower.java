@@ -73,6 +73,6 @@ public class ArrowTower extends DefenseUnit {
     };
     @Override
     public String getName() {
-        return "Arrow Tower";
+        return "ArrowTower";
     }
 }

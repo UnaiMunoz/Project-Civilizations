@@ -171,25 +171,21 @@ public class GameWindow extends JFrame implements Variables {
         gbc.gridwidth = 2;
         infoPanel.add(nextAttackButton, gbc);
 
-        battleReportButton.addActionListener(e -> new BattleReport());
-        gbc.gridy = 10;
-        gbc.gridwidth = 2;
-        infoPanel.add(battleReportButton, gbc);
 
         statsButton.addActionListener(e -> new CivilizationStatsView(civilizationId));
-        gbc.gridy = 11;
+        gbc.gridy = 10;
         gbc.gridwidth = 2;
         infoPanel.add(statsButton, gbc);
 
         timerLabel = new JLabel("Tiempo: 00:00");
-        gbc.gridy = 12;
+        gbc.gridy = 11;
         gbc.gridwidth = 2;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
         infoPanel.add(timerLabel, gbc);
 
         salirButton.addActionListener(e -> dispose());
-        gbc.gridy = 13;
+        gbc.gridy = 12;
         gbc.gridwidth = 2;
         infoPanel.add(salirButton, gbc);
 
@@ -262,7 +258,7 @@ public class GameWindow extends JFrame implements Variables {
         Timer incomingAttackTimer = new Timer();
 
         // Programar el TimerTask para que se ejecute cada 3 minutos
-        incomingAttackTimer.scheduleAtFixedRate(enemyAttackTimer, 30000, 40000);
+        incomingAttackTimer.scheduleAtFixedRate(enemyAttackTimer, 30000, 180000); //3 MINS
             }
 
     private void playBackgroundMusic(String filePath, boolean loop) {
