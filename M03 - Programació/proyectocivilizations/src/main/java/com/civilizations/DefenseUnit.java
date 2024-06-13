@@ -19,6 +19,8 @@ public class DefenseUnit implements MilitaryUnit, Variables {
         this.sanctified = sanctified;
     }
     
+    public DefenseUnit(){}
+
     public DefenseUnit(int civilization_id,int unit_id,int armor, int baseDamage) {
         this.civilization_id = civilization_id;
         this.unit_id = unit_id;
@@ -32,6 +34,13 @@ public class DefenseUnit implements MilitaryUnit, Variables {
         this.baseDamage = baseDamage;
     }
 
+    public int getCivilization_id() {
+        return this.civilization_id;
+    }
+
+    public void setCivilization_id(int civilization_id) {
+        this.civilization_id = civilization_id;
+    }
 
     
     public int getUnit_id() {
@@ -168,6 +177,14 @@ public class DefenseUnit implements MilitaryUnit, Variables {
         // Set the sanctified status of the unit.
         this.sanctified = sanctified;
     }
+
+    public void SanctifiedBuff() {
+        if (sanctified) {
+            baseDamage += baseDamage * (PLUS_ATTACK_UNIT_SANCTIFIED / 100);
+            armor += armor * (PLUS_ARMOR_UNIT_SANCTIFIED / 100);
+        }
+    }
+    
     public String getName() {
         return this.getClass().getSimpleName();
     }

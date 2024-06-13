@@ -114,7 +114,7 @@ public class BattlePrueba implements Variables {
                     initialArmies[0][3]++;
                     actualNumberUnitsCivilization[3]++;
                     break;
-                case "ARROW_TOWER":
+                case "ARROWTOWER":
                     initialArmies[0][4]++;
                     actualNumberUnitsCivilization[4]++;
                     break;
@@ -122,7 +122,7 @@ public class BattlePrueba implements Variables {
                     initialArmies[0][5]++;
                     actualNumberUnitsCivilization[5]++;
                     break;
-                case "ROCKET_LAUNCHER_TOWER":
+                case "ROCKETLAUNCHERTOWER":
                     initialArmies[0][6]++;
                     actualNumberUnitsCivilization[6]++;
                     break;
@@ -157,6 +157,7 @@ public class BattlePrueba implements Variables {
             }
         }
     }
+    
 
     public void updateResourcesLooses() {
         resourcesLooses[0][0] = initialCostFleet[0][0] - fleetResourceCost(civilizationArmy)[0];
@@ -256,6 +257,7 @@ public class BattlePrueba implements Variables {
         battleDevelopment += "Damage: " + damage + " | Defender's remaining armor: " + defender.getActualArmor() + "\n\n";
         saveBattleLog(civilizationId, numBattle, numLine, battleDevelopment);
     }
+    
     
 
     private boolean unitGeneratesWaste(MilitaryUnit unit) {

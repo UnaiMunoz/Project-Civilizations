@@ -63,7 +63,7 @@ public class GameWindow extends JFrame implements Variables {
 
     private void initGUI(int madera, int comida, int hierro, int mana) {
         setTitle("Civilizations");
-        setSize(900, 500);
+        setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -111,9 +111,10 @@ public class GameWindow extends JFrame implements Variables {
         manaTextField.setText(String.valueOf(mana));
 
         JButton construccionesButton = new JButton("Buildings");
-        JButton ejercitoButton = new JButton("Armies");
-        JButton technologyButton = new JButton("Technology upgrade");
+        JButton ejercitoButton = new JButton("Train");
+        JButton technologyButton = new JButton("Technology Upgrade");
         JButton nextAttackButton = new JButton("Next Attack");
+        JButton VerEjercitoButton = new JButton("View your army");   
         JButton battleReportButton = new JButton("Battle Report");
         JButton statsButton = new JButton("Civilization Stats");
         JButton salirButton = new JButton("Exit");
@@ -159,15 +160,17 @@ public class GameWindow extends JFrame implements Variables {
         gbc.gridwidth = 2;
         infoPanel.add(technologyButton, gbc);
 
-        nextAttackButton.addActionListener(e -> new NextAttack(username, civilizationId, this));
+        VerEjercitoButton.addActionListener(e -> new YourArmy(username, civilizationId, this));
         gbc.gridy = 8;
+        gbc.gridwidth = 2;
+        infoPanel.add(VerEjercitoButton, gbc);
+
+
+        nextAttackButton.addActionListener(e -> new NextAttack(username, civilizationId, this));
+        gbc.gridy = 9;
         gbc.gridwidth = 2;
         infoPanel.add(nextAttackButton, gbc);
 
-        battleReportButton.addActionListener(e -> new BattleReport());
-        gbc.gridy = 9;
-        gbc.gridwidth = 2;
-        infoPanel.add(battleReportButton, gbc);
 
         statsButton.addActionListener(e -> new CivilizationStatsView(civilizationId));
         gbc.gridy = 10;
@@ -224,13 +227,23 @@ public class GameWindow extends JFrame implements Variables {
             public void run() {
                 EnemyArmy enemyArmy = new EnemyArmy(civilizationId);
                 EnemyDAO enemyDAO = new EnemyDAO();
-                System.out.print("ID DE CIVILIZACION PARA EL ENEMIGO: " + civilizationId);
+                System.out.print("ID DE CIVILIZACION A LA QUE SE ENFRENTA EL ENEMIGO: " + civilizationId);
                 enemyArmy.createEnemyArmy(civilizationId);
                 EnemyDAO.UnitCounts counts = enemyDAO.viewIncomingThreat(civilizationId);
 
                 // Mostrar el botón de advertencia y el popup
                 SwingUtilities.invokeLater(() -> {
                     JOptionPane.showMessageDialog(GameWindow.this, "An enemy army is approaching!!!!", "Enemy Alert", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    // Iniciar la batalla después de un minuto
+                    Timer battleStartTimer = new Timer();
+                    battleStartTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            // Lógica para iniciar la batalla aquí
+                            SwingUtilities.invokeLater(() -> new BattleWindow(civilizationId, civilizationId));
+                        }
+                    }, 30000); // 60000 milisegundos = 1 minuto
                 });
                 
 
@@ -245,11 +258,8 @@ public class GameWindow extends JFrame implements Variables {
         Timer incomingAttackTimer = new Timer();
 
         // Programar el TimerTask para que se ejecute cada 3 minutos
-        incomingAttackTimer.scheduleAtFixedRate(enemyAttackTimer, 30000, 40000);
-
-        // Mostrar la ventana
-        setVisible(true);
-    }
+        incomingAttackTimer.scheduleAtFixedRate(enemyAttackTimer, 30000, 180000); //3 MINS
+            }
 
     private void playBackgroundMusic(String filePath, boolean loop) {
         new Thread(() -> {

@@ -7,7 +7,6 @@ public class BattleWindow extends JFrame {
 
     private BattlePrueba battle;
     private JTextArea battleTextArea;
-    private BattleLogDAO battleLogDAO;
     public BattleWindow(int civilizationId,int enemyId) {
         setTitle("Battle Window");
         setSize(600, 400);
@@ -41,6 +40,7 @@ public class BattleWindow extends JFrame {
 
     private void startBattle(int civilizationId) {
         // Crear una instancia de BattlePrueba
+        BattleLogDAO battleLogDAO = new BattleLogDAO();
         battleLogDAO.deleteLogbyID(civilizationId);
         battle = new BattlePrueba(civilizationId,civilizationId);
 

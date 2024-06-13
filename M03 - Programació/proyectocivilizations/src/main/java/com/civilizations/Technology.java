@@ -10,49 +10,32 @@ public class Technology extends JFrame {
 
     private int civilizationId;
     private GameWindow gameWindow;
+    private TechnologyDAO technologyDAO;
 
     public Technology(String username, int civilizationId, GameWindow gameWindow) {
         this.civilizationId = civilizationId;
         this.gameWindow = gameWindow;
-        System.out.println("ID de buildings: " + this.civilizationId);
+        this.technologyDAO = new TechnologyDAO();
 
         setTitle("Technology");
 
         JLabel titleLabel = new JLabel("Technology", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Garamond", Font.BOLD, 36));
 
-        JButton upgradeAttackButton = createButton("Upgrade Attack Tech", "M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/upgradeAttack.png", 200, 100, "Se ha mejorado el ataque de las tropas");
-        JButton upgradeDefenseButton = createButton("Upgrade Defense Tech", "M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/upgradeDefense.png", 200, 100, "Se ha mejorado la defensa de las tropas");
+        JButton upgradeAttackButton = createButton("Upgrade Attack Tech", "M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\upgradeAttack.png", 200, 100, "Se ha mejorado el ataque de las tropas");
+        JButton upgradeDefenseButton = createButton("Upgrade Defense Tech", "M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\upgradeDefense.png", 200, 100, "Se ha mejorado la defensa de las tropas");
 
         upgradeAttackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Upgrade Attack Tech ActionListener ejecutado");
-                System.out.println("ID de civilization al pulsar botón: " + Technology.this.civilizationId);
-                TechnologyDAO technologyDAO = new TechnologyDAO();
-                try {
-                    technologyDAO.upgradeAttackTechnology(Technology.this.civilizationId);
-                    gameWindow.UpdateFields();
-                    JOptionPane.showMessageDialog(Technology.this, "Se ha mejorado el ataque de las tropas", "Mejora de Tecnología", JOptionPane.INFORMATION_MESSAGE);
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+                handleUpgradeAction("attack");
             }
         });
 
         upgradeDefenseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Upgrade Defense Tech ActionListener ejecutado");
-                System.out.println("ID de civilization al pulsar botón: " + Technology.this.civilizationId);
-                TechnologyDAO technologyDAO = new TechnologyDAO();
-                try {
-                    technologyDAO.upgradeDefenseTechnology(Technology.this.civilizationId);
-                    gameWindow.UpdateFields();
-                    JOptionPane.showMessageDialog(Technology.this, "Se ha mejorado la defensa de las tropas", "Mejora de Tecnología", JOptionPane.INFORMATION_MESSAGE);
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+                handleUpgradeAction("defense");
             }
         });
 
@@ -68,7 +51,7 @@ public class Technology extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon backgroundIcon = new ImageIcon("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/game2.jpg");
+                ImageIcon backgroundIcon = new ImageIcon("M03 - Programació\\proyectocivilizations\\src\\main\\java\\com\\civilizations\\Images\\game2.jpg");
                 Image backgroundImage = backgroundIcon.getImage();
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
@@ -96,6 +79,21 @@ public class Technology extends JFrame {
         button.addActionListener(e -> JOptionPane.showMessageDialog(Technology.this, message, "Mejora de Tecnología", JOptionPane.INFORMATION_MESSAGE));
 
         return button;
+    }
+
+    private void handleUpgradeAction(String type) {
+        try {
+            if (type.equals("attack")) {
+                technologyDAO.upgradeAttackTechnology(civilizationId);
+            } else if (type.equals("defense")) {
+                technologyDAO.upgradeDefenseTechnology(civilizationId);
+            }
+            gameWindow.UpdateFields();
+            JOptionPane.showMessageDialog(Technology.this, "Mejora completada", "Mejora de Tecnología", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(Technology.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
