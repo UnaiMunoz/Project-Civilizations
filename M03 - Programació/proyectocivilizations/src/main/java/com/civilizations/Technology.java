@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class Technology extends JFrame {
 
@@ -11,87 +12,93 @@ public class Technology extends JFrame {
     private GameWindow gameWindow;
 
     public Technology(String username, int civilizationId, GameWindow gameWindow) {
-
-        this.civilizationId = civilizationId; // Asignar el civilizationId aquí
-        this.gameWindow = gameWindow; // Asignar la referencia de GameWindow
+        this.civilizationId = civilizationId;
+        this.gameWindow = gameWindow;
         System.out.println("ID de buildings: " + this.civilizationId);
 
         setTitle("Technology");
 
-        // Crear el título
         JLabel titleLabel = new JLabel("Technology", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Garamond", Font.BOLD, 36));  // Puedes ajustar el tamaño y la fuente
+        titleLabel.setFont(new Font("Garamond", Font.BOLD, 36));
 
-        // Crear los botones con textos
-        JButton upgradeAttackButton = createButton("Upgrade Attack Tech", 200, 100);
+        JButton upgradeAttackButton = createButton("Upgrade Attack Tech", "M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/upgradeAttack.png", 200, 100, "Se ha mejorado el ataque de las tropas");
+        JButton upgradeDefenseButton = createButton("Upgrade Defense Tech", "M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/upgradeDefense.png", 200, 100, "Se ha mejorado la defensa de las tropas");
+
         upgradeAttackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Upgrade Attack Tech ActionListener ejecutado");
                 System.out.println("ID de civilization al pulsar botón: " + Technology.this.civilizationId);
-                TechnologyDAO TechnologyDAO = new TechnologyDAO();
-                TechnologyDAO.upgradeAttackTech(Technology.this.civilizationId);
-                gameWindow.UpdateFields();
+                TechnologyDAO technologyDAO = new TechnologyDAO();
+                try {
+                    technologyDAO.upgradeAttackTechnology(Technology.this.civilizationId);
+                    gameWindow.UpdateFields();
+                    JOptionPane.showMessageDialog(Technology.this, "Se ha mejorado el ataque de las tropas", "Mejora de Tecnología", JOptionPane.INFORMATION_MESSAGE);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
-        JButton upgradeDefenseButton = createButton("Upgrade Defense Tech", 200, 100);
         upgradeDefenseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Upgrade Defense Tech ActionListener ejecutado");
                 System.out.println("ID de civilization al pulsar botón: " + Technology.this.civilizationId);
-                TechnologyDAO TechnologyDAO = new TechnologyDAO();
-                TechnologyDAO.upgradeDefenseTech(Technology.this.civilizationId);
-                gameWindow.UpdateFields();
+                TechnologyDAO technologyDAO = new TechnologyDAO();
+                try {
+                    technologyDAO.upgradeDefenseTechnology(Technology.this.civilizationId);
+                    gameWindow.UpdateFields();
+                    JOptionPane.showMessageDialog(Technology.this, "Se ha mejorado la defensa de las tropas", "Mejora de Tecnología", JOptionPane.INFORMATION_MESSAGE);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
         upgradeAttackButton.setFocusable(false);
         upgradeDefenseButton.setFocusable(false);
 
-        // Crear un contenedor para los botones con GridLayout
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10)); // 1 fila, 2 columnas, espacio horizontal y vertical de 10
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
         buttonPanel.add(upgradeAttackButton);
         buttonPanel.add(upgradeDefenseButton);
-        buttonPanel.setOpaque(false);  // Hacer el panel transparente para mostrar la imagen de fondo
+        buttonPanel.setOpaque(false);
 
-        // Crear un contenedor principal con BorderLayout
         JPanel mainPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon backgroundIcon = new ImageIcon("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/game2.jpg");  // Ruta de la imagen de fondo
+                ImageIcon backgroundIcon = new ImageIcon("M03 - Programació/proyectocivilizations/src/main/java/com/civilizations/Images/game2.jpg");
                 Image backgroundImage = backgroundIcon.getImage();
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
         mainPanel.setLayout(new BorderLayout());
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(titleLabel, BorderLayout.NORTH);  // Añadir el título en la parte superior
-        mainPanel.add(buttonPanel, BorderLayout.CENTER);  // Añadir los botones en el centro
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
+        mainPanel.add(buttonPanel, BorderLayout.CENTER);
 
-        // Agregar el contenedor principal al marco
         getContentPane().add(mainPanel);
         setSize(900, 500);
-        setLocationRelativeTo(null);  // Centrar la ventana en la pantalla
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
-    // Método para crear botón con tamaño preferido
-    private JButton createButton(String text, int width, int height) {
+    private JButton createButton(String text, String imagePath, int width, int height, String message) {
         JButton button = new JButton(text);
-        button.setFont(new Font("Garamond", Font.PLAIN, 18));  // Cambiar la tipografía del botón
-        button.setPreferredSize(new Dimension(width, height + 30));  // Añadir espacio para el texto
+        button.setFont(new Font("Garamond", Font.PLAIN, 18));
+        button.setPreferredSize(new Dimension(width, height + 30));
 
-        // Añadir ActionListener para mostrar ventana emergente
-        button.addActionListener(e -> JOptionPane.showMessageDialog(Technology.this, "Se ha creado " + text, "Mejora de Tecnología", JOptionPane.INFORMATION_MESSAGE));
+        // Añadir la imagen al botón
+        ImageIcon icon = new ImageIcon(imagePath);
+        button.setIcon(icon);
+
+        button.addActionListener(e -> JOptionPane.showMessageDialog(Technology.this, message, "Mejora de Tecnología", JOptionPane.INFORMATION_MESSAGE));
 
         return button;
     }
 
     public static void main(String[] args) {
-        // Crear una instancia de Technology
         SwingUtilities.invokeLater(() -> new GameWindow("testUser"));
     }
 }

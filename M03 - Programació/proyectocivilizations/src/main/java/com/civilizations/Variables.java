@@ -16,16 +16,24 @@ public interface Variables {
 
         public final int CIVILIZATION_FOOD_GENERATED_PER_FARM = (int) (0.5 * CIVILIZATION_FOOD_GENERATED);
         public final int CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER = 20000;
-        // TECHNOLOGY COST
+        // TECHNOLOGY COST - IRON
         public final int UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST = 2000;
         public final int UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST = 2000;
         public final int UPGRADE_COST = 10;
         public final int UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST = 60;
         public final int UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST = 60;
+
+        // TECHNOLOGY COST - WOOD
         public final int UPGRADE_BASE_DEFENSE_TECHNOLOGY_WOOD_COST = 0;
         public final int UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST = 0;
         public final int UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST = 0;
         public final int UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST = 0;
+
+        // TECHNOLOGY COST - FOOD
+        public final int UPGRADE_BASE_DEFENSE_TECHNOLOGY_FOOD_COST = 0;
+        public final int UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST = 0;
+        public final int UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST = 0;
+        public final int UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST = 0;
         // COST ATTACK UNITS
         public final int FOOD_COST_SWORDSMAN = 8000;
         public final int FOOD_COST_SPEARMAN = 5000;
