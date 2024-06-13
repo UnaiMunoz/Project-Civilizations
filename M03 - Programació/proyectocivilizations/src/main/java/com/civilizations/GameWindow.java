@@ -63,7 +63,7 @@ public class GameWindow extends JFrame implements Variables {
 
     private void initGUI(int madera, int comida, int hierro, int mana) {
         setTitle("Civilizations");
-        setSize(900, 500);
+        setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -112,6 +112,7 @@ public class GameWindow extends JFrame implements Variables {
 
         JButton construccionesButton = new JButton("Buildings");
         JButton ejercitoButton = new JButton("Train");
+        JButton technologyButton = new JButton("Technology Upgrade");
         JButton nextAttackButton = new JButton("Next Attack");
         JButton VerEjercitoButton = new JButton("View your army");   
         JButton battleReportButton = new JButton("Battle Report");
@@ -154,36 +155,41 @@ public class GameWindow extends JFrame implements Variables {
         gbc.gridwidth = 2;
         infoPanel.add(ejercitoButton, gbc);
 
-        VerEjercitoButton.addActionListener(e -> new YourArmy(username, civilizationId, this));
+        technologyButton.addActionListener(e -> new Technology(username, civilizationId, this));
         gbc.gridy = 7;
+        gbc.gridwidth = 2;
+        infoPanel.add(technologyButton, gbc);
+
+        VerEjercitoButton.addActionListener(e -> new YourArmy(username, civilizationId, this));
+        gbc.gridy = 8;
         gbc.gridwidth = 2;
         infoPanel.add(VerEjercitoButton, gbc);
 
 
         nextAttackButton.addActionListener(e -> new NextAttack(username, civilizationId, this));
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         gbc.gridwidth = 2;
         infoPanel.add(nextAttackButton, gbc);
 
         battleReportButton.addActionListener(e -> new BattleReport());
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         gbc.gridwidth = 2;
         infoPanel.add(battleReportButton, gbc);
 
         statsButton.addActionListener(e -> new CivilizationStatsView(civilizationId));
-        gbc.gridy = 10;
+        gbc.gridy = 11;
         gbc.gridwidth = 2;
         infoPanel.add(statsButton, gbc);
 
         timerLabel = new JLabel("Tiempo: 00:00");
-        gbc.gridy = 11;
+        gbc.gridy = 12;
         gbc.gridwidth = 2;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
         infoPanel.add(timerLabel, gbc);
 
         salirButton.addActionListener(e -> dispose());
-        gbc.gridy = 12;
+        gbc.gridy = 13;
         gbc.gridwidth = 2;
         infoPanel.add(salirButton, gbc);
 
