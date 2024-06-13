@@ -265,7 +265,7 @@ public String getUsernameByCivilizationID(int civilizationId) {
     }
 
     public int getBattleCounter(int civilizationId) {
-        String sql = "SELECT MAX(num_battle) AS battles_counter FROM battle_log WHERE civilization_id = ?";
+        String sql = "SELECT battles_counter FROM civilization_stats WHERE civilization_id = ?";
         try (Connection connection = AppData.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, civilizationId);
@@ -281,17 +281,14 @@ public String getUsernameByCivilizationID(int civilizationId) {
     }
 
     public void setBattleCounter(int civilizationId, int battleCounter) {
-        String sql = "INSERT INTO battle_log (civilization_id, num_battle, num_line, log_entry) VALUES (?, ?, ?, ?)";
+        String sql = "UPDATE civilization_stats SET battles_counter = ? WHERE civilization_id = ?";
         try (Connection connection = AppData.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, civilizationId);
-            statement.setInt(2, battleCounter);
-            statement.setInt(3, 0);
-            statement.setString(4, ""); 
+            statement.setInt(1, battleCounter);
+            statement.setInt(2, civilizationId);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-}    
+}

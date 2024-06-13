@@ -26,4 +26,17 @@ public class BattleLogDAO {
             System.out.println("Error saving log entry: " + e.getMessage());
         }
     }
+
+    public void deleteLogbyID(int civilizationId) {
+        String sql = "DELETE FROM battle_log WHERE civilization_id = ?";
+        try {
+            Connection connection = appData.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, civilizationId);
+            pstmt.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            System.out.println("Unable to delete log from ID " + civilizationId);
+        }
+    }
 }
